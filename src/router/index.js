@@ -60,6 +60,11 @@ let router = new VueRouter({
 				}
 			]
 		},
+		{
+			name: 'schools',
+			path: '/schools',
+			component: ()=>import('@/pages/Schools/Schools'),
+		},
 		//配置重定向：项目开始运行时立马定向到首页
 		{
 			path: '*',
@@ -106,7 +111,10 @@ router.beforeEach(async (to, from, next) => {
 	} else {
 		//未登录状态下
 		if (to.path.indexOf('/center') !== -1) {
-			Vue.prototype.$message.warning('当前尚未登录，请先登录')
+			Vue.prototype.$message.warning({
+				duration: 1000,
+				message: '当前尚未登录，请先登录'
+			})
 			next('/login?redirect=' + to.path)
 		} else {
 			next()

@@ -18,7 +18,7 @@
             </el-submenu>
           </el-submenu>
           <el-menu-item index="3" disabled>消息中心</el-menu-item>
-          <el-menu-item index="/center">我的订单</el-menu-item>
+          <el-menu-item index="/schools">所有院校</el-menu-item>
           <el-menu-item index="/shopcart">我的购物车</el-menu-item>
           <el-menu-item index="/register" v-if="!username" style="float: right">免费注册</el-menu-item>
           <el-menu-item index="/login" v-if="!username" style="float: right">登录</el-menu-item>
