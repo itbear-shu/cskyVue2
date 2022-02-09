@@ -41,6 +41,31 @@ let router = new VueRouter({
 			component: ()=>import('@/pages/Search/Search'),
 		},
 		{
+			name: 'article',
+			path: '/article',
+			component: ()=>import('@/pages/Article/index'),
+		},
+		{
+			name: 'schoolList',
+			path: '/schoolList',
+			component: ()=>import('@/pages/SchoolList/SchoolList'),
+		},
+		{
+			name: 'teacherDetail',
+			path: '/teacherDetail',
+			component: ()=>import('@/pages/TeacherDetail/index'),
+		},
+		{
+			name: 'md',
+			path: '/md',
+			component: ()=>import('@/pages/MarkDownEditor/index'),
+		},
+		{
+			name: 'schoolDetail',
+			path: '/schoolDetail',
+			component: ()=>import('@/pages/SchoolDetail/SchoolDetail'),
+		},
+		{
 			name: 'center',
 			path: '/center',
 			component: ()=>import('@/pages/Center/Center'),
@@ -59,11 +84,6 @@ let router = new VueRouter({
 					redirect: '/center/myorder'
 				}
 			]
-		},
-		{
-			name: 'schools',
-			path: '/schools',
-			component: ()=>import('@/pages/Schools/Schools'),
 		},
 		//配置重定向：项目开始运行时立马定向到首页
 		{

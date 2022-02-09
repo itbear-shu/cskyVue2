@@ -2,25 +2,21 @@
   <!-- 头部 -->
   <header class="header">
     <!-- 头部的第一行 -->
-    <el-menu default-active="/home" class="top" mode="horizontal" background-color="#ffffff"
+    <el-menu :default-active="$route.path" class="top" mode="horizontal" background-color="#ffffff"
                  router text-color="#8dc4fd" active-text-color="#1989fa">
           <el-menu-item index="/home">首页</el-menu-item>
           <el-submenu index="2">
-            <template slot="title">我的工作台</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="2-4-1">选项1</el-menu-item>
-              <el-menu-item index="2-4-2">选项2</el-menu-item>
-              <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
+            <template slot="title">考研网</template>
+            <el-menu-item index="2-1">考研报名</el-menu-item>
+            <el-menu-item index="2-2">考研国家线</el-menu-item>
+            <el-menu-item index="2-3">考研调剂</el-menu-item>
+            <el-menu-item index="2-3">考研问答</el-menu-item>
           </el-submenu>
-          <el-menu-item index="3" disabled>消息中心</el-menu-item>
-          <el-menu-item index="/schools">所有院校</el-menu-item>
-          <el-menu-item index="/shopcart">我的购物车</el-menu-item>
-          <el-menu-item index="/register" v-if="!username" style="float: right">免费注册</el-menu-item>
+          <el-menu-item index="/schoolList">34所</el-menu-item>
+          <el-menu-item index="2-4-1">真题</el-menu-item>
+          <el-menu-item index="2-4-2">成绩查询</el-menu-item>
+          <el-menu-item index="/article">帖子</el-menu-item>
+          <el-menu-item index="/register" v-if="!username" style="float: right">注册</el-menu-item>
           <el-menu-item index="/login" v-if="!username" style="float: right">登录</el-menu-item>
           <el-menu-item v-if="username" style="float: right">
             <el-dropdown trigger="click">
@@ -33,11 +29,11 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item class="clearfix">
                   评论
-                  <el-badge class="item" :value="12"/>
+                  <el-badge class="item" :value="0"/>
                 </el-dropdown-item>
                 <el-dropdown-item class="clearfix">
                   回复
-                  <el-badge class="item" :value="3" type="warning"/>
+                  <el-badge class="item" :value="0" type="warning"/>
                 </el-dropdown-item>
                 <el-dropdown-item class="clearfix" @click.native="logout">
                   <span>退出登录</span>

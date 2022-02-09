@@ -7,8 +7,8 @@ module.exports = {
         hot: true,
         disableHostCheck: true,
         proxy: {
-            '/api': { // 匹配所有以 /api 开头的请求路径
-                target: 'http://39.98.123.211', // 代理目标的基础路径
+            '/csky': { // 匹配所有以 /api 开头的请求路径
+                target: 'http://localhost:9090', // 代理目标的基础路径
                 changeOrigin: true,  //用于控制请求头中的host值，即访问的来源地址，changeOrigin为true时会隐瞒其来源
                 ws: true, // 用于支持websocket
             }

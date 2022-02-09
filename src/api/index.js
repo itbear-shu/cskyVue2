@@ -3,13 +3,6 @@
 import requests from "@/api/request"
 // import mockRequests from "@/api/mockRequest"
 
-//三级分类请求：/api/product/getBaseCategoryList  get
-export const reqCategoryList = () => requests({
-    //没有写api，因为在request.js中已经配置
-    url: '/product/getBaseCategoryList',
-    method: 'get'
-})
-
 //请求Search组件的数据，参数可有可无，但必须是一个空对象
 export const reqList = (params) => requests({
     url: '/list',
@@ -25,7 +18,7 @@ export const reqGetCode = (phone)=>requests({
 
 //注册用户
 export const reqRegister = (data)=>requests({
-    url: '/user/passport/register',
+    url: '/user/register',
     method: 'post',
     data
 })
