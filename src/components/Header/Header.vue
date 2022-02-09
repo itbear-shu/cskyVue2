@@ -14,6 +14,7 @@
           </el-submenu>
           <el-menu-item index="/schoolList">34所高校</el-menu-item>
           <el-menu-item index="/article">帖子</el-menu-item>
+          <el-menu-item index="/timeLine">考研时间线</el-menu-item>
           <el-menu-item index="/register" v-if="!username" style="float: right">注册</el-menu-item>
           <el-menu-item index="/login" v-if="!username" style="float: right">登录</el-menu-item>
           <el-menu-item v-if="username" style="float: right">

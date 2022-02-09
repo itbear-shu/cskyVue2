@@ -41,6 +41,11 @@ let router = new VueRouter({
 			component: ()=>import('@/pages/Search/Search'),
 		},
 		{
+			name: 'timeLine',
+			path: '/timeLine',
+			component: ()=>import('@/pages/TimeLine/TimeLine'),
+		},
+		{
 			name: 'article',
 			path: '/article',
 			component: ()=>import('@/pages/Article/index'),

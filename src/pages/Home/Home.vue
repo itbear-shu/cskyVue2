@@ -7,7 +7,6 @@
     <FrontPage></FrontPage>
     <ApplyExam></ApplyExam>
     <Review></Review>
-    <TimeLine></TimeLine>
     <!--    <el-tabs tab-position="right" style="height: 200px;" class="all">
           <el-tab-pane label="首页">
             <el-row>
@@ -51,14 +50,13 @@
 
 <script>
 import FrontPage from "@/components/FrontPage/FrontPage"
-import TimeLine from "@/components/TimeLine/TimeLine"
 import ApplyExam from "@/components/ApplyExam/ApplyExam"
 import Review from "@/components/Review/Review"
 
 export default {
   name: "Home",
   components: {
-    FrontPage, TimeLine, ApplyExam, Review,
+    FrontPage, ApplyExam, Review,
   },
   data() {
     return {}

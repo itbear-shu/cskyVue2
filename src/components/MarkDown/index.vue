@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import '@/assets/markdown/vue.css'
 import {marked} from 'marked'
+import '@/assets/markdown/vue.css'
 export default {
   name: "index",
   props: ['text'],
@@ -15,9 +15,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-a {
-  text-decoration: none;
-}
-</style>
