@@ -197,9 +197,6 @@ export default {
 </script>
 
 <style scoped>
-.all {
-  margin: 20px 30px;
-}
 
 #title {
   font-size: 32px;
@@ -282,7 +279,7 @@ export default {
 .elCol3 {
   width: 348px;
   right: 10px;
-  bottom: -40px;
+  bottom: -70px;
   margin: 14px 6px;
   height: 205px;
   position: fixed;

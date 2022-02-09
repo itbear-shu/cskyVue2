@@ -1,35 +1,73 @@
 <template>
   <div>
-    <h1>
-      Home页面
-    </h1>
-    <el-tabs tab-position="right" style="height: 122px;">
-      <el-tab-pane label="首页"></el-tab-pane>
-      <el-tab-pane label="考研时间线"></el-tab-pane>
-      <el-tab-pane label="34所高校"></el-tab-pane>
-    </el-tabs>
+    <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
+      <el-breadcrumb-item></el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+    </el-breadcrumb>
+    <FrontPage></FrontPage>
+    <ApplyExam></ApplyExam>
+    <Review></Review>
+    <TimeLine></TimeLine>
+    <!--    <el-tabs tab-position="right" style="height: 200px;" class="all">
+          <el-tab-pane label="首页">
+            <el-row>
+              <el-col>
+                <el-card shadow="always">
+                  首页
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane label="考研时间线">
+            <el-row>
+              <el-col>
+                <el-card shadow="always">
+                  考研时间线
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane label="报考">
+            <el-row>
+              <el-col>
+                <el-card shadow="always">
+                  报考
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane label="复习">
+            <el-row>
+              <el-col>
+                <el-card shadow="always">
+                  复习
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+        </el-tabs>-->
   </div>
 </template>
 
 <script>
+import FrontPage from "@/components/FrontPage/FrontPage"
+import TimeLine from "@/components/TimeLine/TimeLine"
+import ApplyExam from "@/components/ApplyExam/ApplyExam"
+import Review from "@/components/Review/Review"
+
 export default {
   name: "Home",
   components: {
-
+    FrontPage, TimeLine, ApplyExam, Review,
   },
   data() {
-    return {
-    }
+    return {}
   },
   mounted() {
 
   },
-  computed: {
-
-  },
-  methods: {
-
-  }
+  computed: {},
+  methods: {}
 }
 </script>
 

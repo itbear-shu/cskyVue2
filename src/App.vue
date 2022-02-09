@@ -24,4 +24,8 @@ export default {
 .bread {
   margin: 0 20px;
 }
+.all {
+  margin: 20px 30px;
+}
+
 </style>
