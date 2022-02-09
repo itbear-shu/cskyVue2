@@ -7,14 +7,12 @@
           <el-menu-item index="/home">首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title">考研网</template>
-            <el-menu-item index="2-1">考研报名</el-menu-item>
-            <el-menu-item index="2-2">考研国家线</el-menu-item>
+            <el-menu-item index="2-2">考研分数线</el-menu-item>
             <el-menu-item index="2-3">考研调剂</el-menu-item>
             <el-menu-item index="2-3">考研问答</el-menu-item>
+            <el-menu-item index="2-4-1">考研真题</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/schoolList">34所</el-menu-item>
-          <el-menu-item index="2-4-1">真题</el-menu-item>
-          <el-menu-item index="2-4-2">成绩查询</el-menu-item>
+          <el-menu-item index="/schoolList">34所高校</el-menu-item>
           <el-menu-item index="/article">帖子</el-menu-item>
           <el-menu-item index="/register" v-if="!username" style="float: right">注册</el-menu-item>
           <el-menu-item index="/login" v-if="!username" style="float: right">登录</el-menu-item>
@@ -58,6 +56,7 @@
         </el-form>
       </div>
     </div>
+    <el-divider></el-divider>
   </header>
 </template>
 
@@ -142,7 +141,7 @@ export default {
 
   & > .bottom {
     width: 1100px;
-    height: 100px;
+    height: 75px;
     margin: 0 auto;
     overflow: hidden;
 

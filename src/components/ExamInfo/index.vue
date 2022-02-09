@@ -64,6 +64,16 @@
                 分数线
               </router-link>
             </el-descriptions-item>
+            <el-descriptions-item>
+              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
+                专业介绍
+              </router-link>
+            </el-descriptions-item>
+            <el-descriptions-item>
+              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
+                真题查询
+              </router-link>
+            </el-descriptions-item>
           </el-descriptions>
         </el-card>
       </el-col>

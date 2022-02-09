@@ -32,7 +32,7 @@ export const reqLogin = (data)=>requests({
 
 //用户登录后在首页获取用户信息
 export const reqGetUserInfo = ()=>requests({
-    url: '/user/passport/auth/getUserInfo',
+    url: '/user//getUserInfo',
     method: 'get'
 })
 

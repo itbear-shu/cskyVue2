@@ -3,7 +3,7 @@
     <el-backtop>
       <i class="el-icon-caret-top"></i>
     </el-backtop>
-    <el-breadcrumb separator-class="el-icon-arrow-right" style="margin: 0 20px;">
+    <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
       <el-breadcrumb-item></el-breadcrumb-item>
       <el-breadcrumb-item>帖子</el-breadcrumb-item>
     </el-breadcrumb>
@@ -62,11 +62,12 @@
             <el-tag class="hotTag">学校是个好地方</el-tag>
             <el-tag class="hotTag">上海大学</el-tag>
             <el-tag class="hotTag">上海的大学</el-tag>
-            <el-tag class="hotTag">学校地址</el-tag>
+            <el-tag class="hotTag">上海的大学</el-tag>
+            <el-tag class="hotTag">上海的大学</el-tag>
             <el-tag class="hotTag">学校地啊书法大赛址</el-tag>
           </el-card>
         </el-col>
-        <el-col class="elCol2">
+        <el-col class="elCol3">
           <el-card shadow="hover">
             <div class="hotTags">更多文章</div>
             <ul>
@@ -82,6 +83,21 @@
             </ul>
           </el-card>
         </el-col>
+        <el-col class="elCol4">
+          <el-card class="box-card">
+            <div>
+              <Comment
+                  v-model="data"
+                  :user="currentUser"
+                  :before-submit="addComment"
+                  :before-delete="deleteComment"
+                  :before-like="likeComment"
+                  :upload-img="uploadOrCopyImg"
+                  :props="props"
+              />
+            </div>
+          </el-card>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -89,11 +105,11 @@
 
 <script>
 import MarkDown from '@/components/MarkDown/index'
-
+import Comment from 'vue-juejin-comment'
 export default {
   name: "index",
   components: {
-    MarkDown
+    MarkDown, Comment
   },
   data() {
     return {
@@ -123,9 +139,59 @@ export default {
 
 截至2020年5月31日，上海大学有**宝山校区**（校本部）、**延长校区**、**嘉定校区**3个校区，校园占地面积近200万平方米，校舍建筑面积140万平方米；
 
-上海大学学科门类齐全，涵盖*哲学、经济学、法学、教育学、文学、历史学、理学、工学、医学、管理学、艺术学、交叉学科*等学科门类。现设有30个学院和1个校管系。 `
-
+上海大学学科门类齐全，涵盖*哲学、经济学、法学、教育学、文学、历史学、理学、工学、医学、管理学、艺术学、交叉学科*等学科门类。现设有30个学院和1个校管系。 `,
+      comments: '',
+      data: [
+        {
+          id: '1', // 唯一 id，必需
+          content: 'abc', // 评论内容，必需
+          imgSrc: '', // 评论中的图片地址，非必需
+          children: [], // 子评论（回复），非必需
+          likes: 11, // 点赞数，非必需
+          reply: null, // 子评论（回复）人信息，非必需
+          createAt: null, // 评论时间，必需
+          user: { // 评论人信息，必需
+            author: false // 是否为作者，类型为 Boolean，非必需
+          }
+        }, {
+          id: '1', // 唯一 id，必需
+          content: 'abc', // 评论内容，必需
+          imgSrc: '', // 评论中的图片地址，非必需
+          children: [], // 子评论（回复），非必需
+          likes: 11, // 点赞数，非必需
+          reply: null, // 子评论（回复）人信息，非必需
+          createAt: null, // 评论时间，必需
+          user: { // 评论人信息，必需
+            author: false // 是否为作者，类型为 Boolean，非必需
+          }
+        }
+      ],
+      props: {},
+      currentUser: {
+        name: '1',
+        avatar: '1',
+        author: true,
+      },
     }
+  },
+  methods: {
+    addComment(comment, parent, add) {
+      // ...
+
+      // 需调用 add 函数，并传入 newComment 对象
+      // add(newComment)
+    },
+    deleteComment(comment, parent) {
+      // ...
+    },
+    likeComment(comment) {
+      // ...
+    },
+    uploadOrCopyImg({ file, callback }) {
+      // ...
+
+      // callback(imgUrl) // 图片地址必传
+    },
   }
 }
 </script>
@@ -136,7 +202,7 @@ export default {
 }
 
 #title {
-  font-size: 24px;
+  font-size: 32px;
   line-height: 36px;
 }
 
@@ -165,7 +231,7 @@ export default {
 
 .lcs {
   text-align: center;
-  margin: 50px auto;
+  margin: 22px auto;
 }
 
 .endEmg {
@@ -206,12 +272,30 @@ export default {
 }
 
 .elCol2 {
+  right: 10px;
   width: 348px;
   margin: 14px 6px;
   height: 205px;
+  position: fixed;
 }
+
+.elCol3 {
+  width: 348px;
+  right: 10px;
+  bottom: -40px;
+  margin: 14px 6px;
+  height: 205px;
+  position: fixed;
+}
+
 .liLink {
   font-size: 13px;
   margin: 8px auto;
+}
+
+.elCol4 {
+  margin: 0 0;
+  width: 700px;
+  float: left;
 }
 </style>

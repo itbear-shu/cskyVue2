@@ -21,5 +21,7 @@ export default {
 </script>
 
 <style>
-
+.bread {
+  margin: 0 20px;
+}
 </style>
