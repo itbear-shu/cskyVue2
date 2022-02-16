@@ -1,15 +1,23 @@
 <template>
-    <el-row :gutter="20">
-      <el-col :span="20" :offset="2">
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-          <el-breadcrumb-item></el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        </el-breadcrumb>
-        <FrontPage></FrontPage>
-        <ApplyExam></ApplyExam>
-        <Review></Review>
-      </el-col>
-    </el-row>
+<div>
+  <el-row :gutter="20">
+    <el-col :span="20" :offset="2">
+      <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
+        <el-breadcrumb-item></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      </el-breadcrumb>
+      <FrontPage></FrontPage>
+    </el-col>
+  </el-row>
+  <el-row :gutter="10">
+    <el-col :span="10" :push="2">
+      <ApplyExam></ApplyExam>
+    </el-col>
+    <el-col :span="10" :offset="2">
+      <Review></Review>
+    </el-col>
+  </el-row>
+</div>
 </template>
 
 <script>

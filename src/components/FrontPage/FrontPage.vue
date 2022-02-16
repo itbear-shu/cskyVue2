@@ -2,40 +2,72 @@
   <el-row class="all">
     <el-col>
       <el-card shadow="always">
-        <el-tabs tab-position="right" style="height: 500px;" class="all">
-          <el-carousel :interval="4000" type="card" height="200px" style="width: 500px">
+        <!--    轮播图      -->
+        <span>
+          <el-carousel :interval="4000" type="card" height="350px" :loop="true" class="carousel">
             <el-carousel-item v-for="item in 6" :key="item">
-              <h3 class="medium">{{ item }}</h3>
+              <img :src='"../../assets/carousel/img" + item + ".png"' :alt="item">
             </el-carousel-item>
           </el-carousel>
-          <el-tab-pane label="首页" style="float: right">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  首页
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane label="报考">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  报考
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane label="复习">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  复习
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-        </el-tabs>
+          <el-tabs tab-position="right" class="tabs">
+            <el-tab-pane label="招生公告">
+              <el-row>
+                <el-col>
+                  <el-card shadow="always" class="infoCard">
+                    <ul>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/article">中国传媒大学2022年硕士研究生招生报考材料提交系</router-link>
+                      </li>
+                    </ul>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="研招新闻">
+              <el-row>
+                <el-col>
+                  <el-card shadow="always" class="infoCard">
+                    报考
+                  </el-card>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="报考指南">
+              <el-row>
+                <el-col>
+                  <el-card shadow="always" class="infoCard">
+                    复习
+                  </el-card>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+          </el-tabs>
+        </span>
+
       </el-card>
     </el-col>
   </el-row>
@@ -43,24 +75,30 @@
 
 <script>
 export default {
-  name: "FrontPage"
+  name: "FrontPage",
 }
 </script>
 
 <style scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
+.carousel {
+  width: 500px;
+  display: block;
+  float: left;
 }
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.tabs {
+  margin: 20px 30px;
+  width: 541px;
+  float: right;
 }
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+.infoCard {
+  height: 313px;
+  font-size: 16px;
+}
+li {
+  margin-top: 5px;
+}
+a:hover {
+  color: #90bbff;
+  font-weight: bold;
 }
 </style>
