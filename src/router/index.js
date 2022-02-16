@@ -108,6 +108,7 @@ router.beforeEach(async (to, from, next) => {
 			// 		next('/login')
 			// 	}
 			// }
+			// 暂时都放行
 			next()
 		}
 	} else {
