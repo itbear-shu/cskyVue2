@@ -1,15 +1,19 @@
 <template>
   <div>
-    <h1>学校介绍</h1>
-    <el-row>
-      <el-col class="elCol1">
+    <el-row :gutter="20">
+      <el-col :span="20" :offset="2">
+        <h1>学校介绍</h1>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col class="elCol1" :span="14" :push="2">
         <el-card shadow="always">
           <div>
             <MarkDown :text="introduce" class="content"/>
           </div>
         </el-card>
       </el-col>
-      <el-col class="elCol2">
+      <el-col class="elCol2" :span="10" :push="2">
         <el-card shadow="always">
           <el-descriptions title="学校信息" direction="vertical" :column="1" size="medium">
             <el-descriptions-item label="学校地址"><span style="color: #77b72c">上海市宝山区上大路99号</span></el-descriptions-item>
@@ -24,7 +28,7 @@
 </template>
 
 <script>
-import MarkDown from '@/components/MarkDown/index'
+import MarkDown from '@/components/MarkDown/MarkDown'
 
 export default {
   name: "index",
@@ -50,8 +54,8 @@ export default {
 <style scoped>
 .elCol1 {
   margin: 14px 0;
-  width: 700px;
-  float: left;
+  /*width: 700px;*/
+  /*float: left;*/
 }
 .elCol2 {
   width: 348px;

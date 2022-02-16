@@ -1,38 +1,27 @@
-import {reqGetCode} from '@/api'
-import {reqRegister} from '@/api'
-import {reqLogin} from '@/api'
-import {reqGetUserInfo} from '@/api'
-import {reqLogout} from '@/api'
-
 import {getToken, setToken, rmToken} from "@/utils/token"
+import Vue from 'vue'
 
 const actions = {
-	async getCode({commit}, phoneNum) {
-		let result = await reqGetCode(phoneNum)
-		if (result.status === 200) {
-			commit('GETCODE', result.data)
-		}
-	},
-	async register(context, user) {
-		let result = await reqRegister(user)
-		if (result.status === 200) {
+	async register({commit}, data) {
+		const result = await Vue.prototype.$API.reqRegister(data)
+		if (result.data.code === 200) {
 			return true
 		} else {
-			return Promise.reject(new Error('FailToRegister..'))
+			return Promise.reject(new Error('注册失败！' + result.data.msg))
 		}
 	},
 	async login(context, data) {
-		let result = await reqLogin(data)
-		if (result.status === 200 && result.data.data !== null) {
-			context.commit('LOGIN', result.data.data.token)
-			setToken(result.data.data.token)
+		let result = await Vue.prototype.$API.reqLogin(data)
+		if (result.data.code === 200 && result.data.data !== null) {
+			context.commit('LOGIN', result.data.data.TOKEN)
+			setToken(result.data.data.TOKEN)
 			return true
 		} else {
-			return false
+			return Promise.reject(new Error('登录失败！' + result.data.msg))
 		}
 	},
 	async getUserInfo({commit}) {
-		let result = await reqGetUserInfo()
+		let result = await this.$API.reqGetUserInfo()
 		if (result.data.code === 200) {
 			commit('GETUSERINFO', result.data)
 			return true
@@ -41,7 +30,7 @@ const actions = {
 		}
 	},
 	async logout({commit}) {
-		let result = await reqLogout()
+		let result = await this.$API.reqLogout()
 		if (result.status === 200) {
 			commit('CLEAR')
 			return true
@@ -49,9 +38,6 @@ const actions = {
 	}
 }
 const mutations = {
-	GETCODE(state, result) {
-		state.checkCode = result.data
-	},
 	LOGIN(state, token) {
 		state.token = token || ''
 	},
@@ -65,7 +51,6 @@ const mutations = {
 	}
 }
 const state = {
-	checkCode: '',
 	token: getToken(),
 	userInfo: {}
 }

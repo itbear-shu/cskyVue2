@@ -3,19 +3,17 @@
 import requests from "@/api/request"
 // import mockRequests from "@/api/mockRequest"
 
-//请求Search组件的数据，参数可有可无，但必须是一个空对象
-export const reqList = (params) => requests({
-    url: '/list',
-    method: 'post',
-    data: params
-})
-
 //获取验证码
-export const reqGetCode = (phone)=>requests({
-    url: `/user/passport/sendCode/${phone}`,
+export const reqGetCode = (email)=>requests({
+    url: `/ec/send/${email}`,
     method: 'get'
 })
 
+//校验验证码是否正确
+export const reqCheckCode = (code, eid)=>requests({
+    url: `/ec/check/${code}/${eid}`,
+    method: 'get'
+})
 //注册用户
 export const reqRegister = (data)=>requests({
     url: '/user/register',
@@ -25,7 +23,7 @@ export const reqRegister = (data)=>requests({
 
 //用户登录
 export const reqLogin = (data)=>requests({
-    url: '/user/passport/login',
+    url: '/user/login',
     method: 'post',
     data
 })
@@ -39,12 +37,6 @@ export const reqGetUserInfo = ()=>requests({
 //退出登录
 export const reqLogout = ()=>requests({
     url: '/user/passport/logout',
-    method: 'get'
-})
-
-//获取用户的所有订单信息
-export const reqGetOrderInfo = (page, limit)=>requests({
-    url: `/order/auth/${page}/${limit}`,
     method: 'get'
 })
 

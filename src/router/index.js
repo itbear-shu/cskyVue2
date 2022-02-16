@@ -5,10 +5,6 @@ import store from '@/store'
 //使用创建
 Vue.use(VueRouter)
 
-//引入二级路由组件
-import MyOrder from "@/pages/Center/MyOrder/MyOrder"
-import GroupOrder from "@/pages/Center/GroupOrder/GroupOrder"
-
 // vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -36,11 +32,6 @@ let router = new VueRouter({
 			component: ()=>import('@/pages/Register/Register'),
 		},
 		{
-			name: 'search',
-			path: '/search/:keyWord?',
-			component: ()=>import('@/pages/Search/Search'),
-		},
-		{
 			name: 'timeLine',
 			path: '/timeLine',
 			component: ()=>import('@/pages/TimeLine/TimeLine'),
@@ -48,7 +39,7 @@ let router = new VueRouter({
 		{
 			name: 'article',
 			path: '/article',
-			component: ()=>import('@/pages/Article/index'),
+			component: ()=>import('@/pages/Article/Article'),
 		},
 		{
 			name: 'schoolList',
@@ -70,26 +61,6 @@ let router = new VueRouter({
 			path: '/schoolDetail',
 			component: ()=>import('@/pages/SchoolDetail/SchoolDetail'),
 		},
-		{
-			name: 'center',
-			path: '/center',
-			component: ()=>import('@/pages/Center/Center'),
-			children: [
-				{
-					path: 'myorder',
-					component: MyOrder
-				},
-				{
-					path: 'grouporder',
-					component: GroupOrder
-				},
-				//配置重定向：进入center时默认进入myorder页面
-				{
-					path: '/center',
-					redirect: '/center/myorder'
-				}
-			]
-		},
 		//配置重定向：项目开始运行时立马定向到首页
 		{
 			path: '*',
@@ -109,29 +80,35 @@ let router = new VueRouter({
 })
 //配置全局前置路由守卫
 router.beforeEach(async (to, from, next) => {
-	if (store.state.user.token) {
+	if (localStorage.getItem("TOKEN")) {
 		//用户登录了还想取login组件
-		if (to.path === '/login')
+		if (to.path === '/login') {
+			Vue.prototype.$message.warning({
+				duration: 1000,
+				message: '已经登录，不能再重复登录~'
+			})
 			next('/home')
+		}
 		else
 		{
-			//判断
-			if (store.state.user.userInfo.name) {
-				next()
-			} else {
-				//用户登录后获取用户信息
-				try {
-					let result = await store.dispatch('user/getUserInfo')
-					if (result) {
-						next()
-					}
-				} catch (e) {
-					//token异常了，就清除token
-					store.dispatch('user/logout')
-					console.log(e.message)
-					next('/login')
-				}
-			}
+			// //判断
+			// if (store.state.user.userInfo.name) {
+			// 	next()
+			// } else {
+			// 	//用户登录后获取用户信息
+			// 	try {
+			// 		let result = await store.dispatch('user/getUserInfo')
+			// 		if (result) {
+			// 			next()
+			// 		}
+			// 	} catch (e) {
+			// 		//token异常了，就清除token
+			// 		store.dispatch('user/logout')
+			// 		console.log(e.message)
+			// 		next('/login')
+			// 	}
+			// }
+			next()
 		}
 	} else {
 		//未登录状态下

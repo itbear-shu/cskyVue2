@@ -1,6 +1,6 @@
 @import 'vue/fonts.css';
 .content {
-    font-size: 14px;
+    font-size: 17px;
 }
 .content :root {
     --side-bar-bg-color: #fff;

@@ -1,51 +1,15 @@
 <template>
-  <div>
-    <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-      <el-breadcrumb-item></el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-    </el-breadcrumb>
-    <FrontPage></FrontPage>
-    <ApplyExam></ApplyExam>
-    <Review></Review>
-    <!--    <el-tabs tab-position="right" style="height: 200px;" class="all">
-          <el-tab-pane label="首页">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  首页
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane label="考研时间线">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  考研时间线
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane label="报考">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  报考
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane label="复习">
-            <el-row>
-              <el-col>
-                <el-card shadow="always">
-                  复习
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-        </el-tabs>-->
-  </div>
+    <el-row :gutter="20">
+      <el-col :span="20" :offset="2">
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
+          <el-breadcrumb-item></el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        </el-breadcrumb>
+        <FrontPage></FrontPage>
+        <ApplyExam></ApplyExam>
+        <Review></Review>
+      </el-col>
+    </el-row>
 </template>
 
 <script>

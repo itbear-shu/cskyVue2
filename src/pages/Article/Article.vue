@@ -1,15 +1,21 @@
 <template>
   <div>
-    <el-backtop>
-      <i class="el-icon-caret-top"></i>
-    </el-backtop>
-    <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-      <el-breadcrumb-item></el-breadcrumb-item>
-      <el-breadcrumb-item>帖子</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!--  面包屑  -->
+    <el-row :gutter="20">
+      <el-col :span="20" :offset="2">
+        <el-backtop>
+          <i class="el-icon-caret-top"></i>
+        </el-backtop>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
+          <el-breadcrumb-item></el-breadcrumb-item>
+          <el-breadcrumb-item>帖子</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-col>
+    </el-row>
+
     <div class="all">
-      <el-row>
-        <el-col class="elCol1">
+      <el-row :gutter="20">
+        <el-col class="elCol1" :span="12" :push="2">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span id="title">上海大学是一所重点建设的综合性大学</span>
@@ -54,7 +60,7 @@
             </div>
           </el-card>
         </el-col>
-        <el-col class="elCol2">
+        <el-col class="elCol2" :span="6">
           <el-card shadow="hover">
             <div class="hotTags">热门标签</div>
             <el-tag class="hotTag">计算机考研</el-tag>
@@ -67,7 +73,7 @@
             <el-tag class="hotTag">学校地啊书法大赛址</el-tag>
           </el-card>
         </el-col>
-        <el-col class="elCol3">
+        <el-col class="elCol3" :span="6">
           <el-card shadow="hover">
             <div class="hotTags">更多文章</div>
             <ul>
@@ -83,7 +89,9 @@
             </ul>
           </el-card>
         </el-col>
-        <el-col class="elCol4">
+      </el-row>
+      <el-row :gutter="20">
+        <el-col class="elCol4" :span="12" :push="2">
           <el-card class="box-card">
             <div>
               <Comment
@@ -104,8 +112,9 @@
 </template>
 
 <script>
-import MarkDown from '@/components/MarkDown/index'
+import MarkDown from '@/components/MarkDown/MarkDown'
 import Comment from 'vue-juejin-comment'
+
 export default {
   name: "index",
   components: {
@@ -187,7 +196,7 @@ export default {
     likeComment(comment) {
       // ...
     },
-    uploadOrCopyImg({ file, callback }) {
+    uploadOrCopyImg({file, callback}) {
       // ...
 
       // callback(imgUrl) // 图片地址必传
@@ -197,7 +206,6 @@ export default {
 </script>
 
 <style scoped>
-
 #title {
   font-size: 32px;
   line-height: 36px;
@@ -264,25 +272,17 @@ export default {
 
 .elCol1 {
   margin: 14px 0;
-  width: 700px;
   float: left;
 }
 
 .elCol2 {
-  right: 10px;
-  width: 348px;
-  margin: 14px 6px;
+  margin: 14px auto 50px 180px;
   height: 205px;
-  position: fixed;
 }
 
 .elCol3 {
-  width: 348px;
-  right: 10px;
-  bottom: -70px;
-  margin: 14px 6px;
+  margin: 14px auto auto 180px;
   height: 205px;
-  position: fixed;
 }
 
 .liLink {
@@ -292,7 +292,5 @@ export default {
 
 .elCol4 {
   margin: 0 0;
-  width: 700px;
-  float: left;
 }
 </style>

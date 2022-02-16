@@ -1,13 +1,17 @@
 <template>
   <div>
-    <el-backtop>
-      <i class="el-icon-caret-top"></i>
-    </el-backtop>
-    <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-      <el-breadcrumb-item></el-breadcrumb-item>
-      <el-breadcrumb-item to="/schools">院校列表</el-breadcrumb-item>
-      <el-breadcrumb-item>上海大学</el-breadcrumb-item>
-    </el-breadcrumb>
+    <el-row :gutter="20">
+      <el-col :span="20" :offset="2">
+        <el-backtop>
+          <i class="el-icon-caret-top"></i>
+        </el-backtop>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
+          <el-breadcrumb-item></el-breadcrumb-item>
+          <el-breadcrumb-item to="/schools">院校列表</el-breadcrumb-item>
+          <el-breadcrumb-item>上海大学</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-col>
+    </el-row>
    <div class="all">
      <school-introduce></school-introduce>
      <profession-introduce></profession-introduce>
@@ -17,9 +21,9 @@
 </template>
 
 <script>
-import ProfessionIntroduce from '@/components/ExamInfo/index'
-import SchoolIntroduce from '@/components/SchoolIntroduce/index'
-import TeacherIntroduce from '@/components/TeacherIntroduce/index'
+import ProfessionIntroduce from '@/components/ExamInfo/ExamInfo'
+import SchoolIntroduce from '@/components/SchoolIntroduce/SchoolIntroduce'
+import TeacherIntroduce from '@/components/TeacherList/TeacherList'
 export default {
   name: "SchoolDetail",
   components: {

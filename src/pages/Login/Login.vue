@@ -1,56 +1,53 @@
 <template>
-  <div class="login-container">
-    <!-- 登录 -->
-    <div class="login-wrap">
-      <div class="login">
-        <div class="loginform">
-          <ul class="tab clearFix">
-            <li>
-              <a href="javascript:void(0);" class="current">账户登录</a>
-            </li>
-          </ul>
+  <el-row :gutter="20">
+    <el-col :span="20" :offset="2">
+      <div class="login-container">
+        <!-- 登录 -->
+        <div class="login-wrap">
+          <div class="login">
+            <div class="loginForm">
+              <ul class="tab clearFix">
+                <li>
+                  <a href="javascript:void(0);" class="current">账户登录</a>
+                </li>
+              </ul>
+              <div class="content">
+                <el-form label-width="100px" :model="loginForm" :rules="rules"
+                         label-position="left" status-icon ref="loginForm">
+                  <el-form-item label="用户名" prop="username">
+                    <el-input v-model="loginForm.username" type="text" placeholder="请输入用户名"></el-input>
+                  </el-form-item>
+                  <el-form-item label="请输入密码" prop="password">
+                    <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"
+                              @keyup.native.enter="userLogin"
+                    ></el-input>
+                  </el-form-item>
+                </el-form>
+                <form>
+                  <el-button type="primary" class="btn" @click.prevent="userLogin">登&nbsp;&nbsp;录</el-button>
+                </form>
 
-          <div class="content">
-            <el-form label-width="100px" :model="loginForm" :rules="rules"
-                     label-position="left" status-icon ref="loginForm">
-              <el-form-item label="手机号" prop="phone">
-                <el-input v-model="loginForm.phone" type="text" placeholder="请输入手机号"></el-input>
-              </el-form-item>
-              <el-form-item label="请输入密码" prop="password">
-                <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"
-                  @keyup.native.enter="userLogin"
-                ></el-input>
-              </el-form-item>
-            </el-form>
-            <form>
-              <div class="setting clearFix">
-                <label class="checkbox inline">
-                  <input name="m1" type="checkbox" value="2" checked="">
-                  自动登录
-                </label>
-                <span class="forget">忘记密码？</span>
+                <div class="call clearFix">
+                  <router-link class="register" to="/register" style="text-decoration: none">立即注册</router-link>
+                </div>
               </div>
-              <el-button type="primary" class="btn" @click.prevent="userLogin">登&nbsp;&nbsp;录</el-button>
-            </form>
-
-            <div class="call clearFix">
-              <router-link class="register" to="/register" style="text-decoration: none">立即注册</router-link>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
+
 export default {
   name: 'Login',
   data() {
     // 自定义校验规则
-    const validatePhone = (rule, value, callback) => {
-      if (!/^1(3|5|6|7|8|9)\d{9}$/.test(value)) {
-        callback(new Error('请输入11位手机号'))
+    const validateUsername = (rule, value, callback) => {
+      if (!/^\w{5,15}$/.test(value)) {
+        callback(new Error('请检查用户名格式是否正确'))
       } else {
         callback()
       }
@@ -64,13 +61,13 @@ export default {
     }
     return {
       loginForm: {
-        phone: '',
+        username: '',
         password: ''
       },
 
       rules: {
-        phone: [
-          {required: true, trigger: 'blur', validator: validatePhone}
+        username: [
+          {required: true, trigger: 'blur', validator: validateUsername}
         ],
         password: [
           {required: true, trigger: 'blur', validator: validatePassword}
@@ -82,19 +79,21 @@ export default {
     userLogin() {
       this.$refs.loginForm.validate(async (valid)=>{
         if(valid) {
-          const result = await this.$store.dispatch('user/login', {
-            phone: this.loginForm.phone,
+          const result = await this.$store.dispatch("user/login", {
+            username: this.loginForm.username,
             password: this.loginForm.password
           })
           if (result) {
-            this.$message.success('登录成功！')
+            await this.$message.success('登录成功！')
             const toPath = this.$route.query.redirect || '/home'
             await this.$router.push(toPath)
           } else {
-            this.$message.error('登录失败，账户名或密码错误')
-            this.loginForm.phone = ''
+            this.$message.error('登录失败！' + result.data.msg)
+            this.loginForm.username = ''
             this.loginForm.password = ''
           }
+        } else {
+          this.$message.warning('请检查输入是否正确')
         }
       })
     }
@@ -105,9 +104,11 @@ export default {
 <style lang="less" scoped>
 .login-container {
   .login-wrap {
-    height: 505px;
-    background: url(~@/assets/bg1.png) no-repeat;
-    background-size: 1300px;
+    height: 888px;
+    background:url(~@/assets/bg1.png)  no-repeat center center;   /*加载背景图*/   /* 背景图不平铺 */
+    background-size:cover;  /* 让背景图基于容器大小伸缩 */
+    background-attachment:fixed;        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */    //此条属性必须设置否则可能无效/
+    background-color:#CCCCCC;   /* 设置背景颜色，背景图加载过程中会显示背景色 */
 
     .login {
       width: 1200px;
@@ -116,7 +117,7 @@ export default {
 
     }
 
-    .loginform {
+    .loginForm {
       width: 420px;
       height: 406px;
       box-sizing: border-box;
@@ -126,6 +127,7 @@ export default {
       position: relative;
       padding: 20px;
       text-align: center;
+      border-radius: 4px;
 
       .tab {
 
@@ -141,6 +143,7 @@ export default {
             font-weight: 700;
             color: #333;
             border: 1px solid #ddd;
+            border-radius: 4px;
             box-sizing: border-box;
             text-decoration: none;
 
@@ -158,6 +161,7 @@ export default {
         height: 316px;
         box-sizing: border-box;
         border: 1px solid #ddd;
+        border-radius: 4px;
         border-top: none;
         padding: 18px;
 
