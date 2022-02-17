@@ -1,7 +1,8 @@
 <template>
-  <el-row class="all">
+  <el-row>
     <el-col>
       <el-card shadow="always">
+        <h1>真题介绍</h1>
         复习
       </el-card>
     </el-col>

@@ -15,7 +15,10 @@
 
     <div class="all">
       <el-row :gutter="20">
-        <el-col class="elCol1" :span="12" :push="2">
+        <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
+          <div class="grid-content bg-purple"></div>
+        </el-col>
+        <el-col :xs="16" :sm="15" :md="15" :lg="14" :xl="11">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span id="title">上海大学是一所重点建设的综合性大学</span>
@@ -60,8 +63,11 @@
             </div>
           </el-card>
         </el-col>
-        <el-col class="elCol2" :span="6">
-          <el-card shadow="hover">
+        <el-col :xs="0" :sm="0" :md="0" :lg="0" :xl="4">
+          <div class="grid-content bg-purple-light"></div>
+        </el-col>
+        <el-col :xs="7" :sm="6" :md="6" :lg="6" :xl="6">
+          <el-card shadow="hover" style="margin-bottom: 25px;">
             <div class="hotTags">热门标签</div>
             <el-tag class="hotTag">计算机考研</el-tag>
             <el-tag class="hotTag">学习</el-tag>
@@ -72,8 +78,6 @@
             <el-tag class="hotTag">上海的大学</el-tag>
             <el-tag class="hotTag">学校地啊书法大赛址</el-tag>
           </el-card>
-        </el-col>
-        <el-col class="elCol3" :span="6">
           <el-card shadow="hover">
             <div class="hotTags">更多文章</div>
             <ul>
@@ -90,8 +94,12 @@
           </el-card>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col class="elCol4" :span="12" :push="2">
+
+      <el-row :gutter="20" class="elCol4">
+        <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
+          <div class="grid-content bg-purple"></div>
+        </el-col>
+        <el-col :xs="16" :sm="15" :md="15" :lg="14" :xl="11">
           <el-card class="box-card">
             <div>
               <Comment
@@ -105,6 +113,11 @@
               />
             </div>
           </el-card>
+        </el-col>
+        <el-col :xs="0" :sm="0" :md="0" :lg="0" :xl="4">
+          <div class="grid-content bg-purple-light"></div>
+        </el-col>
+        <el-col :xs="7" :sm="6" :md="6" :lg="6" :xl="6">
         </el-col>
       </el-row>
     </div>
@@ -153,32 +166,48 @@ export default {
       data: [
         {
           id: '1', // 唯一 id，必需
-          content: 'abc', // 评论内容，必需
-          imgSrc: '', // 评论中的图片地址，非必需
-          children: [], // 子评论（回复），非必需
-          likes: 11, // 点赞数，非必需
-          reply: null, // 子评论（回复）人信息，非必需
-          createAt: null, // 评论时间，必需
+          content: '写的很好，下次别写了...', // 评论内容，必需
+          img: '', // 评论中的图片地址，非必需
+          childrenComments: [
+            {
+              id: '11', // 唯一 id，必需
+              content: '写的很好，下次别写了...', // 评论内容，必需
+              img: '', // 评论中的图片地址，非必需
+              childrenComments: [
+
+              ], // 子评论（回复），非必需
+              likeCount: 0, // 点赞数，非必需
+              liked: false, // 是否已点赞，非必需
+              replyInfo: null, // 子评论（回复）人信息，非必需
+              time: '2022-2-17 15:32', // 评论时间，必需
+              user: { // 评论人信息，必需
+                author: false // 是否为作者，类型为 Boolean，非必需
+              }
+            }
+          ], // 子评论（回复），非必需
+          likeCount: 0, // 点赞数，非必需
+          liked: false, // 是否已点赞，非必需
+          replyInfo: null, // 子评论（回复）人信息，非必需
+          time: '2022-2-17 15:32', // 评论时间，必需
           user: { // 评论人信息，必需
-            author: false // 是否为作者，类型为 Boolean，非必需
-          }
-        }, {
-          id: '1', // 唯一 id，必需
-          content: 'abc', // 评论内容，必需
-          imgSrc: '', // 评论中的图片地址，非必需
-          children: [], // 子评论（回复），非必需
-          likes: 11, // 点赞数，非必需
-          reply: null, // 子评论（回复）人信息，非必需
-          createAt: null, // 评论时间，必需
-          user: { // 评论人信息，必需
-            author: false // 是否为作者，类型为 Boolean，非必需
+            author: true // 是否为作者，类型为 Boolean，非必需
           }
         }
       ],
-      props: {},
+      props: {
+        id: 'id',
+        content: 'content',
+        imgSrc: 'img',
+        children: 'childrenComments',
+        likes: 'likeCount',
+        liked: 'liked',
+        reply: 'replyInfo',
+        createAt: 'time',
+        user: 'user'
+      },
       currentUser: {
-        name: '1',
-        avatar: '1',
+        name: 'abc',
+        avatar: 'https://gitee.com/jxgitee/pictures2/raw/master/msedge_a7SQdH5Tnv.png',
         author: true,
       },
     }
@@ -270,27 +299,12 @@ export default {
   clear: both
 }
 
-.elCol1 {
-  margin: 14px 0;
-  float: left;
-}
-
-.elCol2 {
-  margin: 14px auto 50px 180px;
-  height: 205px;
-}
-
-.elCol3 {
-  margin: 14px auto auto 180px;
-  height: 205px;
-}
-
 .liLink {
   font-size: 13px;
   margin: 8px auto;
 }
 
 .elCol4 {
-  margin: 0 0;
+  margin: 10px 0;
 }
 </style>

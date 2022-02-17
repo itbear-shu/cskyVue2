@@ -27,5 +27,20 @@ export default {
 .all {
   margin: 20px 30px;
 }
-
+.el-col {
+  border-radius: 4px;
+}
+.bg-purple-dark {
+  background: #99a9bf;
+}
+.bg-purple {
+  background: #ffffff;
+}
+.bg-purple-light {
+  background: #ffffff;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
 </style>

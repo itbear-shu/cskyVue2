@@ -1,20 +1,36 @@
 <template>
-<div>
+<div class="all">
   <el-row :gutter="20">
-    <el-col :span="20" :offset="2">
+    <el-col :span="20" :offset="1">
       <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
         <el-breadcrumb-item></el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       </el-breadcrumb>
-      <FrontPage></FrontPage>
     </el-col>
   </el-row>
-  <el-row :gutter="10">
-    <el-col :span="10" :push="2">
+  <el-row :gutter="20">
+    <el-col :xs="0" :sm="2" :md="1" :lg="1" :xl="0">
+      <div class="grid-content bg-purple"></div>
+    </el-col>
+    <el-col :xs="24" :sm="20" :md="22" :lg="22" :xl="12">
+      <FrontPage></FrontPage>
+    </el-col>
+    <el-col :xs="0" :sm="2" :md="1" :lg="1" :xl="0">
+      <div class="grid-content bg-purple-light"></div>
+    </el-col>
+  </el-row>
+  <el-row :gutter="20">
+    <el-col :xs="7" :sm="5" :md="1" :lg="2" :xl="0">
+      <div class="grid-content bg-purple"></div>
+    </el-col>
+    <el-col :xs="5" :sm="7" :md="11" :lg="10" :xl="12">
       <ApplyExam></ApplyExam>
     </el-col>
-    <el-col :span="10" :offset="2">
+    <el-col :xs="5" :sm="7" :md="11" :lg="10" :xl="12">
       <Review></Review>
+    </el-col>
+    <el-col :xs="7" :sm="5" :md="1" :lg="1" :xl="0">
+      <div class="grid-content bg-purple-light"></div>
     </el-col>
   </el-row>
 </div>
