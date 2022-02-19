@@ -1,66 +1,152 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="20" :offset="2">
-      <div class="register-container">
-        <!-- 注册内容 -->
-        <div class="register">
-          <h3>注册新用户
-            <span class="go">我有账号，去 <router-link to="/login">登录</router-link>
+  <div>
+    <el-row :gutter="20">
+      <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+        <div class="grid-content bg-purple"></div>
+      </el-col>
+      <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+        <div class="register-container">
+          <!-- 注册内容 -->
+          <div class="register">
+            <h3>注册新用户
+              <span class="go">我有账号，去 <router-link to="/login">登录</router-link>
             </span>
-          </h3>
-          <el-row :gutter="20">
-            <el-col :span="15" :offset="4">
-              <el-form :rules="rules" ref="registerForm" class="registerForm" label-position="right" status-icon :model="register">
-                <el-form-item label="用户名称" prop="username">
-                  <el-tooltip effect="dark" content="由5~15位数字、26个英文字母或者下划线组成" :open-delay="200" placement="left">
-                    <el-input v-model="register.username" placeholder="请输入你的用户名"></el-input>
-                  </el-tooltip>
-                </el-form-item>
+            </h3>
+            <el-row :gutter="20">
+              <el-col :span="24" :offset="0">
+                <el-form :rules="rules" ref="registerForm" class="registerForm" label-position="right" status-icon
+                         :model="register">
+                  <el-row :gutter="20">
+                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                      <div class="grid-content bg-purple"></div>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                      <el-form-item label="用户名称" prop="username">
+                        <el-tooltip effect="dark" content="由5~15位数字、26个英文字母或者下划线组成" :open-delay="200" placement="left">
+                          <el-input v-model="register.username" placeholder="请输入你的用户名"></el-input>
+                        </el-tooltip>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+                    </el-col>
+                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple-light"></div>
+                    </el-col>
+                  </el-row>
 
-                <el-form-item label="邮箱账号" prop="email">
-                  <el-tooltip effect="dark" content="xxxxx@xxx.xxx格式，请务必输入有效的邮箱账号" :open-delay="200" placement="left">
-                    <el-input v-model="register.email" placeholder="请输入你的邮箱账号"></el-input>
-                  </el-tooltip>
-                  <el-button type="primary" size="mini" @click="sendEmailCode">发送验证码</el-button>
-                </el-form-item>
+                  <el-row :gutter="20">
+                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                      <div class="grid-content bg-purple"></div>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                      <el-form-item label="邮箱账号" prop="email">
+                        <el-tooltip effect="dark" content="xxxxx@xxx.xxx格式，请务必输入有效的邮箱账号" :open-delay="200"
+                                    placement="right">
+                          <el-input v-model="register.email" placeholder="请输入你的邮箱账号"></el-input>
+                        </el-tooltip>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+                      <el-button type="primary" size="small" @click="sendEmailCode" style="margin-top: 43px; border-radius: 30px;" :disabled="isClickGetCode">
+                        发送验证码
+                      </el-button>
+                    </el-col>
+                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple-light"></div>
+                    </el-col>
+                  </el-row>
 
-                <el-form-item label="验证码" prop="emailCode">
-                  <el-tooltip effect="dark" content="6位验证码，由26个英文字母和0~9数字组成" :open-delay="200" placement="left">
-                    <el-input v-model="register.emailCode" placeholder="请输入邮箱中接收到的验证码"></el-input>
-                  </el-tooltip>
-                </el-form-item>
+                  <el-row :gutter="20">
+                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                      <div class="grid-content bg-purple"></div>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                      <el-form-item label="验证码" prop="emailCode">
+                        <el-tooltip effect="dark" content="6位验证码，由26个英文字母和0~9数字组成" :open-delay="200" placement="right">
+                          <el-input v-model="register.emailCode" placeholder="请输入邮箱中接收到的验证码"></el-input>
+                        </el-tooltip>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+                      <el-button type="primary" size="small" @click="checkEmailCode"
+                                 style="margin-top: 43px; border-radius: 30px;" v-show="isShowIcon">点击验证
+                      </el-button>
+                      <i class="el-icon-circle-check" style="color: greenyellow;margin-top: 40px;font-size: 3.3em;margin-left: 22px;"
+                         v-show="!isShowIcon"></i>
+                    </el-col>
+                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple-light"></div>
+                    </el-col>
+                  </el-row>
 
-                <el-form-item label="登录密码" prop="password1">
-                  <el-tooltip effect="dark" content="以字母开头，长度在6~18之间，只能包含字母、数字和下划线"
-                              :open-delay="200" placement="left">
-                    <el-input type="password" v-model="register.password1" placeholder="请输入密码"></el-input>
-                  </el-tooltip>
-                </el-form-item>
+                  <el-row :gutter="20">
+                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                      <div class="grid-content bg-purple"></div>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                      <el-form-item label="登录密码" prop="password1">
+                        <el-tooltip effect="dark" content="以字母开头，长度在6~18之间，只能包含字母、数字和下划线"
+                                    :open-delay="200" placement="right">
+                          <el-input type="password" v-model="register.password1" placeholder="请输入密码"></el-input>
+                        </el-tooltip>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
 
-                <el-form-item label="确认密码" prop="password2">
-                  <el-tooltip effect="dark" content="再次输入密码"
-                              :open-delay="200" placement="left">
-                    <el-input type="password" v-model="register.password2" placeholder="请确认密码"></el-input>
-                  </el-tooltip>
-                </el-form-item>
+                    </el-col>
+                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple-light"></div>
+                    </el-col>
+                  </el-row>
 
-                <el-form-item>
-                  <el-button type="primary" @click="userRegister">完成注册</el-button>
-                </el-form-item>
-              </el-form>
+                  <el-row :gutter="20">
+                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                      <div class="grid-content bg-purple"></div>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                      <el-form-item label="确认密码" prop="password2">
+                        <el-tooltip effect="dark" content="再次输入密码"
+                                    :open-delay="200" placement="right">
+                          <el-input type="password" v-model="register.password2" placeholder="请确认密码"></el-input>
+                        </el-tooltip>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
 
-            </el-col>
-          </el-row>
+                    </el-col>
+                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple-light"></div>
+                    </el-col>
+                  </el-row>
+
+                  <el-row :gutter="20">
+                    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple"></div>
+                    </el-col>
+                    <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                      <div>
+                        <el-button type="primary" @click="userRegister" style="display:block;margin:0 auto">完成注册
+                        </el-button>
+                      </div>
+                    </el-col>
+                    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                      <div class="grid-content bg-purple-light"></div>
+                    </el-col>
+                  </el-row>
+                </el-form>
+              </el-col>
+            </el-row>
+          </div>
         </div>
-      </div>
-    </el-col>
-  </el-row>
+      </el-col>
+      <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+        <div class="grid-content bg-purple-light"></div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
-// import {mapState} from 'vuex'
-import dayjs from 'dayjs'
-import {setToken} from "@/utils/token";
 
 export default {
   name: 'Register',
@@ -96,7 +182,7 @@ export default {
     }
     const validateEmailCode = (rule, value, callback) => {
       if (!/^[A-Za-z0-9]{6}$/.test(value)) {
-        callback(new Error('请输入正确的邮箱验证码'))
+        callback(new Error('请输入6位邮箱验证码'))
       } else {
         callback()
       }
@@ -114,7 +200,10 @@ export default {
         // 邮箱验证码
         emailCode: ''
       },
+      // 是否已经发送验证码
       isClickGetCode: false,
+      // 是否显示验证成功图标
+      isShowIcon: true,
       // 点击获取验证码后的倒计时
       codeNum: 60,
 
@@ -140,26 +229,12 @@ export default {
     }
   },
   computed: {
-    //获取后台传过来的验证码
-    // ...mapState('user', ['checkCode'])
+
   },
   methods: {
-    // subTime() {
-    //   let interval = setInterval(()=>{
-    //     if(dayjs().subtract(60, 'second').format()
-    //         > JSON.parse(localStorage.getItem('CLICKTIME'))) {
-    //       this.isClickGetCode = false
-    //       this.codeNum = 60
-    //       localStorage.removeItem('CLICKTIME')
-    //       clearInterval(interval)
-    //     } else {
-    //       this.codeNum -= 1
-    //     }
-    //   }, 1000);
-    // },
     async sendEmailCode() {
-      // localStorage.setItem('CLICKTIME', JSON.stringify(dayjs().format()))
       if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.register.email)) {
+        this.isClickGetCode = true
         this.$message.warning("验证码发送中...")
         try {
           const result = await this.$API.reqGetCode(this.register.email)
@@ -180,19 +255,35 @@ export default {
         this.$message.warning('请先输入正确的邮箱账号')
       }
     },
+    async checkEmailCode() {
+      if (!this.isClickGetCode) {
+        this.$message.warning('请先发送验证码~')
+        return
+      }
+      if (!/^[A-Za-z0-9]{6}$/.test(this.register.emailCode)) {
+        this.$message.warning('验证码格式有误，请重新输入')
+        return
+      }
+      try {
+        // 先校验验证码是否通过
+        const result = await this.$API.reqCheckCode(this.register.emailCode.toUpperCase(), this.eid)
+        if (result.data.code !== 200) {
+          this.$message.error(result.data.msg)
+        } else {
+          this.$message.success('验证通过~')
+          this.isShowIcon = false
+        }
+      } catch (e) {
+        this.$message.error(e.message)
+      }
+    },
     async userRegister() {
       await this.$refs.registerForm.validate(async (valid) => {
+        if (this.isShowIcon) {
+          this.$message.warning('请先校验邮箱验证码是否正确')
+          return
+        }
         if (valid) {
-          try {
-            // 先校验验证码是否通过
-            const res = await this.$API.reqCheckCode(this.register.emailCode, this.eid)
-            if (res.data.code !== 200) {
-              this.$message.error(res.data.msg)
-              return
-            }
-          } catch (e) {
-            this.$message.error(e.message)
-          }
           try {
             const result = await this.$store.dispatch("user/register", {
               username: this.register.username,
@@ -224,9 +315,12 @@ export default {
 
 <style lang="less" scoped>
 .register-container {
+  margin-bottom: 20px;
+
   .register {
     border: 1px solid rgb(223, 223, 223);
     margin: 0 auto;
+    border-radius: 10px;
 
     h3 {
       background: #b3d8ff;
@@ -234,6 +328,7 @@ export default {
       padding: 6px 15px;
       color: #333;
       border-bottom: 1px solid #dfdfdf;
+      border-radius: 9px;
       font-size: 20.04px;
       line-height: 30.06px;
 

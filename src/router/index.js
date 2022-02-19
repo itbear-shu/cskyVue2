@@ -47,9 +47,14 @@ let router = new VueRouter({
 			component: ()=>import('@/pages/SchoolList/SchoolList'),
 		},
 		{
+			name: 'upload',
+			path: '/upload',
+			component: ()=>import('@/pages/Upload/Upload'),
+		},
+		{
 			name: 'teacherDetail',
 			path: '/teacherDetail',
-			component: ()=>import('@/pages/TeacherDetail/index'),
+			component: ()=>import('@/pages/TeacherDetail/TeacherDetail'),
 		},
 		{
 			name: 'md',
@@ -91,25 +96,23 @@ router.beforeEach(async (to, from, next) => {
 		}
 		else
 		{
-			// //判断
-			// if (store.state.user.userInfo.name) {
-			// 	next()
-			// } else {
-			// 	//用户登录后获取用户信息
-			// 	try {
-			// 		let result = await store.dispatch('user/getUserInfo')
-			// 		if (result) {
-			// 			next()
-			// 		}
-			// 	} catch (e) {
-			// 		//token异常了，就清除token
-			// 		store.dispatch('user/logout')
-			// 		console.log(e.message)
-			// 		next('/login')
-			// 	}
-			// }
-			// 暂时都放行
-			next()
+			//判断
+			if (store.state.user.userInfo.username) {
+				next()
+			} else {
+				//用户登录后获取用户信息
+				try {
+					const result = await store.dispatch('user/getUserInfo')
+					if (result) {
+						next()
+					}
+				} catch (e) {
+					//token异常了，就清除token
+					await store.dispatch('user/logout')
+					console.log(e.message)
+					next('/login')
+				}
+			}
 		}
 	} else {
 		//未登录状态下

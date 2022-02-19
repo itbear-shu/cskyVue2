@@ -22,9 +22,10 @@
           <el-menu-item v-if="username" style="float: right;">
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
-                <el-avatar size="small">
-                  {{ username.substr(0, 3) }}
-                </el-avatar>
+                    <el-tooltip class="item" effect="light" placement="left">
+                      <div slot="content">用户名称<br/>{{ username }}</div>
+                      <el-avatar :src="userImg"></el-avatar>
+                    </el-tooltip>
                 <i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -111,7 +112,7 @@ export default {
         if (result) {
           this.$message({
             type: 'success',
-            message: '退出成功!'
+            message: '已退出登录!'
           });
         }
       }).catch(() => {
@@ -121,7 +122,7 @@ export default {
         });
       });
 
-    }
+    },
   },
   mounted() {
     this.$bus.$on('clear', () => {
@@ -133,9 +134,14 @@ export default {
   },
   computed: {
     username() {
-      /*if(this.$store.state.user.userInfo)
-        return this.$store.state.user.userInfo.name*/
+      if (this.$store.state.user.userInfo)
+        return this.$store.state.user.userInfo.username
       return ''
+    },
+    userImg() {
+      // if (this.$store.state.user.userInfo)
+      //   return this.$store.state.user.userInfo.userImg
+      return 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
     }
   }
 }

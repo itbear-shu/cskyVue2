@@ -18,7 +18,7 @@
         <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
           <div class="grid-content bg-purple"></div>
         </el-col>
-        <el-col :xs="16" :sm="15" :md="15" :lg="14" :xl="11">
+        <el-col :xs="16" :sm="15" :md="15" :lg="15" :xl="11">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span id="title">上海大学是一所重点建设的综合性大学</span>

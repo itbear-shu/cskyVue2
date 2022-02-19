@@ -11,7 +11,7 @@ const actions = {
 		}
 	},
 	async login(context, data) {
-		let result = await Vue.prototype.$API.reqLogin(data)
+		const result = await Vue.prototype.$API.reqLogin(data)
 		if (result.data.code === 200 && result.data.data !== null) {
 			context.commit('LOGIN', result.data.data.TOKEN)
 			setToken(result.data.data.TOKEN)
@@ -21,7 +21,7 @@ const actions = {
 		}
 	},
 	async getUserInfo({commit}) {
-		let result = await this.$API.reqGetUserInfo()
+		let result = await Vue.prototype.$API.reqGetUserInfo()
 		if (result.data.code === 200) {
 			commit('GETUSERINFO', result.data)
 			return true
@@ -30,10 +30,11 @@ const actions = {
 		}
 	},
 	async logout({commit}) {
-		let result = await this.$API.reqLogout()
-		if (result.status === 200) {
+		try {
 			commit('CLEAR')
 			return true
+		} catch (e) {
+			return Promise.reject(new Error('退出失败~'))
 		}
 	}
 }

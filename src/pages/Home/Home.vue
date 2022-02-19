@@ -9,27 +9,27 @@
     </el-col>
   </el-row>
   <el-row :gutter="20">
-    <el-col :xs="0" :sm="2" :md="1" :lg="1" :xl="0">
+    <el-col :xs="0" :sm="2" :md="1" :lg="1" :xl="1">
       <div class="grid-content bg-purple"></div>
     </el-col>
-    <el-col :xs="24" :sm="20" :md="22" :lg="22" :xl="12">
+    <el-col :xs="24" :sm="20" :md="22" :lg="22" :xl="22">
       <FrontPage></FrontPage>
     </el-col>
-    <el-col :xs="0" :sm="2" :md="1" :lg="1" :xl="0">
+    <el-col :xs="0" :sm="2" :md="1" :lg="1" :xl="1">
       <div class="grid-content bg-purple-light"></div>
     </el-col>
   </el-row>
   <el-row :gutter="20">
-    <el-col :xs="7" :sm="5" :md="1" :lg="2" :xl="0">
+    <el-col :xs="7" :sm="5" :md="1" :lg="2" :xl="1">
       <div class="grid-content bg-purple"></div>
     </el-col>
-    <el-col :xs="5" :sm="7" :md="11" :lg="10" :xl="12">
+    <el-col :xs="5" :sm="7" :md="11" :lg="10" :xl="11">
       <ApplyExam></ApplyExam>
     </el-col>
-    <el-col :xs="5" :sm="7" :md="11" :lg="10" :xl="12">
+    <el-col :xs="5" :sm="7" :md="11" :lg="10" :xl="11">
       <Review></Review>
     </el-col>
-    <el-col :xs="7" :sm="5" :md="1" :lg="1" :xl="0">
+    <el-col :xs="7" :sm="5" :md="1" :lg="1" :xl="1">
       <div class="grid-content bg-purple-light"></div>
     </el-col>
   </el-row>

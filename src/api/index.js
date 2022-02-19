@@ -30,14 +30,8 @@ export const reqLogin = (data)=>requests({
 
 //用户登录后在首页获取用户信息
 export const reqGetUserInfo = ()=>requests({
-    url: '/user//getUserInfo',
-    method: 'get'
-})
-
-//退出登录
-export const reqLogout = ()=>requests({
-    url: '/user/passport/logout',
-    method: 'get'
+    url: `/user/userInfo`,
+    method: 'post'
 })
 
 

@@ -4,35 +4,45 @@
       <div class="login-container">
         <!-- 登录 -->
         <div class="login-wrap">
-          <div class="login">
-            <div class="loginForm">
-              <ul class="tab clearFix">
-                <li>
-                  <a href="javascript:void(0);" class="current">账户登录</a>
-                </li>
-              </ul>
-              <div class="content">
-                <el-form label-width="100px" :model="loginForm" :rules="rules"
-                         label-position="left" status-icon ref="loginForm">
-                  <el-form-item label="用户名" prop="username">
-                    <el-input v-model="loginForm.username" type="text" placeholder="请输入用户名"></el-input>
-                  </el-form-item>
-                  <el-form-item label="请输入密码" prop="password">
-                    <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"
-                              @keyup.native.enter="userLogin"
-                    ></el-input>
-                  </el-form-item>
-                </el-form>
-                <form>
-                  <el-button type="primary" class="btn" @click.prevent="userLogin">登&nbsp;&nbsp;录</el-button>
-                </form>
+          <el-row :gutter="20">
+            <el-col :xs="2" :sm="2" :md="1" :lg="3" :xl="3">
+              <div class="grid-content"></div>
+            </el-col>
+            <el-col :xs="2" :sm="20" :md="18" :lg="18" :xl="18">
+              <div class="login">
+                <div class="loginForm">
+                  <ul class="tab clearFix">
+                    <li>
+                      <a href="javascript:void(0);" class="current">账户登录</a>
+                    </li>
+                  </ul>
+                  <div class="content">
+                    <el-form label-width="100px" :model="loginForm" :rules="rules"
+                             label-position="left" status-icon ref="loginForm">
+                      <el-form-item label="用户名" prop="username">
+                        <el-input v-model="loginForm.username" type="text" placeholder="请输入用户名"></el-input>
+                      </el-form-item>
+                      <el-form-item label="请输入密码" prop="password">
+                        <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"
+                                  @keyup.native.enter="userLogin"
+                        ></el-input>
+                      </el-form-item>
+                    </el-form>
+                    <form>
+                      <el-button type="primary" class="btn" @click.prevent="userLogin">登&nbsp;&nbsp;录</el-button>
+                    </form>
 
-                <div class="call clearFix">
-                  <router-link class="register" to="/register" style="text-decoration: none">立即注册</router-link>
+                    <div class="call clearFix">
+                      <router-link class="register" to="/register" style="text-decoration: none">立即注册</router-link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </el-col>
+            <el-col :xs="20" :sm="2" :md="4" :lg="3" :xl="3">
+              <div class="grid-content"></div>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </el-col>
@@ -79,16 +89,23 @@ export default {
     userLogin() {
       this.$refs.loginForm.validate(async (valid)=>{
         if(valid) {
-          const result = await this.$store.dispatch("user/login", {
-            username: this.loginForm.username,
-            password: this.loginForm.password
-          })
-          if (result) {
-            await this.$message.success('登录成功！')
-            const toPath = this.$route.query.redirect || '/home'
-            await this.$router.push(toPath)
-          } else {
-            this.$message.error('登录失败！' + result.data.msg)
+          try {
+            const result = await this.$store.dispatch("user/login", {
+              username: this.loginForm.username,
+              password: this.loginForm.password
+            })
+            if (result) {
+              await this.$message.success('登录成功！')
+              await this.$router.push('/home')
+              const toPath = this.$route.query.redirect || '/home'
+              await this.$router.push(toPath)
+            } else {
+              this.$message.error(result.data.msg)
+              this.loginForm.username = ''
+              this.loginForm.password = ''
+            }
+          } catch (e) {
+            this.$message.error(e.message)
             this.loginForm.username = ''
             this.loginForm.password = ''
           }
@@ -105,16 +122,14 @@ export default {
 .login-container {
   .login-wrap {
     height: 888px;
-    background:url(~@/assets/bg1.png)  no-repeat center center;   /*加载背景图*/   /* 背景图不平铺 */
+    background:url(~@/assets/bgImg.jpg)  no-repeat center center;   /*加载背景图*/   /* 背景图不平铺 */
     background-size:cover;  /* 让背景图基于容器大小伸缩 */
     background-attachment:fixed;        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */    //此条属性必须设置否则可能无效/
     background-color:#CCCCCC;   /* 设置背景颜色，背景图加载过程中会显示背景色 */
 
     .login {
-      width: 1200px;
       height: 487px;
       margin: 0 auto;
-
     }
 
     .loginForm {
@@ -146,7 +161,6 @@ export default {
             border-radius: 4px;
             box-sizing: border-box;
             text-decoration: none;
-
           }
 
           .current {
@@ -170,19 +184,9 @@ export default {
           font-size: 12px;
           line-height: 18px;
 
-          .setting {
-            label {
-              float: left;
-            }
-
-            .forget {
-              float: right;
-            }
-          }
-
           .btn {
             padding: 6px;
-            border-radius: 0;
+            border-radius: 10px;
             font-size: 16px;
             word-spacing: 4px;
             color: #fff;
