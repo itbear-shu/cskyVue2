@@ -10,17 +10,33 @@
       </el-breadcrumb>
       <div>
         <el-row class="elRow">
-          <el-col class="elCol">
+          <el-col class="elCol" v-for="(school, index) in schoolList" :key="school.sid">
             <el-card shadow="hover" class="elCard">
               <img src="@/assets/shu.jpg">
-              <router-link to="/schoolDetail">
-                上海大学
+<!--              <img :src="school.badgeImg">-->
+              <router-link :to="{
+                path: '/schoolDetail',
+                query: {
+                  sid: school.sid
+                }
+              }">
+                {{school.sname}}
               </router-link>
               <div>
-                上海大学（Shanghai
-                University），简称“上大”，位于上海市，是上海市属、国家“211工程”重点建设的综合性大学，教育部与上海市人民政府共建高校，世界一流学科建设高校，入选国家“111计划”、卓越工程师教育培养计划、卓越新闻传播人才教育培养计划、国家建设高水平大学公派研究生项目、教育部来华留学示范基地、上海市首批高水平地方高校建设试点、上海市首批深化创新创业教育改革示范高校。
+                <MarkDown :text="school.shortIntroduction"/>
               </div>
             </el-card>
+          </el-col>
+          <el-col style="text-align: center">
+            <el-pagination
+                background
+                layout="prev, pager, next"
+                :page-size="pageParam.pageSize"
+                :current-page="pageParam.page"
+                :pager-count="5"
+                @current-change="currentChange"
+                :total="34">
+            </el-pagination>
           </el-col>
         </el-row>
       </div>
@@ -29,10 +45,38 @@
 </template>
 
 <script>
+import MarkDown from "@/components/MarkDown/MarkDown"
 export default {
   name: "Schools",
+  components: {
+    MarkDown
+  },
   data() {
-    return {}
+    return {
+      schoolList: [],
+      pageParam: {
+        page: 1,
+        pageSize: 5
+      }
+    }
+  },
+  methods: {
+    async getSchoolList(pageParam) {
+      const result = await this.$API.reqGetSchoolList(pageParam)
+      if (result.data.code === 200) {
+        this.schoolList = result.data.data
+      } else {
+        this.$message.error('系统异常')
+        console.log(result.data.msg)
+      }
+    },
+    currentChange(val) {
+      this.pageParam.page = val
+      this.getSchoolList(this.pageParam)
+    }
+  },
+  mounted() {
+    this.getSchoolList(this.pageParam)
   }
 }
 </script>
@@ -44,6 +88,7 @@ export default {
 }
 
 .elCol {
+  margin: 5px auto;
 }
 
 .elCard {
