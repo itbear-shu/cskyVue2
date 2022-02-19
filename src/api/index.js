@@ -34,6 +34,18 @@ export const reqGetUserInfo = ()=>requests({
     method: 'post'
 })
 
+// 获取学校列表
+export const reqGetSchoolList = (data)=>requests({
+    url: '/school/list',
+    method: 'post',
+    data
+})
+
+// 获取某一学校具体信息
+export const reqGetSchoolDetailBySid = (sid)=>requests({
+    url: `/school/detail/${sid}`,
+    method: 'get'
+})
 
 
 
