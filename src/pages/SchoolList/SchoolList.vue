@@ -31,11 +31,11 @@
             <el-pagination
                 background
                 layout="prev, pager, next"
-                :page-size="pageParam.pageSize"
-                :current-page="pageParam.page"
+                :page-size="pageParam.size"
+                :current-page="pageParam.current"
                 :pager-count="5"
                 @current-change="currentChange"
-                :total="34">
+                :total="total">
             </el-pagination>
           </el-col>
         </el-row>
@@ -55,23 +55,29 @@ export default {
     return {
       schoolList: [],
       pageParam: {
-        page: 1,
-        pageSize: 5
-      }
+        current: 1,
+        size: 5
+      },
+      // 总页数
+      pages: '',
+      // 总条数
+      total: ''
     }
   },
   methods: {
     async getSchoolList(pageParam) {
       const result = await this.$API.reqGetSchoolList(pageParam)
       if (result.data.code === 200) {
-        this.schoolList = result.data.data
+        this.schoolList = result.data.data.schoolVoList
+        this.pages = result.data.data.pages
+        this.total = result.data.data.total
       } else {
         this.$message.error('系统异常')
         console.log(result.data.msg)
       }
     },
     currentChange(val) {
-      this.pageParam.page = val
+      this.pageParam.current = val
       this.getSchoolList(this.pageParam)
     }
   },
