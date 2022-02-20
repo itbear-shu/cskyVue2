@@ -59,5 +59,17 @@ export const reqGetTeacherDetail = (tid)=>requests({
     method: 'get'
 })
 
+// 查询文章
+export const reqGetArticleById = (id)=>requests({
+    url: `/article/${id}`,
+    method: 'get'
+})
+
+// 查询评论
+export const reqGetCommentById = (id)=>requests({
+    url: `/comment/${id}`,
+    method: 'get'
+})
+
 
 
