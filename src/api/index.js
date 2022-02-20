@@ -47,5 +47,17 @@ export const reqGetSchoolDetailBySid = (sid)=>requests({
     method: 'get'
 })
 
+// 获取老师列表
+export const reqGetTeacherList = (sid, currentPage)=>requests({
+    url: `/teacher/briefInfo/${sid}/${currentPage}`,
+    method: 'get'
+})
+
+// 老师具体信息
+export const reqGetTeacherDetail = (tid)=>requests({
+    url: `/teacher/detailedInfo/${tid}`,
+    method: 'get'
+})
+
 
 

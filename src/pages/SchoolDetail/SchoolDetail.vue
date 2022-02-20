@@ -20,7 +20,8 @@
         officialSite: school.officialSite,
         postgraduateSite: school.postgraduateSite,
         sname: school.sname
-     }"></school-introduce>
+     }">
+     </school-introduce>
      <profession-introduce></profession-introduce>
      <teacher-introduce></teacher-introduce>
    </div>
