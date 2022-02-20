@@ -4,35 +4,50 @@
       <el-col :span="20" :offset="2">
         <h1>师资介绍</h1>
       </el-col>
-      <el-col :span="14" :offset="2">
+      <el-col :span="24" :offset="2">
         <el-table
+            @cell-click="toTeacherDetail"
+            highlight-current-row
             :data="teacherList"
-            style="width: 100%;"
-            :row-class-name="tableRowClassName">
+            style="width: 100%;">
           <el-table-column
-              prop="teacherName"
+              prop="id"
+              label="序号"
+              type="index"
+              width="100">
+          </el-table-column>
+          <el-table-column
+              prop="tname"
               label="教师姓名"
-              width="400">
+              width="200">
           </el-table-column>
           <el-table-column
-              prop="proDirection"
+              prop="studydir"
               label="专业方向"
-              width="400">
+              width="500">
           </el-table-column>
-          <el-table-column label="操作" width="200">
-            <template slot-scope="scope">
-              <el-button size="mini" type="info" @click="toTeacherDetail">查看详细信息</el-button>
+          <el-table-column
+              label="操作"
+              align="center"
+              width="200">
+            <template slot="header" slot-scope="scope">
+              <el-input
+                  v-model="search"
+                  size="mini"
+                  placeholder="输入关键字搜索"/>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="20">
         <el-pagination
-            style="text-align: center;margin-top: 10px;"
-            :page-size="10"
+            style="text-align: center; margin-top: 10px;"
+            :page-size="5"
+            :current-page="currentPage"
             small
+            @current-change="currentChange"
             layout="prev, pager, next"
-            :total="50">
+            :total="total">
         </el-pagination>
       </el-col>
     </el-row>
@@ -44,30 +59,40 @@ export default {
   name: "TeacherList",
   data() {
     return {
-      teacherList: [{teacherName: "陈红", proDirection: '计算机应用技术'},
-        {teacherName: "陈红", proDirection: '计算机应用技术'},
-        {teacherName: "陈红", proDirection: '计算机应用技术'},
-        {teacherName: "陈红", proDirection: '计算机应用技术'},
-      ]
+      teacherList: [],
+      currentPage: 1,
+      pages: 0,
+      total: 0,
+      search: ''
     }
   },
   mounted() {
+    this.getTeacherList()
   },
   methods: {
-    tableRowClassName({row, rowIndex}) {
-      console.log(rowIndex)
-      if (rowIndex % 3 === 0) {
-        return 'warning-row';
-      } else if (rowIndex % 3 === 1) {
-        return 'success-row';
-      }
-      return '';
+    toTeacherDetail(val) {
+      this.$router.push({
+        path: "/teacherDetail",
+        query: {
+          tid: val.id
+        }
+      })
     },
-    toTeacherDetail() {
-      this.$router.push({path: "/teacherDetail"})
+    async getTeacherList() {
+      const result = await this.$API.reqGetTeacherList(this.$route.query.sid, this.currentPage)
+      if (result.data.code === 200) {
+        this.teacherList = result.data.data.teacherVoList
+        this.total = result.data.data.total
+        this.pages = result.data.data.pages
+      } else {
+        this.$message.warning('系统异常~ ' + result.data.msg)
+      }
+    },
+    currentChange(currentPage) {
+      this.currentPage = currentPage
+      this.getTeacherList()
     }
   },
-  computed: {}
 }
 </script>
 
@@ -78,13 +103,5 @@ h1 {
 
 .all {
   margin: 0 0 0 0;
-}
-
-.el-table .warning-row {
-  background: #d59113;
-}
-
-.el-table .success-row {
-  background: #40f50f;
 }
 </style>

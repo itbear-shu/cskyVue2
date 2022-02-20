@@ -59,9 +59,9 @@ export default {
         size: 5
       },
       // 总页数
-      pages: '',
+      pages: 0,
       // 总条数
-      total: ''
+      total: 0
     }
   },
   methods: {
