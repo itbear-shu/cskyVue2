@@ -12,15 +12,16 @@
         <el-row class="elRow">
           <el-col class="elCol" v-for="(school, index) in schoolList" :key="school.sid">
             <el-card shadow="hover" class="elCard">
-              <img src="@/assets/shu.jpg">
-<!--              <img :src="school.badgeImg">-->
+              <!--              <img src="@/assets/shu.jpg">-->
+              <!--              <img :src='"https://images.weserv.nl/?url=" + school.badgeImg'>-->
+              <img :src='school.badgeImg'>
               <router-link :to="{
                 path: '/schoolDetail',
                 query: {
                   sid: school.sid
                 }
               }">
-                {{school.sname}}
+                {{ school.sname }}
               </router-link>
               <div>
                 <MarkDown :text="school.shortIntroduction"/>
@@ -46,6 +47,7 @@
 
 <script>
 import MarkDown from "@/components/MarkDown/MarkDown"
+
 export default {
   name: "Schools",
   components: {
@@ -102,7 +104,7 @@ export default {
 
 .elCard img {
   height: 100px;
-  width: 80px;
+  width: 96px;
   float: left;
   padding: 5px;
   margin: 0 10px 0 -13px;
@@ -116,6 +118,7 @@ export default {
   margin: -5px 0 5px 0;
   display: block;
 }
+
 .elCard a:hover {
   color: #4cb9fc;
 }
