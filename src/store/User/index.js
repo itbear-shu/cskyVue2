@@ -1,4 +1,5 @@
 import {getToken, setToken, rmToken} from "@/utils/token"
+import {reqGetUserInfo} from "@/api"
 import Vue from 'vue'
 
 const actions = {
@@ -21,7 +22,7 @@ const actions = {
 		}
 	},
 	async getUserInfo({commit}) {
-		let result = await Vue.prototype.$API.reqGetUserInfo()
+		let result = await reqGetUserInfo()
 		if (result.data.code === 200) {
 			commit('GETUSERINFO', result.data)
 			return true

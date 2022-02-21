@@ -83,19 +83,19 @@ let router = new VueRouter({
 		return {x: 0, y: 0}
 	}
 })
+import {getToken} from "@/utils/token"
 //配置全局前置路由守卫
 router.beforeEach(async (to, from, next) => {
-	if (localStorage.getItem("TOKEN")) {
-		//用户登录了还想取login组件
+	if (getToken()) {
+		//用户登录了还想去login组件
 		if (to.path === '/login') {
 			Vue.prototype.$message.warning({
 				duration: 1000,
 				message: '已经登录，不能再重复登录~'
 			})
-			next('/home')
+			next(from.path)
 		}
-		else
-		{
+		else {
 			//判断
 			if (store.state.user.userInfo.username) {
 				next()
@@ -116,7 +116,7 @@ router.beforeEach(async (to, from, next) => {
 		}
 	} else {
 		//未登录状态下
-		if (to.path.indexOf('/center') !== -1) {
+		if (to.path.indexOf('/md') !== -1) {
 			Vue.prototype.$message.warning({
 				duration: 1000,
 				message: '当前尚未登录，请先登录'

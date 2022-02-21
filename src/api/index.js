@@ -71,5 +71,17 @@ export const reqGetCommentById = (id)=>requests({
     method: 'get'
 })
 
+// 添加父评论
+export const reqAddParentComment = (data)=>requests({
+    url: '/comment/add',
+    method: 'post',
+    data
+})
 
+// 发帖
+export const reqSaveArticle = (data)=>requests({
+    url: '/article/add',
+    method: 'post',
+    data
+})
 

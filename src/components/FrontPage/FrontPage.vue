@@ -23,7 +23,12 @@
                   <el-card shadow="always" class="infoCard">
                     <ul>
                       <li>
-                        <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>
+                        <router-link :to="{
+                          path: '/article',
+                          query: {
+                            id: 10
+                          }
+                        }">10</router-link>
                       </li>
                       <li>
                         <router-link to="/article">河海大学2022年考研初试参考人数5207人</router-link>

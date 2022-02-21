@@ -35,9 +35,10 @@
             </div>
             <div class="userInfo">
               <router-link to="/home" class="userLink" style="text-decoration: none;">
-                小熊
+                {{author.username}}
               </router-link>
-              2022年2月8日18:47发表
+              {{create_time}}&nbsp;发表&nbsp;&nbsp;&nbsp;
+              最后修改于：{{model_time}}
             </div>
             <MarkDown :text="content" class="content"/>
             <div class="lcs">
@@ -57,9 +58,9 @@
                 <span>(100)</span>
               </a>
             </div>
-            <div class="tags">
+            <div class="tags" v-for="tag in tagList" :key="tag.id">
               相关标签：
-              <el-tag size="small">标签一</el-tag>
+              <el-tag size="small">{{tag.tagName}}</el-tag>
             </div>
           </el-card>
         </el-col>
@@ -94,8 +95,7 @@
           </el-card>
         </el-col>
       </el-row>
-
-      <el-row :gutter="20" class="elCol4">
+        <el-row :gutter="20" class="elCol4">
         <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
           <div class="grid-content bg-purple"></div>
         </el-col>
@@ -109,7 +109,7 @@
             <h1 class="title">全部评论 {{ commentCount }}</h1>
             <!--     回复区       -->
             <el-dialog
-                title="回复"
+                title="说点什么呢？"
                 :visible.sync="dialogVisible"
                 width="50%">
               <el-input
@@ -117,11 +117,10 @@
                   placeholder="回复xxx"
                   maxlength="200"
                   v-model="replyText"
-                  show-word-limit
-              />
+                  show-word-limit/>
               <span slot="footer" class="dialog-footer">
-                  <el-button @click="dialogVisible = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                  <el-button @click="giveup_son_click">取 消</el-button>
+                  <el-button type="primary" @click="submit_son_click">确 定</el-button>
                 </span>
             </el-dialog>
             <!--     评论列表      -->
@@ -129,9 +128,7 @@
               <div class="comment">
                 <div>
                   <a href="" class="user-link">
-                    <!--                    <el-avatar style="margin: 8px 8px;" size="medium" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>-->
-                    <el-avatar style="margin: 8px 8px;" size="medium"
-                               :src="comment.commentParent.commentorVo.userImg"></el-avatar>
+                    <el-avatar style="margin: 8px 8px;" size="medium" :src="comment.commentParent.commentorVo.userImg"></el-avatar>
                   </a>
                 </div>
                 <div class="content-box">
@@ -193,7 +190,7 @@
                         {{ comment.commentParent.praiseNum }}
                       </div>
                       <div class="reply">
-                        <a @click="dialogVisible = true" style="text-decoration: none;">回复</a>
+                        <a @click="reply(comment)" style="text-decoration: none;">回复</a>
                       </div>
                     </div>
                   </div>
@@ -201,9 +198,7 @@
                   <div class="comment" v-for="(childComment, index) in comment.commentChildrenList" :key="index">
                     <div>
                       <a href="" class="user-link">
-                        <!--                        <el-avatar style="margin: 8px 8px;" size="small" src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"></el-avatar>-->
-                        <el-avatar style="margin: 8px 8px;" size="small"
-                                   :src="childComment.commentorVo.userImg"></el-avatar>
+                        <el-avatar style="margin: 8px 8px;" size="small" :src="childComment.commentorVo.userImg"></el-avatar>
                       </a>
                     </div>
                     <div class="content-box">
@@ -272,7 +267,7 @@
                             {{ childComment.praiseNum }}
                           </div>
                           <div class="reply">
-                            <a style="text-decoration: none;" @click="dialogVisible = true">回复</a>
+                            <a style="text-decoration: none;" @click="reply">回复</a>
                           </div>
                         </div>
                       </div>
@@ -297,6 +292,7 @@
 <script>
 import MarkDown from '@/components/MarkDown/MarkDown'
 import CommentText from "@/components/CommentText/CommentText"
+import {getToken} from "@/utils/token"
 
 export default {
   name: "index",
@@ -310,17 +306,41 @@ export default {
       title: '',
       commentCount: 0,
       commentList: [],
-      placeholder: "想说点什么？",//默认文字提示。
+      tagList: [],
+      author: {},
+      create_time: '',
+      model_time: '',
+      placeholder: "想说点什么？评论支持markdown语法。",//默认文字提示。
       // 展示回复框
       dialogVisible: false,
-      replyText: ''
+      replyText: '',
+      article_id: 0
     }
   },
   methods: {
-    //点击评论按钮后，触发的事件。
-    //（在这之前会先检验是否为空、是否输入验证码）
-    submit_click() {
+    //点击评论按钮后，触发的事件
+    async submit_click() {
+      // 先判断是否登录
+      if (!getToken()) {
+        this.$message.warning('未登录，请先登录~')
+        await this.$router.push('/login')
+        return
+      }
       console.log("用户输入的评论内容是：" + this.comment_text);
+      const result = await this.$API.reqAddParentComment({
+        userId: this.$store.state.user.userInfo.userId,
+        userName: this.$store.state.user.userInfo.username,
+        articleId: this.$route.query.id,
+        articleTitle: this.title,
+        commentLevel: 1,
+        content: this.comment_text
+      })
+      if (result.data.code === 200) {
+        this.$refs.my_comment.success_submit("评论成功", 1500)
+      } else {
+        this.$message.error('系统异常~ ' + result.data.msg)
+        this.$refs.my_comment.err_submitFn("评论失败",1500)
+      }
       //你可以在这里验证用户输入的格式。
       //若格式错误可调用此函数：
       //this.$refs.my_comment.err_submitFn("格式错误",1500)
@@ -329,48 +349,57 @@ export default {
       //失败回调：
       // this.$refs.my_comment.err_submitFn("评论失败",1500)
       //成功回调
-      this.$refs.my_comment.success_submit("评论成功", 1500)
+      // this.$refs.my_comment.success_submit("评论成功", 1500)
     },
-    submit_son_click() {
+    async submit_son_click() {
       this.dialogVisible = false
+      // 先判断是否登录
+      if (!getToken()) {
+        this.$message.warning('未登录，请先登录~')
+        await this.$router.push('/login')
+        return
+      }
+      const result = await this.$API.reqAddParentComment({
+        userId: this.$store.state.user.userInfo.userId,
+        userName: this.$store.state.user.userInfo.username,
+        articleId: this.$route.query.id,
+        parentCommentId: 0,
+        parentCommentUserId: 0,
+        replyCommentId: 0,
+        replyCommentUserId: 0,
+        articleTitle: this.title,
+        commentLevel: 2,
+        content: this.replyText
+      })
+      console.log(result)
     },
     giveup_son_click() {
       this.dialogVisible = false
     },
+    reply(val) {
+      console.log(val)
+    },
     async getArticle() {
-      const result = await this.$API.reqGetArticleById(10)
+      const result = await this.$API.reqGetArticleById(this.$route.query.id)
       if (result.data.code === 200) {
-        this.title = result.data.data.title
-        this.content = result.data.data.content
+        this.title = result.data.data.article.title
+        this.content = result.data.data.article.content
+        this.author = result.data.data.author
+        this.tagList = result.data.data.tagsList
+        this.create_time = result.data.data.article.createTime
+        this.model_time = result.data.data.article.modifyTime
       } else {
         this.$message.error('系统异常~ ' + result.data.msg)
       }
     },
     async getComment() {
-      const result = await this.$API.reqGetCommentById(10)
+      const result = await this.$API.reqGetCommentById(this.$route.query.id)
       if (result.data.code === 200) {
         this.commentCount = result.data.data.commentCount
         this.commentList = result.data.data.commentReturnList
       } else {
         this.$message.error('系统异常~ ' + result.data.msg)
       }
-    },
-    addComment(comment, parent, add) {
-      // ...
-
-      // 需调用 add 函数，并传入 newComment 对象
-      // add(newComment)
-    },
-    deleteComment(comment, parent) {
-      // ...
-    },
-    likeComment(comment) {
-      // ...
-    },
-    uploadOrCopyImg({file, callback}) {
-      // ...
-
-      // callback(imgUrl) // 图片地址必传
     },
   },
   mounted() {
@@ -380,9 +409,6 @@ export default {
   computed: {
     comment_text() {//获取子组件的评论内容。
       return this.$refs.my_comment.insert_comment.comment_text;
-    },
-    comment_name() {//获取子组件的评论昵称。
-      return this.$refs.my_comment.insert_comment.comment_name;
     }
   }
 }

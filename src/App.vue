@@ -13,10 +13,6 @@ export default {
   components: {
     Header
   },
-  mounted() {
-    //调用action，只执行一次
-
-  }
 }
 </script>
 
