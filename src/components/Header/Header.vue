@@ -37,6 +37,9 @@
                   回复
                   <el-badge class="item" :value="0" type="warning"/>
                 </el-dropdown-item>
+                <el-dropdown-item class="clearfix" @click.native="toMd">
+                  发帖
+                </el-dropdown-item>
                 <el-dropdown-item class="clearfix" @click.native="logout">
                   <span>退出登录</span>
                 </el-dropdown-item>
@@ -123,14 +126,9 @@ export default {
       });
 
     },
-  },
-  mounted() {
-    this.$bus.$on('clear', () => {
-      this.keyWord = ''
-    })
-  },
-  beforeDestroy() {
-    this.$bus.$off('clear')
+    toMd() {
+      this.$router.push('/md')
+    }
   },
   computed: {
     username() {
@@ -139,9 +137,9 @@ export default {
       return ''
     },
     userImg() {
-      // if (this.$store.state.user.userInfo)
-      //   return this.$store.state.user.userInfo.userImg
-      return 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+      if (this.$store.state.user.userInfo)
+        return this.$store.state.user.userInfo.userImg
+      return ''
     }
   }
 }

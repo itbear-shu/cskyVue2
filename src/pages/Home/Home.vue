@@ -46,14 +46,6 @@ export default {
   components: {
     FrontPage, ApplyExam, Review,
   },
-  data() {
-    return {}
-  },
-  mounted() {
-
-  },
-  computed: {},
-  methods: {}
 }
 </script>
 
