@@ -35,10 +35,10 @@
             </div>
             <div class="userInfo">
               <router-link to="/home" class="userLink" style="text-decoration: none;">
-                {{author.username}}
+                {{ author.username }}
               </router-link>
-              {{create_time}}&nbsp;发表&nbsp;&nbsp;&nbsp;
-              最后修改于：{{model_time}}
+              {{ create_time }}&nbsp;发表&nbsp;&nbsp;&nbsp;
+              最后修改于：{{ model_time }}
             </div>
             <MarkDown :text="content" class="content"/>
             <div class="lcs">
@@ -60,7 +60,7 @@
             </div>
             <div class="tags" v-for="tag in tagList" :key="tag.id">
               相关标签：
-              <el-tag size="small">{{tag.tagName}}</el-tag>
+              <el-tag size="small">{{ tag.tagName }}</el-tag>
             </div>
           </el-card>
         </el-col>
@@ -95,7 +95,8 @@
           </el-card>
         </el-col>
       </el-row>
-        <el-row :gutter="20" class="elCol4">
+
+      <el-row :gutter="20" class="elCol4">
         <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
           <div class="grid-content bg-purple"></div>
         </el-col>
@@ -114,7 +115,7 @@
                 width="50%">
               <el-input
                   type="textarea"
-                  placeholder="回复xxx"
+                  :placeholder="'回复' + commentParam.username"
                   maxlength="200"
                   v-model="replyText"
                   show-word-limit/>
@@ -124,11 +125,11 @@
                 </span>
             </el-dialog>
             <!--     评论列表      -->
-            <div v-for="(comment, index) in commentList" :key="index">
+            <div v-for="comment in commentList" :key="comment.id">
               <div class="comment">
                 <div>
                   <a href="" class="user-link">
-                    <el-avatar style="margin: 8px 8px;" size="medium" :src="comment.commentParent.commentorVo.userImg"></el-avatar>
+                    <el-avatar style="margin: 8px 8px;" size="medium" :src="comment.author.userImg"></el-avatar>
                   </a>
                 </div>
                 <div class="content-box">
@@ -137,16 +138,16 @@
                     <div class="user-box">
                       <a href="" target="_blank" style="text-decoration: none;">
                         <span class="username">
-                          {{ comment.commentParent.commentorVo.username }}
+                          {{ comment.author.username }}
                         </span>
                       </a>
                       <!---->
-                      <time :title="comment.commentParent.createTime" class="time">
-                        {{ comment.commentParent.createTime }}
+                      <time :title="comment.createTime" class="time">
+                        {{ comment.createTime }}
                       </time>
                     </div>
                     <div class="comment-content">
-                      <MarkDown :text="comment.commentParent.content" class="content"/>
+                      <MarkDown :text="comment.content" class="content"/>
                     </div>
                     <!---->
                     <div class="action-box">
@@ -187,18 +188,18 @@
                         </a>
                       </div>
                       <div class="amount">
-                        {{ comment.commentParent.praiseNum }}
+                        {{ comment.praiseNum }}
                       </div>
                       <div class="reply">
-                        <a @click="reply(comment)" style="text-decoration: none;">回复</a>
+                        <a @click="reply(comment, 0)" style="text-decoration: none;">回复</a>
                       </div>
                     </div>
                   </div>
                   <!--     子评论            -->
-                  <div class="comment" v-for="(childComment, index) in comment.commentChildrenList" :key="index">
+                  <div class="comment" v-for="(childComment, index) in comment.children" :key="index">
                     <div>
                       <a href="" class="user-link">
-                        <el-avatar style="margin: 8px 8px;" size="small" :src="childComment.commentorVo.userImg"></el-avatar>
+                        <el-avatar style="margin: 8px 8px;" size="small" :src="childComment.author.userImg"></el-avatar>
                       </a>
                     </div>
                     <div class="content-box">
@@ -206,19 +207,19 @@
                         <div class="user-box">
                           <a target="_blank" rel="" style="text-decoration: none;">
                             <span class="username">
-                              {{ childComment.commentorVo.username }}
+                              {{ childComment.author.username }}
                             </span>
                           </a>
-                          <div v-if="childComment.beCommentorVo.username" style="display: inline;">
+                          <div v-if="childComment.author.username" style="display: inline;">
                             <span class="reply">回复</span>
                             <a target="_blank" rel="" style="text-decoration: none;">
                             <span class="username">
-                              {{ childComment.beCommentorVo.username }}
+                              {{ childComment.toUser.username }}
                             </span>
                             </a>
                           </div>
                           <!---->
-                          <time :title="childComment.commentorVo.createTime" class="time">
+                          <time :title="childComment.createTime" class="time">
                             {{ childComment.createTime }}
                           </time>
                         </div>
@@ -267,7 +268,7 @@
                             {{ childComment.praiseNum }}
                           </div>
                           <div class="reply">
-                            <a style="text-decoration: none;" @click="reply">回复</a>
+                            <a style="text-decoration: none;" @click="reply(childComment, 1, comment)">回复</a>
                           </div>
                         </div>
                       </div>
@@ -314,7 +315,13 @@ export default {
       // 展示回复框
       dialogVisible: false,
       replyText: '',
-      article_id: 0
+      // 回复用的comment
+      commentParam: {
+        userId: this.$store.state.user.userInfo.userId,
+        articleId: this.$route.query.id,
+        parentId: 0,
+        toUserId: 0
+      }
     }
   },
   methods: {
@@ -326,20 +333,14 @@ export default {
         await this.$router.push('/login')
         return
       }
-      console.log("用户输入的评论内容是：" + this.comment_text);
-      const result = await this.$API.reqAddParentComment({
-        userId: this.$store.state.user.userInfo.userId,
-        userName: this.$store.state.user.userInfo.username,
-        articleId: this.$route.query.id,
-        articleTitle: this.title,
-        commentLevel: 1,
-        content: this.comment_text
-      })
+      this.commentParam.content = this.comment_text
+      const result = await this.$API.reqAddParentComment(this.commentParam)
       if (result.data.code === 200) {
         this.$refs.my_comment.success_submit("评论成功", 1500)
+        await this.getComment()
       } else {
         this.$message.error('系统异常~ ' + result.data.msg)
-        this.$refs.my_comment.err_submitFn("评论失败",1500)
+        this.$refs.my_comment.err_submitFn("评论失败", 1500)
       }
       //你可以在这里验证用户输入的格式。
       //若格式错误可调用此函数：
@@ -352,32 +353,40 @@ export default {
       // this.$refs.my_comment.success_submit("评论成功", 1500)
     },
     async submit_son_click() {
-      this.dialogVisible = false
       // 先判断是否登录
       if (!getToken()) {
         this.$message.warning('未登录，请先登录~')
         await this.$router.push('/login')
         return
       }
-      const result = await this.$API.reqAddParentComment({
-        userId: this.$store.state.user.userInfo.userId,
-        userName: this.$store.state.user.userInfo.username,
-        articleId: this.$route.query.id,
-        parentCommentId: 0,
-        parentCommentUserId: 0,
-        replyCommentId: 0,
-        replyCommentUserId: 0,
-        articleTitle: this.title,
-        commentLevel: 2,
-        content: this.replyText
-      })
-      console.log(result)
+      if (this.replyText === '') {
+        this.$message.warning('评论区不能为空~')
+        return
+      }
+      this.commentParam.content = this.replyText
+      const result = await this.$API.reqAddParentComment(this.commentParam)
+      if (result.data.code === 200) {
+        this.$message.success('评论成功~')
+      } else {
+        this.$message.error('系统异常~ ' + result.data.msg)
+      }
+      this.replyText = ''
+      this.dialogVisible = false
+      await this.getComment()
     },
     giveup_son_click() {
       this.dialogVisible = false
     },
-    reply(val) {
-      console.log(val)
+    reply(comment, index, comment_) {
+      this.dialogVisible = true
+      if (index === 0) {
+        this.commentParam.parentId = comment.id
+        this.commentParam.toUserId = comment.author.userId
+        this.commentParam.username = comment.author.username
+      } else {
+        this.commentParam.parentId = comment_.id
+        this.commentParam.username = comment.author.username
+      }
     },
     async getArticle() {
       const result = await this.$API.reqGetArticleById(this.$route.query.id)
