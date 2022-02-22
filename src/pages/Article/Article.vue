@@ -278,6 +278,15 @@
               </div>
               <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
             </div>
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page.current"
+                :page-sizes="[10, 5, 3, 1]"
+                :page-size="page.size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
           </el-card>
         </el-col>
         <el-col :xs="0" :sm="0" :md="0" :lg="0" :xl="4">
@@ -321,7 +330,14 @@ export default {
         articleId: this.$route.query.id,
         parentId: 0,
         toUserId: 0
-      }
+      },
+      // 分页信息
+      page: {
+        current: 1,
+        size: 10
+      },
+      pages: 0,
+      total: 0
     }
   },
   methods: {
@@ -402,14 +418,34 @@ export default {
       }
     },
     async getComment() {
-      const result = await this.$API.reqGetCommentById(this.$route.query.id)
+      const loading = this.$loading({
+        lock: true,
+        text: '加载中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.6)'
+      });
+      const result = await this.$API.reqGetCommentById({
+        articleId: this.$route.query.id,
+        page: this.page
+      })
+      loading.close();
       if (result.data.code === 200) {
         this.commentCount = result.data.data.commentCount
-        this.commentList = result.data.data.commentReturnList
+        this.commentList = result.data.data.commentVoList
+        this.pages = result.data.data.pages
+        this.total = result.data.data.total
       } else {
         this.$message.error('系统异常~ ' + result.data.msg)
       }
     },
+    handleSizeChange(size) {
+      this.page.size = size
+      this.getComment()
+    },
+    handleCurrentChange(current) {
+      this.page.current = current
+      this.getComment()
+    }
   },
   mounted() {
     this.getArticle()
