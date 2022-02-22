@@ -15,8 +15,8 @@
             <el-menu-item index="2-4-1">考研真题</el-menu-item>
           </el-submenu>
           <el-menu-item index="/schoolList">34所高校</el-menu-item>
-          <el-menu-item index="/article">帖子</el-menu-item>
           <el-menu-item index="/timeLine">考研时间线</el-menu-item>
+          <el-menu-item index="/md">发布文章</el-menu-item>
           <el-menu-item index="/register" v-if="!username" style="float: right;">注册</el-menu-item>
           <el-menu-item index="/login" v-if="!username" style="float: right;">登录</el-menu-item>
           <el-menu-item v-if="username" style="float: right;">
@@ -37,9 +37,9 @@
                   回复
                   <el-badge class="item" :value="0" type="warning"/>
                 </el-dropdown-item>
-                <el-dropdown-item class="clearfix" @click.native="toMd">
+<!--                <el-dropdown-item class="clearfix" @click.native="toMd">
                   发帖
-                </el-dropdown-item>
+                </el-dropdown-item>-->
                 <el-dropdown-item class="clearfix" @click.native="logout">
                   <span>退出登录</span>
                 </el-dropdown-item>
@@ -126,9 +126,9 @@ export default {
       });
 
     },
-    toMd() {
+/*    toMd() {
       this.$router.push('/md')
-    }
+    }*/
   },
   computed: {
     username() {

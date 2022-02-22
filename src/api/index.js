@@ -66,9 +66,10 @@ export const reqGetArticleById = (id)=>requests({
 })
 
 // 查询评论
-export const reqGetCommentById = (id)=>requests({
-    url: `/comment/${id}`,
-    method: 'get'
+export const reqGetCommentById = (data)=>requests({
+    url: `/comment/get`,
+    method: 'post',
+    data
 })
 
 // 添加父评论
@@ -83,5 +84,11 @@ export const reqSaveArticle = (data)=>requests({
     url: '/article/add',
     method: 'post',
     data
+})
+
+// 获取schoolNameList
+export const reqGetSchoolNameList = ()=>requests({
+    url: '/school/schoolNameList',
+    method: 'get'
 })
 

@@ -3,12 +3,30 @@
     <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
-        width="30%">
-      <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  </span>
+        width="60%">
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="所属高校">
+          <el-autocomplete
+              v-model="state"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="请输入学校名称"
+              @select="handleSelect"
+          ></el-autocomplete>
+        </el-form-item>
+        <el-form-item label="活动性质">
+          <el-transfer
+              filterable
+              :filter-method="filterMethod"
+              filter-placeholder="请输入城市拼音"
+              v-model="value"
+              :data="data">
+          </el-transfer>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="saveArticle">立即发布</el-button>
+          <el-button @click="dialogVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
     </el-dialog>
     <!--  面包屑  -->
     <el-row :gutter="20" class="all">
@@ -33,8 +51,7 @@
         <el-input v-model="title" placeholder="请输入内容"></el-input>
       </el-col>
       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-        <el-button type="primary" @click="save(0)">保存草稿</el-button>
-        <el-button type="success" @click="save(1)">发布文章</el-button>
+        <el-button type="success" @click="dialogVisible = true">发布文章</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -58,20 +75,69 @@ export default {
     return {
       mdText: '',
       title: '',
-      dialogVisible: false
+      dialogVisible: false,
+      tagIdList: [],
+      schoolId: 0,
+      form: {},
+      schoolList: [],
+      state: '',
+      timeout: null
     }
   },
   methods: {
-    save(index) {
-      this.dialogVisible = true
-      this.$API.reqSaveArticle({
+    async saveArticle() {
+      if (!this.schoolId) {
+        this.$message.warning('请选择学校...')
+        return
+      }
+      if (!this.tagIdList) {
+        this.$message.warning('请选择文章所属标签...')
+        return
+      }
+      const result = await this.$API.reqSaveArticle({
         title: this.title,
         content: this.mdText,
-        status: index,
-        aid: 0,
-        authorId: this.$store.state.user.userInfo.userId
+        schoolId: this.schoolId,
+        authorId: this.$store.state.user.userInfo.userId,
+        tagIdList: this.tagIdList
       })
+      /*if (result.data.code === 200) {
+
+      }*/
+    },
+    async loadAll() {
+      const result = await this.$API.reqGetSchoolNameList()
+      if (result.data.code === 200) {
+        this.schoolList= result.data.data.map((school) => {
+          return {
+            value: school.sname,
+            name: school.sid,
+          };
+        });
+      } else {
+        this.$message.error('系统异常~ ' + result.data.msg)
+      }
+    },
+    querySearchAsync(queryString, cb) {
+      let schoolList = this.schoolList;
+      let results = queryString ? schoolList.filter(this.createStateFilter(queryString)) : schoolList;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 2000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
+    handleSelect(item) {
+      this.schoolId = item.name
     }
+  },
+  mounted() {
+    this.loadAll()
   }
 }
 </script>
