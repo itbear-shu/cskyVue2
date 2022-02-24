@@ -3,9 +3,6 @@
     <!--  面包屑  -->
     <el-row :gutter="20">
       <el-col :span="20" :offset="2">
-        <el-backtop>
-          <i class="el-icon-caret-top"></i>
-        </el-backtop>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
           <el-breadcrumb-item></el-breadcrumb-item>
           <el-breadcrumb-item>帖子</el-breadcrumb-item>
@@ -29,7 +26,7 @@
                 </span>
                 <span style="color: #77b72c; font-weight: bold;">
                   <i class="el-icon-view"></i>
-                  <span>100</span>
+                  <span>{{historyCount}}</span>
                 </span>
               </span>
             </div>
@@ -45,17 +42,17 @@
               <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;">
                 <img src="@/assets/icon/like.png" alt="点赞">
                 点赞
-                <span>(100)</span>
+                <span>({{likesCount}})</span>
               </a>
               <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;">
                 <img src="@/assets/icon/collect.png" alt="收藏">
                 收藏
-                <span>(100)</span>
+                <span>({{favoriteCount}})</span>
               </a>
               <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;">
                 <img src="@/assets/icon/share.png" alt="转发">
                 转发
-                <span>(100)</span>
+                <span>({{repostCount}})</span>
               </a>
             </div>
             <div class="tags" v-for="tag in tagList" :key="tag.id">
@@ -314,6 +311,10 @@ export default {
       content: '',
       comments: '',
       title: '',
+      likesCount: 0,
+      repostCount: 0,
+      favoriteCount: 0,
+      historyCount: 0,
       commentCount: 0,
       commentList: [],
       tagList: [],
@@ -413,6 +414,10 @@ export default {
         this.tagList = result.data.data.tagsList
         this.create_time = result.data.data.article.createTime
         this.model_time = result.data.data.article.modifyTime
+        this.likesCount = result.data.data.likesCount
+        this.repostCount = result.data.data.repostCount
+        this.favoriteCount = result.data.data.favoriteCount
+        this.historyCount = result.data.data.historyCount
       } else {
         this.$message.error('系统异常~ ' + result.data.msg)
       }

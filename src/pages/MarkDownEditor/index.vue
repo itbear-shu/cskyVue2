@@ -18,8 +18,8 @@
               filterable
               :filter-method="filterMethod"
               filter-placeholder="请输入城市拼音"
-              v-model="value"
-              :data="data">
+              v-model="tagNameValue"
+              :data="tagNameData">
           </el-transfer>
         </el-form-item>
         <el-form-item>
@@ -51,12 +51,12 @@
         <el-input v-model="title" placeholder="请输入内容"></el-input>
       </el-col>
       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-        <el-button type="success" @click="dialogVisible = true">发布文章</el-button>
+        <el-button type="success" @click="dialogVisible = true; getTagNameList();">发布文章</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="20" :offset="2">
-        <mavon-editor v-model="mdText"></mavon-editor>
+        <mavon-editor v-model="mdText" class="me-editor"></mavon-editor>
       </el-col>
     </el-row>
   </div>
@@ -72,6 +72,17 @@ export default {
     mavonEditor
   },
   data() {
+    const generateData = _ => {
+      const data = [];
+      const tagNameList = this.tagNameList;
+      tagNameList.forEach((tag, index) => {
+        data.push({
+          label: tag.tagName,
+          key: index,
+        });
+      });
+      return data;
+    };
     return {
       mdText: '',
       title: '',
@@ -81,7 +92,13 @@ export default {
       form: {},
       schoolList: [],
       state: '',
-      timeout: null
+      timeout: null,
+      tagNameList: [],
+      tagNameData: generateData(),
+      tagNameValue: [],
+      filterMethod(query, item) {
+        return item.pinyin.indexOf(query) > -1;
+      }
     }
   },
   methods: {
@@ -101,10 +118,22 @@ export default {
         authorId: this.$store.state.user.userInfo.userId,
         tagIdList: this.tagIdList
       })
-      /*if (result.data.code === 200) {
+      if (result.data.code === 200) {
 
-      }*/
+      }
     },
+    async getTagNameList() {
+      const result = await this.$API.reqGetTagNameList()
+      if (result.data.code === 200) {
+        this.tagNameList = result.data.data
+      } else {
+        this.$message.error('系统异常~ ' + result.data.msg)
+      }
+    },
+    /**
+     * 学校列表
+     * @returns {Promise<void>}
+     */
     async loadAll() {
       const result = await this.$API.reqGetSchoolNameList()
       if (result.data.code === 200) {
@@ -150,6 +179,10 @@ export default {
 #editor {
   height: 100px;
   margin: 20px 30px;
+}
+
+.me-editor {
+  z-index: 6 !important;
 }
 
 </style>

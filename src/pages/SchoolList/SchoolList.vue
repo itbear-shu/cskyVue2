@@ -1,9 +1,6 @@
 <template>
   <el-row :gutter="20">
     <el-col :span="20" :offset="2">
-      <el-backtop>
-        <i class="el-icon-caret-top"></i>
-      </el-backtop>
       <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
         <el-breadcrumb-item></el-breadcrumb-item>
         <el-breadcrumb-item>院校列表</el-breadcrumb-item>
