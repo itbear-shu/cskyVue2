@@ -26,7 +26,7 @@
                 </span>
                 <span style="color: #77b72c; font-weight: bold;">
                   <i class="el-icon-view"></i>
-                  <span>{{historyCount}}</span>
+                  <span>{{ historyCount }}</span>
                 </span>
               </span>
             </div>
@@ -39,20 +39,20 @@
             </div>
             <MarkDown :text="content" class="content"/>
             <div class="lcs">
-              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;">
+              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;" @click="addLikes">
                 <img src="@/assets/icon/like.png" alt="点赞">
                 点赞
-                <span>({{likesCount}})</span>
+                <span>({{ likesCount }})</span>
               </a>
-              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;">
+              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;" @click="addFavorite">
                 <img src="@/assets/icon/collect.png" alt="收藏">
                 收藏
-                <span>({{favoriteCount}})</span>
+                <span>({{ favoriteCount }})</span>
               </a>
-              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;">
+              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;" @click="addRepost">
                 <img src="@/assets/icon/share.png" alt="转发">
                 转发
-                <span>({{repostCount}})</span>
+                <span>({{ repostCount }})</span>
               </a>
             </div>
             <div class="tags" v-for="tag in tagList" :key="tag.id">
@@ -312,8 +312,11 @@ export default {
       comments: '',
       title: '',
       likesCount: 0,
+      isLiked: false,
       repostCount: 0,
+      isRepost: false,
       favoriteCount: 0,
+      isFavorite: false,
       historyCount: 0,
       commentCount: 0,
       commentList: [],
@@ -450,11 +453,56 @@ export default {
     handleCurrentChange(current) {
       this.page.current = current
       this.getComment()
+    },
+    async addLikes() {
+      if (!this.isLiked) {
+        const result = await this.$API.addLikes({
+          aid: this.$route.query.id,
+          uid: this.$store.state.user.userInfo.userId
+        })
+        if (result.data.code === 200) {
+          this.isLiked = true
+        } else {
+          this.$message.error('点赞失败')
+        }
+      } else {
+        this.$message.info('点过了')
+      }
+    },
+    async addFavorite() {
+      if (!this.isFavorite) {
+        const result = await this.$API.addFavorite({
+          aid: this.$route.query.id,
+          uid: this.$store.state.user.userInfo.userId
+        })
+        if (result.data.code === 200) {
+          this.isFavorite = true
+        } else {
+          this.$message.error('收藏失败')
+        }
+      } else {
+        this.$message.info('点过了')
+      }
+    },
+    async addRepost() {
+      this.isRepost = true
+      const result = await this.$API.addRepost({
+        aid: this.$route.query.id,
+        uid: this.$store.state.user.userInfo.userId
+      })
+      if (result.data.code === 200) {
+        this.repostCount++
+      }
     }
   },
   mounted() {
     this.getArticle()
     this.getComment()
+
+    this.$API.reqAddHistory({
+      aid: this.$route.query.id,
+      uid: this.$store.state.user.userInfo.userId
+    })
   },
   computed: {
     comment_text() {//获取子组件的评论内容。

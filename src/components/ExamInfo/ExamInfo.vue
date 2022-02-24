@@ -54,28 +54,13 @@
           <el-descriptions direction="vertical"
                            :column="1" size="medium" :colon="false">
             <el-descriptions-item>
-              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
+              <a style="color: #4cb9fc;" :href="recruitment.indexOf('URL: ') === -1 ? recruitment : recruitment.slice(4)">
                 招生简章
-              </router-link>
+              </a>
             </el-descriptions-item>
             <el-descriptions-item>
-              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
-                成绩查询
-              </router-link>
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
+              <router-link style="color: #4cb9fc;" to="/scoreLine">
                 分数线
-              </router-link>
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
-                专业介绍
-              </router-link>
-            </el-descriptions-item>
-            <el-descriptions-item>
-              <router-link style="color: #4cb9fc; text-decoration: none" to="/home">
-                真题查询
               </router-link>
             </el-descriptions-item>
           </el-descriptions>
@@ -89,11 +74,21 @@
 
 export default {
   name: "index",
+  props: ['schoolIntroduce'],
   data() {
     return {
-
+      sid: 0,
+      sname: '',
+      recruitment: ''
     }
   },
+  watch: {
+    schoolIntroduce(sc) {
+      this.sid = sc.sid
+      this.sname = sc.sname
+      this.recruitment = sc.recruitment
+    }
+  }
 }
 </script>
 

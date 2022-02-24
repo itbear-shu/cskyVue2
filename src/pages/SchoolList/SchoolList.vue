@@ -3,6 +3,7 @@
     <el-col :span="20" :offset="2">
       <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
         <el-breadcrumb-item></el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>院校列表</el-breadcrumb-item>
       </el-breadcrumb>
       <div>

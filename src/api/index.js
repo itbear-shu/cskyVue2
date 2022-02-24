@@ -98,3 +98,31 @@ export const reqGetTagNameList = ()=>requests({
     method: 'get'
 })
 
+// 增加浏览量
+export const reqAddHistory = (data)=>requests({
+    url: '/article/addHistory',
+    method: 'post',
+    data
+})
+
+// 增加浏览量
+export const addLikes = (data)=>requests({
+    url: '/article/addLikes',
+    method: 'post',
+    data
+})
+
+// 增加浏览量
+export const addFavorite = (data)=>requests({
+    url: '/article/addFavorite',
+    method: 'post',
+    data
+})
+
+// 增加浏览量
+export const addRepost = (data)=>requests({
+    url: '/article/addRepost',
+    method: 'post',
+    data
+})
+
