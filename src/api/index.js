@@ -92,3 +92,9 @@ export const reqGetSchoolNameList = ()=>requests({
     method: 'get'
 })
 
+// 获取tagNameList
+export const reqGetTagNameList = ()=>requests({
+    url: '/tag/list',
+    method: 'get'
+})
+

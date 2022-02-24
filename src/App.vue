@@ -1,5 +1,8 @@
 <template>
   <div id="outer">
+    <el-backtop>
+      <i class="el-icon-caret-top"></i>
+    </el-backtop>
     <Header></Header>
     <router-view></router-view>
   </div>

@@ -117,11 +117,12 @@ router.beforeEach(async (to, from, next) => {
 	} else {
 		//未登录状态下
 		if (to.path.indexOf('/md') !== -1) {
-			Vue.prototype.$message.warning({
+			next()
+			/*Vue.prototype.$message.warning({
 				duration: 1000,
 				message: '当前尚未登录，请先登录'
 			})
-			next('/login?redirect=' + to.path)
+			next('/login?redirect=' + to.path)*/
 		} else {
 			next()
 		}
