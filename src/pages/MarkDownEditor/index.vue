@@ -16,10 +16,15 @@
         <el-form-item label="活动性质">
           <el-transfer
               filterable
-              :filter-method="filterMethod"
+              :filter-method="filterTagName"
               filter-placeholder="请输入标签名"
-              v-model="tagNameValue"
-              :data="tagNameData">
+              :props="{
+                key: 'id',
+                label: 'tagName'
+              }"
+              :titles="['全部标签', '已选标签']"
+              v-model="tagIdList"
+              :data="tagNameList">
           </el-transfer>
         </el-form-item>
         <el-form-item>
@@ -56,7 +61,12 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="20" :offset="2">
-        <mavon-editor v-model="mdText" class="me-editor"></mavon-editor>
+        <mavon-editor
+            v-model="mdText"
+            class="me-editor"
+            ref="md"
+            @imgAdd="$imgAdd"
+        ></mavon-editor>
       </el-col>
     </el-row>
   </div>
@@ -67,22 +77,11 @@ import {mavonEditor} from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
 export default {
-  name: "index",
+  name: "md",
   components: {
     mavonEditor
   },
   data() {
-    const generateData = () => {
-      const data = [];
-      const tagNameList = this.tagNameList;
-      tagNameList.forEach((tag, index) => {
-        data.push({
-          label: tag.tagName,
-          key: index,
-        });
-      });
-      return data;
-    };
     return {
       mdText: '',
       title: '',
@@ -94,25 +93,79 @@ export default {
       state: '',
       timeout: null,
       tagNameList: [],
-      tagNameData: generateData(),
-      tagNameValue: [],
     }
   },
   methods: {
-    filterMethod(query, item) {
-      // return item.pinyin.indexOf(query) > -1;
+    // 绑定@imgAdd event
+    $imgAdd(pos, $file) {
+      // 第一步.将图片上传到服务器.
+      var formdata = new FormData();
+      formdata.append('image', $file);
+      this.img_file[pos] = $file;
+      this.$http({
+        url: '/upload/image',
+        method: 'post',
+        data: formdata,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }).then((res) => {
+        let _res = res.data;
+        // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+        this.$refs.md.$img2Url(pos, _res.url);
+      })
+    },
+    handleEditorImgAdd (pos, $file) {
+      let formdata = new FormData()
+      formdata.append('file', $file)
+      this.imgFile[pos] = $file
+      let instance = this.$axios.create({
+        withCredentials: true,
+        headers: {
+          Authorization: token   // 我上传的时候请求头需要带上token 验证，不需要的删除就好
+        }
+      })
+      instance.post('/api/upload/fileds', formdata).then(res => {
+        if (res.data.code === 200) {
+          this.$Message.success('上传成功')
+          let url = res.data.data
+          let name = $file.name
+          if (name.includes('-')) {
+            name = name.replace(/-/g, '')
+          }
+          let content = this.form.content
+          // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)  这里是必须要有的
+          if (content.includes(name)) {
+            let oStr = `(${pos})`
+            let nStr = `(${url})`
+            let index = content.indexOf(oStr)
+            let str = content.replace(oStr, '')
+            let insertStr = (soure, start, newStr) => {
+              return soure.slice(0, start) + newStr + soure.slice(start)
+            }
+            this.form.content = insertStr(str, index, nStr)
+          }
+        } else {
+          this.$Message.error(res.data.msg)
+        }
+      })
+    },
+    filterTagName(query, item) {
+      return item.tagName.indexOf(query) > -1
     },
     toSaveArticle() {
+      if (!this.title) {
+        this.$message.warning('请输入标题...')
+        return
+      }
+      if (!this.mdText) {
+        this.$message.warning('请输入文章内容...')
+        return
+      }
       this.dialogVisible = true
       this.getTagNameList()
     },
     async saveArticle() {
-      if (!this.schoolId) {
-        this.$message.warning('请选择学校...')
-        return
-      }
       if (!this.tagIdList) {
-        this.$message.warning('请选择文章所属标签...')
+        this.$message.warning('请选至少选择一个标签...')
         return
       }
       const result = await this.$API.reqSaveArticle({
@@ -123,7 +176,15 @@ export default {
         tagIdList: this.tagIdList
       })
       if (result.data.code === 200) {
-          //1
+        this.$message.success('发布成功~')
+        await this.$router.push({
+          path: '/article',
+          query: {
+            id: result.data.data.data.id
+          }
+        })
+      } else {
+        this.$message.error('系统异常~ ' + result.data.data.msg)
       }
     },
     async getTagNameList() {
@@ -141,7 +202,7 @@ export default {
     async loadAll() {
       const result = await this.$API.reqGetSchoolNameList()
       if (result.data.code === 200) {
-        this.schoolList= result.data.data.map((school) => {
+        this.schoolList = result.data.data.map((school) => {
           return {
             value: school.sname,
             name: school.sid,

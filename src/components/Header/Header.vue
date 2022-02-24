@@ -9,10 +9,8 @@
           <el-menu-item index="/home">首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title">考研网</template>
-            <el-menu-item index="2-2">考研分数线</el-menu-item>
-            <el-menu-item index="2-3">考研调剂</el-menu-item>
-            <el-menu-item index="2-3">考研问答</el-menu-item>
-            <el-menu-item index="2-4-1">考研真题</el-menu-item>
+            <el-menu-item index="/scoreLineList">考研分数线</el-menu-item>
+            <el-menu-item index="/examQuestion">考研真题</el-menu-item>
           </el-submenu>
           <el-menu-item index="/schoolList">34所高校</el-menu-item>
           <el-menu-item index="/timeLine">考研时间线</el-menu-item>

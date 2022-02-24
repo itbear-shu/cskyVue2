@@ -2,11 +2,8 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="20" :offset="2">
-        <el-backtop>
-          <i class="el-icon-caret-top"></i>
-        </el-backtop>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="bread">
-          <el-breadcrumb-item></el-breadcrumb-item>
+          <el-breadcrumb-item to="/home">首页</el-breadcrumb-item>
           <el-breadcrumb-item to="/schools">院校列表</el-breadcrumb-item>
           <el-breadcrumb-item>{{school.sname}}</el-breadcrumb-item>
         </el-breadcrumb>
@@ -22,7 +19,11 @@
         sname: school.sname
      }">
      </school-introduce>
-     <profession-introduce></profession-introduce>
+     <profession-introduce :schoolIntroduce="{
+       sid: school.sid,
+       sname: school.sname,
+       recruitment: school.recruitment
+     }"></profession-introduce>
      <teacher-introduce></teacher-introduce>
    </div>
   </div>
