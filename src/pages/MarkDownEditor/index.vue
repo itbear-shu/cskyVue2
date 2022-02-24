@@ -17,7 +17,7 @@
           <el-transfer
               filterable
               :filter-method="filterMethod"
-              filter-placeholder="请输入城市拼音"
+              filter-placeholder="请输入标签名"
               v-model="tagNameValue"
               :data="tagNameData">
           </el-transfer>
@@ -51,7 +51,7 @@
         <el-input v-model="title" placeholder="请输入内容"></el-input>
       </el-col>
       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-        <el-button type="success" @click="dialogVisible = true; getTagNameList();">发布文章</el-button>
+        <el-button type="success" @click="toSaveArticle">发布文章</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -72,7 +72,7 @@ export default {
     mavonEditor
   },
   data() {
-    const generateData = _ => {
+    const generateData = () => {
       const data = [];
       const tagNameList = this.tagNameList;
       tagNameList.forEach((tag, index) => {
@@ -96,12 +96,16 @@ export default {
       tagNameList: [],
       tagNameData: generateData(),
       tagNameValue: [],
-      filterMethod(query, item) {
-        return item.pinyin.indexOf(query) > -1;
-      }
     }
   },
   methods: {
+    filterMethod(query, item) {
+      // return item.pinyin.indexOf(query) > -1;
+    },
+    toSaveArticle() {
+      this.dialogVisible = true
+      this.getTagNameList()
+    },
     async saveArticle() {
       if (!this.schoolId) {
         this.$message.warning('请选择学校...')
@@ -119,7 +123,7 @@ export default {
         tagIdList: this.tagIdList
       })
       if (result.data.code === 200) {
-
+          //1
       }
     },
     async getTagNameList() {
