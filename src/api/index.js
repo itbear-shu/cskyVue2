@@ -126,3 +126,31 @@ export const addRepost = (data)=>requests({
     data
 })
 
+// 上传图片
+export const reqUploadImage = (data)=>requests({
+    url: '/upload/image',
+    method: 'post',
+    data,
+    headers: { 'Content-Type': 'multipart/form-data' },
+})
+
+// 添加新的标签
+export const reqAddNewTag = (data)=>requests({
+    url: '/tag/addTagName',
+    method: 'post',
+    data
+})
+
+// 获取招考信息
+export const reqGetRecruitInfo = (data)=>requests({
+    url: '/article/getRecruitInfo',
+    method: 'post',
+    data
+})
+
+// 获取真题
+export const reqGetExamQuestion = (data)=>requests({
+    url: '/File/getFiles',
+    method: 'post',
+    data
+})

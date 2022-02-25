@@ -9,52 +9,30 @@
       <el-col class="elCol1" :span="14" :push="2">
         <el-card shadow="always">
           <ul>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-            </li>
-            <li class="liLink">
-              <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
+            <li class="liLink" v-for="item in recruitInfoVoList" :key="item.articleId">
+              <router-link :to="{
+                path: '/article',
+                query: {
+                  id: item.articleId
+                }
+              }" style="text-decoration: none; color: #049cdb">{{item.title}}</router-link>
             </li>
           </ul>
           <el-pagination
               style="text-align: center"
-              :page-size="10"
+              :page-size="size"
               small
               layout="prev, pager, next"
-              :total="50">
+              @current-change="currentChange"
+              :total="total">
           </el-pagination>
         </el-card>
       </el-col>
       <el-col class="elCol2" :span="10" :push="2">
         <el-card shadow="always">
-          <el-descriptions direction="vertical"
-                           :column="1" size="medium" :colon="false">
+          <el-descriptions direction="vertical" :column="1" size="medium" :colon="false">
             <el-descriptions-item>
-              <a style="color: #4cb9fc;" :href="recruitment.indexOf('URL: ') === -1 ? recruitment : recruitment.slice(4)">
+              <a style="color: #4cb9fc;" :href="recruitment.indexOf('URL: ') === -1 ? recruitment : recruitment.slice(4)" target="_blank">
                 招生简章
               </a>
             </el-descriptions-item>
@@ -79,14 +57,43 @@ export default {
     return {
       sid: 0,
       sname: '',
-      recruitment: ''
+      recruitment: '',
+      recruitInfoVoList: [],
+      current: 0,
+      size: 0,
+      total: 0,
     }
   },
   watch: {
-    schoolIntroduce(sc) {
+    async schoolIntroduce(sc) {
       this.sid = sc.sid
       this.sname = sc.sname
       this.recruitment = sc.recruitment
+
+      await this.getRecruitInfo()
+    }
+  },
+  methods: {
+    currentChange(current) {
+      this.current = current
+      this.getRecruitInfo()
+    },
+    async getRecruitInfo() {
+      const result = await this.$API.reqGetRecruitInfo({
+        schoolId: this.sid,
+        page: {
+          current: this.current,
+          size: 10
+        }
+      })
+      if (result.data.code === 200) {
+        this.recruitInfoVoList = result.data.data.recruitInfoVoList
+        this.current = result.data.data.current
+        this.size = result.data.data.size
+        this.total = result.data.data.total
+      } else {
+        this.$message.error('系统异常~ ' + result.data.msg)
+      }
     }
   }
 }

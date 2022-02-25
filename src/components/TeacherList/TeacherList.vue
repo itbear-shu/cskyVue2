@@ -20,11 +20,24 @@
               prop="tname"
               label="教师姓名"
               width="200">
+            <template slot-scope="scope">
+              <div slot="reference">
+                <el-tag size="medium">{{ scope.row.tname }}</el-tag>
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
               prop="studydir"
               label="专业方向"
               width="500">
+            <template slot-scope="scope">
+              <div slot="reference" v-if="scope.row.studydir">
+                {{ scope.row.studydir }}
+              </div>
+              <div slot="reference" v-if="!scope.row.studydir">
+                暂无
+              </div>
+            </template>
           </el-table-column>
           <el-table-column
               label="操作"
