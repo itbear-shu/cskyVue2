@@ -7,12 +7,15 @@
         <el-menu :default-active="$route.path" class="top" mode="horizontal" background-color="#ffffff"
                  router text-color="#8dc4fd" active-text-color="#1989fa">
           <el-menu-item index="/home">首页</el-menu-item>
-          <el-submenu index="2">
-            <template slot="title">考研网</template>
-            <el-menu-item index="/scoreLineList">考研分数线</el-menu-item>
-            <el-menu-item index="/examQuestion">考研真题</el-menu-item>
-          </el-submenu>
           <el-menu-item index="/schoolList">34所高校</el-menu-item>
+          <el-menu-item index="/scoreLineList">考研分数线</el-menu-item>
+          <el-submenu>
+            <template slot="title">考研真题</template>
+            <el-menu-item index="/examQuestion?id=4">计算机408</el-menu-item>
+            <el-menu-item index="/examQuestion?id=2">考研英语</el-menu-item>
+            <el-menu-item index="/examQuestion?id=1">考研政治</el-menu-item>
+            <el-menu-item index="/examQuestion?id=3">考研数学</el-menu-item>
+          </el-submenu>
           <el-menu-item index="/timeLine">考研时间线</el-menu-item>
           <el-menu-item index="/md">发布文章</el-menu-item>
           <el-menu-item index="/register" v-if="!username" style="float: right;">注册</el-menu-item>
@@ -27,17 +30,9 @@
                 <i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item class="clearfix">
-                  评论
-                  <el-badge class="item" :value="0"/>
+                <el-dropdown-item class="clearfix" @click.native="register">
+                  注册
                 </el-dropdown-item>
-                <el-dropdown-item class="clearfix">
-                  回复
-                  <el-badge class="item" :value="0" type="warning"/>
-                </el-dropdown-item>
-<!--                <el-dropdown-item class="clearfix" @click.native="toMd">
-                  发帖
-                </el-dropdown-item>-->
                 <el-dropdown-item class="clearfix" @click.native="logout">
                   <span>退出登录</span>
                 </el-dropdown-item>
@@ -124,9 +119,9 @@ export default {
       });
 
     },
-/*    toMd() {
-      this.$router.push('/md')
-    }*/
+    register() {
+      this.$router.push('/register')
+    }
   },
   computed: {
     username() {

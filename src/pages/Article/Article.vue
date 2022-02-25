@@ -55,9 +55,9 @@
                 <span>({{ repostCount }})</span>
               </a>
             </div>
-            <div class="tags" v-for="tag in tagList" :key="tag.id">
+            <div class="tags">
               相关标签：
-              <el-tag size="small">{{ tag.tagName }}</el-tag>
+              <el-tag size="small" v-for="tag in tagList" :key="tag.id" style="margin-right: 14px;">{{ tag.tagName }}</el-tag>
             </div>
           </el-card>
         </el-col>
@@ -455,6 +455,11 @@ export default {
       this.getComment()
     },
     async addLikes() {
+      if (!getToken()) {
+        this.$message.warning('当前尚未登录，请先登录')
+        await this.$router.push('/login')
+        return
+      }
       if (!this.isLiked) {
         const result = await this.$API.addLikes({
           aid: this.$route.query.id,
@@ -470,6 +475,11 @@ export default {
       }
     },
     async addFavorite() {
+      if (!getToken()) {
+        this.$message.warning('当前尚未登录，请先登录')
+        await this.$router.push('/login')
+        return
+      }
       if (!this.isFavorite) {
         const result = await this.$API.addFavorite({
           aid: this.$route.query.id,
@@ -485,6 +495,11 @@ export default {
       }
     },
     async addRepost() {
+      if (!getToken()) {
+        this.$message.warning('当前尚未登录，请先登录')
+        await this.$router.push('/login')
+        return
+      }
       this.isRepost = true
       const result = await this.$API.addRepost({
         aid: this.$route.query.id,

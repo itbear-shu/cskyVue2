@@ -13,8 +13,26 @@
               <el-timeline-item timestamp="1-2月" placement="top">
                 <el-card>
                   <h4>在线估分</h4>
-                  <p>初试后关注的八件事</p>
-                  <p>如何预判分数及复试准备</p>
+                  <p>
+                    <router-link :to="{
+                        path: '/article',
+                        query: {
+                          id: 358
+                        }
+                      }"
+                                 style="color: #4cb9fc;">初试后关注的八件事
+                    </router-link>
+                  </p>
+                  <p>
+                    <router-link :to="{
+                        path: '/article',
+                        query: {
+                          id: 359
+                        }
+                      }"
+                                 style="color: #4cb9fc;">如何预判分数及复试准备
+                    </router-link>
+                  </p>
                 </el-card>
               </el-timeline-item>
               <el-timeline-item timestamp="2-3月" placement="top">
@@ -25,7 +43,16 @@
               <el-timeline-item timestamp="3月上旬" placement="top">
                 <el-card>
                   <h4>34所复试线</h4>
-                  <p>历年复试分数线汇总</p>
+                  <p>
+                    <router-link :to="{
+                        path: '/scoreLineList',
+                        query: {
+                          id: 359
+                        }
+                      }"
+                      style="color: #4cb9fc;">历年复试分数线汇总
+                    </router-link>
+                  </p>
                 </el-card>
               </el-timeline-item>
               <el-timeline-item timestamp="3月中旬" placement="top">
@@ -60,7 +87,16 @@
               <el-timeline-item timestamp="7-8月" placement="top">
                 <el-card>
                   <h4>考研大纲</h4>
-                  <p>专业课复习资料</p>
+                  <p>
+                    <router-link :to="{
+                        path: '/examQuestion',
+                        query: {
+                          id: 359
+                        }
+                      }"
+                      style="color: #4cb9fc;">专业课复习资料
+                    </router-link>
+                  </p>
                 </el-card>
               </el-timeline-item>
               <el-timeline-item timestamp="8-10月" placement="top">
@@ -78,7 +114,16 @@
               <el-timeline-item timestamp="11月" placement="top">
                 <el-card>
                   <h4>现场确认</h4>
-                  <p>现场确认所需材料</p>
+                  <p>
+                    <router-link :to="{
+                        path: '/article',
+                        query: {
+                          id: 361
+                        }
+                      }"
+                                 style="color: #4cb9fc;">现场确认所需材料
+                    </router-link>
+                  </p>
                 </el-card>
               </el-timeline-item>
               <el-timeline-item timestamp="11月15-12月14" placement="top">
@@ -96,7 +141,16 @@
               <el-timeline-item timestamp="12月23-24日" placement="top">
                 <el-card>
                   <h4>考研时间</h4>
-                  <p>初试各科时间安排</p>
+                  <p>
+                    <router-link :to="{
+                        path: '/article',
+                        query: {
+                          id: 360
+                        }
+                      }"
+                                 style="color: #4cb9fc;">初试各科时间安排
+                    </router-link>
+                  </p>
                 </el-card>
               </el-timeline-item>
             </el-timeline>

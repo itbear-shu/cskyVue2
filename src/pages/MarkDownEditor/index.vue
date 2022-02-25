@@ -13,6 +13,11 @@
               @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
+        <el-form-item label="添加标签">
+          <el-input v-model="newTag" placeholder="请输入新的标签" style="width: 192px; margin-right: 18px;"></el-input>
+          <el-button type="primary" size="medium" @click="addNewTag">添加</el-button>
+        </el-form-item>
+
         <el-form-item label="活动性质">
           <el-transfer
               filterable
@@ -93,60 +98,22 @@ export default {
       state: '',
       timeout: null,
       tagNameList: [],
+      newTag: ''
     }
   },
   methods: {
-    // 绑定@imgAdd event
-    $imgAdd(pos, $file) {
+    // 上传图片
+    async $imgAdd(pos, $file){
       // 第一步.将图片上传到服务器.
-      var formdata = new FormData();
-      formdata.append('image', $file);
-      this.img_file[pos] = $file;
-      this.$http({
-        url: '/upload/image',
-        method: 'post',
-        data: formdata,
-        headers: { 'Content-Type': 'multipart/form-data' },
-      }).then((res) => {
-        let _res = res.data;
-        // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, _res.url);
-      })
-    },
-    handleEditorImgAdd (pos, $file) {
-      let formdata = new FormData()
-      formdata.append('file', $file)
-      this.imgFile[pos] = $file
-      let instance = this.$axios.create({
-        withCredentials: true,
-        headers: {
-          Authorization: token   // 我上传的时候请求头需要带上token 验证，不需要的删除就好
-        }
-      })
-      instance.post('/api/upload/fileds', formdata).then(res => {
-        if (res.data.code === 200) {
-          this.$Message.success('上传成功')
-          let url = res.data.data
-          let name = $file.name
-          if (name.includes('-')) {
-            name = name.replace(/-/g, '')
-          }
-          let content = this.form.content
-          // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)  这里是必须要有的
-          if (content.includes(name)) {
-            let oStr = `(${pos})`
-            let nStr = `(${url})`
-            let index = content.indexOf(oStr)
-            let str = content.replace(oStr, '')
-            let insertStr = (soure, start, newStr) => {
-              return soure.slice(0, start) + newStr + soure.slice(start)
-            }
-            this.form.content = insertStr(str, index, nStr)
-          }
-        } else {
-          this.$Message.error(res.data.msg)
-        }
-      })
+      var formdata = new FormData()
+      formdata.append('image', $file)
+      const result = await this.$API.reqUploadImage(formdata)
+      if (result.data.code === 200) {
+        const url = result.data.data
+        this.$refs.md.$img2Url(pos, url);
+      } else {
+        this.$message.error('上传失败~')
+      }
     },
     filterTagName(query, item) {
       return item.tagName.indexOf(query) > -1
@@ -228,6 +195,17 @@ export default {
     },
     handleSelect(item) {
       this.schoolId = item.name
+    },
+    // 添加新的标签
+    async addNewTag() {
+      const result = await this.$API.reqAddNewTag({tagName: this.newTag})
+      if (result.data.code === 200) {
+        this.$message.success(result.data.msg)
+        this.newTag = ''
+        await this.getTagNameList()
+      } else {
+        this.$message.error(result.data.msg)
+      }
     }
   },
   mounted() {
