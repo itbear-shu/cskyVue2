@@ -5,6 +5,13 @@
         <h1>师资介绍</h1>
       </el-col>
       <el-col :span="24" :offset="2">
+        <el-input
+            type="text"
+            placeholder="请输入内容"
+            v-model="search"
+            style="width: 200px;"
+            size="small"
+        />
         <el-table
             @cell-click="toTeacherDetail"
             highlight-current-row
@@ -39,17 +46,6 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-              label="操作"
-              align="center"
-              width="200">
-            <template slot="header" slot-scope="scope">
-              <el-input
-                  v-model="search"
-                  size="mini"
-                  placeholder="输入关键字搜索"/>
-            </template>
-          </el-table-column>
         </el-table>
       </el-col>
       <el-col :span="20">
@@ -70,24 +66,27 @@
 <script>
 export default {
   name: "TeacherList",
+  props: ['schoolIntroduce'],
   data() {
     return {
       teacherList: [],
       currentPage: 1,
       pages: 0,
       total: 0,
-      search: ''
+      search: '',
+      sname: ''
     }
   },
   mounted() {
     this.getTeacherList()
   },
   methods: {
-    toTeacherDetail(val) {
+    toTeacherDetail(item) {
       this.$router.push({
         path: "/teacherDetail",
         query: {
-          tid: val.id
+          tid: item.id,
+          sname: this.sname
         }
       })
     },
@@ -103,9 +102,39 @@ export default {
     },
     currentChange(currentPage) {
       this.currentPage = currentPage
-      this.getTeacherList()
+      if (this.search) {
+        this.searchTeacher()
+      } else {
+        this.getTeacherList()
+      }
+    },
+    async searchTeacher(current) {
+      if (current) {
+        this.currentPage = current
+      }
+      const result = await this.$API.reqSearchTeacher({
+        text: this.search,
+        current: this.currentPage,
+        size: 5,
+        sid: this.$route.query.sid
+      })
+      if (result.data.code === 200) {
+        this.teacherList = result.data.data.teacherVoList
+        this.total = result.data.data.total
+        this.pages = result.data.data.pages
+      } else {
+        this.$message.warning('系统异常~ ' + result.data.msg)
+      }
     }
   },
+  watch: {
+    search() {
+      this.searchTeacher(1)
+    },
+    schoolIntroduce(sc) {
+      this.sname = sc.sname
+    }
+  }
 }
 </script>
 

@@ -5,7 +5,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right" style="margin: 0 20px;">
           <el-breadcrumb-item></el-breadcrumb-item>
           <el-breadcrumb-item to="/schools">院校列表</el-breadcrumb-item>
-          <el-breadcrumb-item>上海大学</el-breadcrumb-item>
+          <el-breadcrumb-item>{{$route.query.sname}}</el-breadcrumb-item>
           <el-breadcrumb-item>教师</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>

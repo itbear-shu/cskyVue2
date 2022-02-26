@@ -17,14 +17,15 @@
         officialSite: school.officialSite,
         postgraduateSite: school.postgraduateSite,
         sname: school.sname
-     }">
-     </school-introduce>
+     }"></school-introduce>
      <profession-introduce :schoolIntroduce="{
        sid: school.sid,
        sname: school.sname,
        recruitment: school.recruitment
      }"></profession-introduce>
-     <teacher-introduce></teacher-introduce>
+     <teacher-list :schoolIntroduce="{
+       sname: school.sname,
+     }"></teacher-list>
    </div>
   </div>
 </template>
@@ -32,14 +33,14 @@
 <script>
 import ProfessionIntroduce from '@/components/ExamInfo/ExamInfo'
 import SchoolIntroduce from '@/components/SchoolIntroduce/SchoolIntroduce'
-import TeacherIntroduce from '@/components/TeacherList/TeacherList'
+import TeacherList from '@/components/TeacherList/TeacherList'
 
 export default {
   name: "SchoolDetail",
   components: {
     ProfessionIntroduce,
     SchoolIntroduce,
-    TeacherIntroduce
+    TeacherList
   },
   data() {
     return {
