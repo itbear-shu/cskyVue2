@@ -161,3 +161,9 @@ export const reqGetScoreLineList = (data)=>requests({
     method: 'post',
     data
 })
+
+// 获取所有分数线
+export const reqGetScoreLineBySid = (sid)=>requests({
+    url: `/scoreline/school/${sid}`,
+    method: 'get'
+})

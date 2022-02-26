@@ -37,7 +37,13 @@
               </a>
             </el-descriptions-item>
             <el-descriptions-item>
-              <router-link style="color: #4cb9fc;" to="/scoreLine">
+              <router-link style="color: #4cb9fc;"
+                   :to="{
+                    path: '/scoreLine',
+                    query: {
+                      sid: sid
+                    }
+                  }">
                 分数线
               </router-link>
             </el-descriptions-item>

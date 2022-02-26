@@ -69,7 +69,7 @@ let router = new VueRouter({
         {
             name: 'scoreLine',
             path: '/scoreLine',
-            component: () => import('@/pages/ScoreLine/ScoreLine'),
+            component: () => import('@/pages/ScoreLineList/ScoreLine/ScoreLine'),
         },
         {
             name: 'examQuestion',
@@ -81,10 +81,15 @@ let router = new VueRouter({
             path: '/scoreLineList',
             component: () => import('@/pages/ScoreLineList/ScoreLineList'),
         },
+        {
+            name: '404',
+            path: '/404',
+            component: () => import('@/pages/404/NotFound')
+        },
         //配置重定向：项目开始运行时立马定向到首页
         {
             path: '*',
-            redirect: '/home'
+            redirect: '/404'
         }
     ],
     //进行路由跳转时重新回到顶上
