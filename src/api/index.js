@@ -154,3 +154,10 @@ export const reqGetExamQuestion = (data)=>requests({
     method: 'post',
     data
 })
+
+// 获取所有分数线
+export const reqGetScoreLineList = (data)=>requests({
+    url: '/scoreline/page',
+    method: 'post',
+    data
+})
