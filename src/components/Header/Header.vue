@@ -9,7 +9,7 @@
           <el-menu-item index="/home">首页</el-menu-item>
           <el-menu-item index="/schoolList">34所高校</el-menu-item>
           <el-menu-item index="/scoreLineList">考研分数线</el-menu-item>
-          <el-submenu>
+          <el-submenu index="/">
             <template slot="title">考研真题</template>
             <el-menu-item index="/examQuestion?id=4">计算机408</el-menu-item>
             <el-menu-item index="/examQuestion?id=2">考研英语</el-menu-item>
