@@ -1,14 +1,17 @@
 <template>
   <el-row :gutter="20">
+    <video preload="auto" class="me-video-player" autoplay="autoplay" loop="loop" muted>
+      <source src="../../assets/login_bg_media.mp4" type="video/mp4">
+    </video>
     <el-col :span="20" :offset="2">
       <div class="login-container">
         <!-- 登录 -->
         <div class="login-wrap">
           <el-row :gutter="20">
-            <el-col :xs="2" :sm="2" :md="1" :lg="3" :xl="3">
+            <el-col :xs="1" :sm="8" :md="8" :lg="8" :xl="8">
               <div class="grid-content"></div>
             </el-col>
-            <el-col :xs="2" :sm="20" :md="18" :lg="18" :xl="18">
+            <el-col :xs="1" :sm="10" :md="10" :lg="10" :xl="10">
               <div class="login">
                 <div class="loginForm">
                   <ul class="tab clearFix">
@@ -39,7 +42,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col :xs="20" :sm="2" :md="4" :lg="3" :xl="3">
+            <el-col :xs="3" :sm="1" :md="2" :lg="1" :xl="1">
               <div class="grid-content"></div>
             </el-col>
           </el-row>
@@ -119,13 +122,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.me-video-player {
+  background-color: transparent;
+  object-fit: fill;
+  display: block;
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
 .login-container {
+  margin-top: 65px;
   .login-wrap {
     height: 888px;
-    background:url(~@/assets/bgImg.jpg)  no-repeat center center;   /*加载背景图*/   /* 背景图不平铺 */
-    background-size:cover;  /* 让背景图基于容器大小伸缩 */
-    background-attachment:fixed;        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */    //此条属性必须设置否则可能无效/
-    background-color:#CCCCCC;   /* 设置背景颜色，背景图加载过程中会显示背景色 */
 
     .login {
       height: 487px;
@@ -133,12 +142,13 @@ export default {
     }
 
     .loginForm {
+      margin-top: 89px;
       width: 420px;
       height: 406px;
       box-sizing: border-box;
       background: #fff;
       top: 45px;
-      right: -30%;
+      right: -68%;
       position: relative;
       padding: 20px;
       text-align: center;

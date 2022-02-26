@@ -22,69 +22,111 @@ let router = new VueRouter({
         {
             path: '/home',
             component: () => import('@/pages/Home/Home'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             path: '/login',
             component: () => import('@/pages/Login/Login'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             path: '/register',
             component: () => import('@/pages/Register/Register'),
+            meta: {
+                isShowHeader: false
+            }
         },
         {
             name: 'timeLine',
             path: '/timeLine',
             component: () => import('@/pages/TimeLine/TimeLine'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'article',
             path: '/article',
             component: () => import('@/pages/Article/Article'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'schoolList',
             path: '/schoolList',
             component: () => import('@/pages/SchoolList/SchoolList'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'upload',
             path: '/upload',
             component: () => import('@/pages/Upload/Upload'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'teacherDetail',
             path: '/teacherDetail',
             component: () => import('@/pages/TeacherDetail/TeacherDetail'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'md',
             path: '/md',
             component: () => import('@/pages/MarkDownEditor/index'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'schoolDetail',
             path: '/schoolDetail',
             component: () => import('@/pages/SchoolDetail/SchoolDetail'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'scoreLine',
             path: '/scoreLine',
             component: () => import('@/pages/ScoreLineList/ScoreLine/ScoreLine'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'examQuestion',
             path: '/examQuestion',
             component: () => import('@/pages/ExamQuestion/ExamQuestion'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: 'scoreLineList',
             path: '/scoreLineList',
             component: () => import('@/pages/ScoreLineList/ScoreLineList'),
+            meta: {
+                isShowHeader: true
+            }
         },
         {
             name: '404',
             path: '/404',
-            component: () => import('@/pages/404/NotFound')
+            component: () => import('@/pages/404/NotFound'),
+            meta: {
+                isShowHeader: false
+            }
         },
         //配置重定向：项目开始运行时立马定向到首页
         {
@@ -136,12 +178,11 @@ router.beforeEach(async (to, from, next) => {
     } else {
         //未登录状态下
         if (to.path.indexOf('/md') !== -1) {
-            next()
-            /*Vue.prototype.$message.warning({
+            Vue.prototype.$message.warning({
                 duration: 1000,
                 message: '当前尚未登录，请先登录'
             })
-            next('/login?redirect=' + to.path)*/
+            next('/login?redirect=' + to.path)
         } else {
             next()
         }

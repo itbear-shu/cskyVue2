@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <el-row :gutter="20">
-      <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-        <div class="grid-content bg-purple"></div>
-      </el-col>
-      <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-        <div class="register-container">
+  <el-row :gutter="20">
+    <video preload="auto" class="me-video-player" autoplay="autoplay" loop="loop" muted>
+      <source src="../../assets/login_bg_media.mp4" type="video/mp4">
+    </video>
+    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+      <div class="grid-content bg-purple"></div>
+    </el-col>
+    <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+      <el-card shadow="always" class="register-container">
+        <div>
           <!-- 注册内容 -->
           <div class="register">
             <h3>注册新用户
@@ -47,7 +50,8 @@
                       </el-form-item>
                     </el-col>
                     <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
-                      <el-button type="primary" size="small" @click="sendEmailCode" style="margin-top: 43px; border-radius: 30px;" :disabled="isClickGetCode">
+                      <el-button type="primary" size="small" @click="sendEmailCode"
+                                 style="margin-top: 43px; border-radius: 30px;" :disabled="isClickGetCode">
                         发送验证码
                       </el-button>
                     </el-col>
@@ -71,7 +75,8 @@
                       <el-button type="primary" size="small" @click="checkEmailCode"
                                  style="margin-top: 43px; border-radius: 30px;" v-show="isShowIcon">点击验证
                       </el-button>
-                      <i class="el-icon-circle-check" style="color: greenyellow;margin-top: 40px;font-size: 3.3em;margin-left: 22px;"
+                      <i class="el-icon-circle-check"
+                         style="color: greenyellow;margin-top: 40px;font-size: 3.3em;margin-left: 22px;"
                          v-show="!isShowIcon"></i>
                     </el-col>
                     <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
@@ -138,12 +143,12 @@
             </el-row>
           </div>
         </div>
-      </el-col>
-      <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-        <div class="grid-content bg-purple-light"></div>
-      </el-col>
-    </el-row>
-  </div>
+      </el-card>
+    </el-col>
+    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+      <div class="grid-content bg-purple-light"></div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -228,9 +233,7 @@ export default {
       eid: ''
     }
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     async sendEmailCode() {
       if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.register.email)) {
@@ -314,13 +317,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 .register-container {
-  margin-bottom: 20px;
+  margin: 67px 0 0 0;
+  border-radius: 10px;
 
   .register {
     border: 1px solid rgb(223, 223, 223);
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 24px;
 
     h3 {
       background: #b3d8ff;
