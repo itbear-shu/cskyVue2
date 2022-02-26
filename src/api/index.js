@@ -41,6 +41,13 @@ export const reqGetSchoolList = (data)=>requests({
     data
 })
 
+// 搜索学校
+export const reqSearchSchool = (data)=>requests({
+    url: '/school/query',
+    method: 'post',
+    data
+})
+
 // 获取某一学校具体信息
 export const reqGetSchoolDetailBySid = (sid)=>requests({
     url: `/school/detail/${sid}`,
@@ -57,6 +64,13 @@ export const reqGetTeacherList = (sid, currentPage)=>requests({
 export const reqGetTeacherDetail = (tid)=>requests({
     url: `/teacher/detailedInfo/${tid}`,
     method: 'get'
+})
+
+// 搜索老师列表
+export const reqSearchTeacher = (data)=>requests({
+    url: '/teacher/query',
+    method: 'post',
+    data
 })
 
 // 查询文章

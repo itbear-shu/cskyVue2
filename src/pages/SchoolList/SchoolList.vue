@@ -7,10 +7,13 @@
         <el-breadcrumb-item>院校列表</el-breadcrumb-item>
       </el-breadcrumb>
       <div>
+        <el-input v-model="keyWord" placeholder="请输入内容" class="input" clearable size="small"></el-input>
+      </div>
+      <div>
         <el-row class="elRow">
-          <el-col class="elCol" v-for="(school, index) in schoolList" :key="school.sid">
+          <el-col class="elCol" v-for="(school) in schoolList" :key="school.sid">
             <el-card shadow="hover" class="elCard" v-loading="loading">
-              <img :src='school.badgeImg'>
+              <img :src='school.badgeImg' alt="校徽">
               <router-link :to="{
                 path: '/schoolDetail',
                 query: {
@@ -60,6 +63,7 @@ export default {
       pages: 0,
       // 总条数
       total: 0,
+      keyWord: '',
       loading: true
     }
   },
@@ -72,22 +76,54 @@ export default {
         this.total = result.data.data.total
         this.loading = false
       } else {
-        this.$message.error('系统异常')
-        console.log(result.data.msg)
+        this.$message.error('系统异常~ ' + result.data.msg)
       }
     },
     currentChange(val) {
       this.pageParam.current = val
-      this.getSchoolList(this.pageParam)
+      if (this.keyWord) {
+        this.searchSchool()
+      } else {
+        this.getSchoolList(this.pageParam)
+      }
+    },
+    async searchSchool(current) {
+      if (current) {
+        this.pageParam.current = current
+      }
+      const result = await this.$API.reqSearchSchool({
+        text: this.keyWord,
+        current: this.pageParam.current,
+        size: this.pageParam.size,
+      })
+      if (result.data.code === 200) {
+        this.schoolList = result.data.data.schoolVoList
+        this.pages = result.data.data.pages
+        this.total = result.data.data.total
+        this.loading = false
+      } else {
+        this.$message.error('系统异常~ ' + result.data.msg)
+      }
     }
   },
   mounted() {
     this.getSchoolList(this.pageParam)
+  },
+  watch: {
+    keyWord() {
+      this.searchSchool(1)
+    }
   }
 }
 </script>
 
 <style scoped>
+.input {
+  width: 238px;
+  height: 10px;
+  margin: 6px 0 0 29px;
+}
+
 .elRow {
   margin: 20px 30px;
   border-radius: 4px
