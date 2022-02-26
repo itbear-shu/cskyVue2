@@ -9,9 +9,7 @@
       <div>
         <el-row class="elRow">
           <el-col class="elCol" v-for="(school, index) in schoolList" :key="school.sid">
-            <el-card shadow="hover" class="elCard">
-              <!--              <img src="@/assets/shu.jpg">-->
-              <!--              <img :src='"https://images.weserv.nl/?url=" + school.badgeImg'>-->
+            <el-card shadow="hover" class="elCard" v-loading="loading">
               <img :src='school.badgeImg'>
               <router-link :to="{
                 path: '/schoolDetail',
@@ -61,7 +59,8 @@ export default {
       // 总页数
       pages: 0,
       // 总条数
-      total: 0
+      total: 0,
+      loading: true
     }
   },
   methods: {
@@ -71,6 +70,7 @@ export default {
         this.schoolList = result.data.data.schoolVoList
         this.pages = result.data.data.pages
         this.total = result.data.data.total
+        this.loading = false
       } else {
         this.$message.error('系统异常')
         console.log(result.data.msg)

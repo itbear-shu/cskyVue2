@@ -6,6 +6,7 @@
           <el-breadcrumb-item></el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>考研真题</el-breadcrumb-item>
+          <el-breadcrumb-item>{{subjectName}}</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
     </el-row>
@@ -17,6 +18,8 @@
         <el-table
             :data="fileList"
             lazy
+            v-loading="loading"
+            @selection-change="selectChange"
             style="width: 100%; margin-top: 10px;">
           <el-table-column
               type="selection"
@@ -50,6 +53,7 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-button type="primary" size="medium" style="margin-top: 10px;" @click="handleDownloadMore">批量下载</el-button>
         <el-pagination
             style="text-align: center; margin-top: 10px;"
             small
@@ -73,10 +77,12 @@ export default {
   data() {
     return {
       code: 0,
-      current: 0,
-      size: 0,
+      current: 1,
+      size: 10,
       total: 0,
-      fileList: []
+      fileList: [],
+      selectedFile: [],
+      loading: true
     }
   },
   mounted() {
@@ -96,12 +102,25 @@ export default {
         this.current = result.data.data.current
         this.size = result.data.data.size
         this.total = result.data.data.total
+        this.loading = false
       } else {
         this.$message.error(result.data.msg)
       }
     },
     handleDownload(index, file) {
       window.open(file.url)
+    },
+    handleDownloadMore() {
+      if(this.selectedFile.length === 0) {
+        this.$message.warning('请选择需要下载的内容')
+        return
+      }
+      this.selectedFile.forEach(file => {
+        window.open(file.url)
+      })
+    },
+    selectChange(selection) {
+      this.selectedFile = selection
     },
     currentChange(current) {
       this.current = current
@@ -116,6 +135,20 @@ export default {
   computed: {
     questionId() {
       return this.$route.query.id
+    },
+    subjectName() {
+      switch (this.$route.query.id) {
+        case '1':
+          return '考研政治'
+        case '2':
+          return '考研英语'
+        case '3':
+          return '考研数学'
+        case '4':
+          return '考研计算机'
+        default:
+          return ''
+      }
     }
   }
 }
