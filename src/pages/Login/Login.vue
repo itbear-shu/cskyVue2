@@ -11,7 +11,7 @@
             <el-col :xs="1" :sm="8" :md="8" :lg="8" :xl="8">
               <div class="grid-content"></div>
             </el-col>
-            <el-col :xs="1" :sm="10" :md="10" :lg="10" :xl="10">
+            <el-col :xs="1" :sm="4" :md="10" :lg="10" :xl="10">
               <div class="login">
                 <div class="loginForm">
                   <ul class="tab clearFix">
@@ -42,7 +42,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col :xs="3" :sm="1" :md="2" :lg="1" :xl="1">
+            <el-col :xs="5" :sm="5" :md="2" :lg="1" :xl="1">
               <div class="grid-content"></div>
             </el-col>
           </el-row>

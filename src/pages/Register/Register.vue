@@ -1,151 +1,146 @@
 <template>
   <el-row :gutter="20">
-    <video preload="auto" class="me-video-player" autoplay="autoplay" loop="loop" muted>
-      <source src="../../assets/login_bg_media.mp4" type="video/mp4">
-    </video>
-    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+    <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="6">
       <div class="grid-content bg-purple"></div>
     </el-col>
-    <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+    <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="12">
       <el-card shadow="always" class="register-container">
-        <div>
-          <!-- 注册内容 -->
-          <div class="register">
-            <h3>注册新用户
-              <span class="go">我有账号，去 <router-link to="/login">登录</router-link>
+        <!-- 注册内容 -->
+        <div class="register">
+          <h3>注册新用户
+            <span class="go">我有账号，去 <router-link to="/login">登录</router-link>
             </span>
-            </h3>
-            <el-row :gutter="20">
-              <el-col :span="24" :offset="0">
-                <el-form :rules="rules" ref="registerForm" class="registerForm" label-position="right" status-icon
-                         :model="register">
-                  <el-row :gutter="20">
-                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
-                      <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
-                      <el-form-item label="用户名称" prop="username">
-                        <el-tooltip effect="dark" content="由5~15位数字、26个英文字母或者下划线组成" :open-delay="200" placement="left">
-                          <el-input v-model="register.username" placeholder="请输入你的用户名"></el-input>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
-                    </el-col>
-                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple-light"></div>
-                    </el-col>
-                  </el-row>
+          </h3>
+          <el-row :gutter="20">
+            <el-col :span="24" :offset="0">
+              <el-form :rules="rules" ref="registerForm" class="registerForm" label-position="right" status-icon
+                       :model="register">
+                <el-row :gutter="20">
+                  <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                    <div class="grid-content bg-purple"></div>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                    <el-form-item label="用户名称" prop="username">
+                      <el-tooltip effect="dark" content="由5~15位数字、26个英文字母或者下划线组成" :open-delay="200" placement="left">
+                        <el-input v-model="register.username" placeholder="请输入你的用户名"></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+                  </el-col>
+                  <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple-light"></div>
+                  </el-col>
+                </el-row>
 
-                  <el-row :gutter="20">
-                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
-                      <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
-                      <el-form-item label="邮箱账号" prop="email">
-                        <el-tooltip effect="dark" content="xxxxx@xxx.xxx格式，请务必输入有效的邮箱账号" :open-delay="200"
-                                    placement="right">
-                          <el-input v-model="register.email" placeholder="请输入你的邮箱账号"></el-input>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
-                      <el-button type="primary" size="small" @click="sendEmailCode"
-                                 style="margin-top: 43px; border-radius: 30px;" :disabled="isClickGetCode">
-                        发送验证码
+                <el-row :gutter="20">
+                  <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                    <div class="grid-content bg-purple"></div>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                    <el-form-item label="邮箱账号" prop="email">
+                      <el-tooltip effect="dark" content="xxxxx@xxx.xxx格式，请务必输入有效的邮箱账号" :open-delay="200"
+                                  placement="right">
+                        <el-input v-model="register.email" placeholder="请输入你的邮箱账号"></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+                    <el-button type="primary" size="small" @click="sendEmailCode"
+                               style="margin-top: 43px; border-radius: 30px;" :disabled="isClickGetCode">
+                      发送验证码
+                    </el-button>
+                  </el-col>
+                  <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple-light"></div>
+                  </el-col>
+                </el-row>
+
+                <el-row :gutter="20">
+                  <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                    <div class="grid-content bg-purple"></div>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                    <el-form-item label="验证码" prop="emailCode">
+                      <el-tooltip effect="dark" content="6位验证码，由26个英文字母和0~9数字组成" :open-delay="200" placement="right">
+                        <el-input v-model="register.emailCode" placeholder="请输入邮箱中接收到的验证码"></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+                    <el-button type="primary" size="small" @click="checkEmailCode"
+                               style="margin-top: 43px; border-radius: 30px;" v-show="isShowIcon">点击验证
+                    </el-button>
+                    <i class="el-icon-circle-check"
+                       style="color: greenyellow;margin-top: 40px;font-size: 3.3em;margin-left: 22px;"
+                       v-show="!isShowIcon"></i>
+                  </el-col>
+                  <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple-light"></div>
+                  </el-col>
+                </el-row>
+
+                <el-row :gutter="20">
+                  <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                    <div class="grid-content bg-purple"></div>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                    <el-form-item label="登录密码" prop="password1">
+                      <el-tooltip effect="dark" content="以字母开头，长度在6~18之间，只能包含字母、数字和下划线"
+                                  :open-delay="200" placement="right">
+                        <el-input type="password" v-model="register.password1" placeholder="请输入密码"></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+
+                  </el-col>
+                  <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple-light"></div>
+                  </el-col>
+                </el-row>
+
+                <el-row :gutter="20">
+                  <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
+                    <div class="grid-content bg-purple"></div>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
+                    <el-form-item label="确认密码" prop="password2">
+                      <el-tooltip effect="dark" content="再次输入密码"
+                                  :open-delay="200" placement="right">
+                        <el-input type="password" v-model="register.password2" placeholder="请确认密码"></el-input>
+                      </el-tooltip>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
+
+                  </el-col>
+                  <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple-light"></div>
+                  </el-col>
+                </el-row>
+
+                <el-row :gutter="20">
+                  <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple"></div>
+                  </el-col>
+                  <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                    <div>
+                      <el-button type="primary" @click="userRegister" style="display:block;margin:0 auto">完成注册
                       </el-button>
-                    </el-col>
-                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple-light"></div>
-                    </el-col>
-                  </el-row>
-
-                  <el-row :gutter="20">
-                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
-                      <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
-                      <el-form-item label="验证码" prop="emailCode">
-                        <el-tooltip effect="dark" content="6位验证码，由26个英文字母和0~9数字组成" :open-delay="200" placement="right">
-                          <el-input v-model="register.emailCode" placeholder="请输入邮箱中接收到的验证码"></el-input>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
-                      <el-button type="primary" size="small" @click="checkEmailCode"
-                                 style="margin-top: 43px; border-radius: 30px;" v-show="isShowIcon">点击验证
-                      </el-button>
-                      <i class="el-icon-circle-check"
-                         style="color: greenyellow;margin-top: 40px;font-size: 3.3em;margin-left: 22px;"
-                         v-show="!isShowIcon"></i>
-                    </el-col>
-                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple-light"></div>
-                    </el-col>
-                  </el-row>
-
-                  <el-row :gutter="20">
-                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
-                      <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
-                      <el-form-item label="登录密码" prop="password1">
-                        <el-tooltip effect="dark" content="以字母开头，长度在6~18之间，只能包含字母、数字和下划线"
-                                    :open-delay="200" placement="right">
-                          <el-input type="password" v-model="register.password1" placeholder="请输入密码"></el-input>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
-
-                    </el-col>
-                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple-light"></div>
-                    </el-col>
-                  </el-row>
-
-                  <el-row :gutter="20">
-                    <el-col :xs="7" :sm="5" :md="3" :lg="3" :xl="3">
-                      <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="15" :lg="15" :xl="15">
-                      <el-form-item label="确认密码" prop="password2">
-                        <el-tooltip effect="dark" content="再次输入密码"
-                                    :open-delay="200" placement="right">
-                          <el-input type="password" v-model="register.password2" placeholder="请确认密码"></el-input>
-                        </el-tooltip>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
-
-                    </el-col>
-                    <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple-light"></div>
-                    </el-col>
-                  </el-row>
-
-                  <el-row :gutter="20">
-                    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple"></div>
-                    </el-col>
-                    <el-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                      <div>
-                        <el-button type="primary" @click="userRegister" style="display:block;margin:0 auto">完成注册
-                        </el-button>
-                      </div>
-                    </el-col>
-                    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-                      <div class="grid-content bg-purple-light"></div>
-                    </el-col>
-                  </el-row>
-                </el-form>
-              </el-col>
-            </el-row>
-          </div>
+                    </div>
+                  </el-col>
+                  <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+                    <div class="grid-content bg-purple-light"></div>
+                  </el-col>
+                </el-row>
+              </el-form>
+            </el-col>
+          </el-row>
         </div>
       </el-card>
     </el-col>
-    <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
+    <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="6">
       <div class="grid-content bg-purple-light"></div>
     </el-col>
   </el-row>
@@ -319,8 +314,9 @@ export default {
 <style lang="less" scoped>
 
 .register-container {
-  margin: 67px 0 0 0;
+  margin: 120px 0 0 0;
   border-radius: 10px;
+  background-color: transparent;
 
   .register {
     border: 1px solid rgb(223, 223, 223);

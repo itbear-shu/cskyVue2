@@ -11,10 +11,10 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :xs="4" :sm="2" :md="2" :lg="2" :xl="2">
+      <el-col :xs="4" :sm="3" :md="3" :lg="3" :xl="5">
         <div class="grid-content bg-purple"></div>
       </el-col>
-      <el-col :xs="16" :sm="20" :md="20" :lg="20" :xl="20">
+      <el-col :xs="16" :sm="20" :md="20" :lg="19" :xl="16">
         <el-table
             :data="fileList"
             lazy
@@ -35,7 +35,7 @@
           <el-table-column
               prop="subjectCode"
               label="专业代码"
-              width="280">
+              width="180">
           </el-table-column>
           <el-table-column
               prop="subject"

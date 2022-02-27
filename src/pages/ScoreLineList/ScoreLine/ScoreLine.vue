@@ -13,10 +13,10 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :xs="4" :sm="2" :md="2" :lg="2" :xl="2">
+      <el-col :xs="4" :sm="3" :md="2" :lg="3" :xl="4">
         <div class="grid-content bg-purple"></div>
       </el-col>
-      <el-col :xs="16" :sm="20" :md="20" :lg="20" :xl="20">
+      <el-col :xs="16" :sm="18" :md="19" :lg="18" :xl="20">
         <el-table
             v-loading="loading"
             :data="scorelineList"
@@ -98,7 +98,7 @@
           </el-table-column>
         </el-table>
       </el-col>
-      <el-col :xs="4" :sm="2" :md="2" :lg="2" :xl="2">
+      <el-col :xs="4" :sm="3" :md="3" :lg="2" :xl="2">
         <div class="grid-content bg-purple-light"></div>
       </el-col>
     </el-row>
