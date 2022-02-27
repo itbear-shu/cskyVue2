@@ -23,21 +23,24 @@ let router = new VueRouter({
             path: '/home',
             component: () => import('@/pages/Home/Home'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
             path: '/login',
             component: () => import('@/pages/Login/Login'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: false
             }
         },
         {
             path: '/register',
             component: () => import('@/pages/Register/Register'),
             meta: {
-                isShowHeader: false
+                isShowHeader: true,
+                isShowSearch: false
             }
         },
         {
@@ -45,7 +48,8 @@ let router = new VueRouter({
             path: '/timeLine',
             component: () => import('@/pages/TimeLine/TimeLine'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -53,7 +57,8 @@ let router = new VueRouter({
             path: '/article',
             component: () => import('@/pages/Article/Article'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -61,7 +66,8 @@ let router = new VueRouter({
             path: '/schoolList',
             component: () => import('@/pages/SchoolList/SchoolList'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -69,7 +75,8 @@ let router = new VueRouter({
             path: '/upload',
             component: () => import('@/pages/Upload/Upload'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -77,7 +84,8 @@ let router = new VueRouter({
             path: '/teacherDetail',
             component: () => import('@/pages/TeacherDetail/TeacherDetail'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -85,7 +93,8 @@ let router = new VueRouter({
             path: '/md',
             component: () => import('@/pages/MarkDownEditor/index'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: false
             }
         },
         {
@@ -93,7 +102,8 @@ let router = new VueRouter({
             path: '/schoolDetail',
             component: () => import('@/pages/SchoolDetail/SchoolDetail'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -101,7 +111,8 @@ let router = new VueRouter({
             path: '/scoreLine',
             component: () => import('@/pages/ScoreLineList/ScoreLine/ScoreLine'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -109,7 +120,8 @@ let router = new VueRouter({
             path: '/examQuestion',
             component: () => import('@/pages/ExamQuestion/ExamQuestion'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
             }
         },
         {
@@ -117,7 +129,17 @@ let router = new VueRouter({
             path: '/scoreLineList',
             component: () => import('@/pages/ScoreLineList/ScoreLineList'),
             meta: {
-                isShowHeader: true
+                isShowHeader: true,
+                isShowSearch: true
+            }
+        },
+        {
+            name: 'search',
+            path: '/search',
+            component: () => import('@/pages/Search/Search'),
+            meta: {
+                isShowHeader: true,
+                isShowSearch: false
             }
         },
         {
@@ -125,7 +147,8 @@ let router = new VueRouter({
             path: '/404',
             component: () => import('@/pages/404/NotFound'),
             meta: {
-                isShowHeader: false
+                isShowHeader: false,
+                isShowSearch: false
             }
         },
         //配置重定向：项目开始运行时立马定向到首页

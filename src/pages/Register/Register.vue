@@ -314,7 +314,7 @@ export default {
 <style lang="less" scoped>
 
 .register-container {
-  margin: 120px 0 0 0;
+  margin: 22px 0 0 0;
   border-radius: 10px;
   background-color: transparent;
 
