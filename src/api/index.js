@@ -14,6 +14,7 @@ export const reqCheckCode = (code, eid)=>requests({
     url: `/ec/check/${code}/${eid}`,
     method: 'get'
 })
+
 //注册用户
 export const reqRegister = (data)=>requests({
     url: '/user/register',
@@ -79,9 +80,23 @@ export const reqGetArticleById = (id)=>requests({
     method: 'get'
 })
 
+// 查询文章
+export const reqSearchArticle = (data)=>requests({
+    url: '/article/query',
+    method: 'post',
+    data
+})
+
+// 查询用户对该文章的点赞、收藏状态
+export const reqGetAUCondition = (data)=>requests({
+    url: '/article/condition',
+    method: 'post',
+    data
+})
+
 // 查询评论
 export const reqGetCommentById = (data)=>requests({
-    url: `/comment/get`,
+    url: '/comment/get',
     method: 'post',
     data
 })
