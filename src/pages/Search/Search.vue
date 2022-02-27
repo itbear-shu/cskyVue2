@@ -74,6 +74,17 @@
             {{ item.label }}
           </el-tag>-->
         </el-card>
+        <el-card shadow="always" class="search1">
+          <h1>全站热搜榜</h1>
+          <el-divider></el-divider>
+          <div>
+            <ul>
+              <li>
+
+              </li>
+            </ul>
+          </div>
+        </el-card>
       </el-col>
       <el-col :xs="2" :sm="3" :md="3" :lg="3" :xl="2">
         <div class="grid-content bg-purple-light"></div>
