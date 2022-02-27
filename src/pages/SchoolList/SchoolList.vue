@@ -11,6 +11,7 @@
       </div>
       <div>
         <el-row class="elRow">
+          <el-empty :image-size="200" v-if="total===0"></el-empty>
           <el-col class="elCol" v-for="(school) in schoolList" :key="school.sid">
             <el-card shadow="hover" class="elCard" v-loading="loading">
               <img :src='school.badgeImg' alt="校徽">

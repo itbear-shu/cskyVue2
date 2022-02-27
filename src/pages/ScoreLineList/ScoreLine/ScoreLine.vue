@@ -7,7 +7,7 @@
           <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/scoreLineList' }">考研分数线汇总</el-breadcrumb-item>
           <el-breadcrumb-item>
-            <div v-if="scorelineList[0].sname">{{scorelineList[0].sname}}</div>
+            <div v-if="scorelineList[0]">{{scorelineList[0].sname}}</div>
           </el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>

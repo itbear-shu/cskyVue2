@@ -171,6 +171,15 @@ let router = new VueRouter({
 import {getToken} from "@/utils/token"
 //配置全局前置路由守卫
 router.beforeEach(async (to, from, next) => {
+    const loading = Vue.prototype.$loading({
+        lock: true, // 是否锁屏
+        text: '拼命加载中', // 加载动画的文字
+        spinner: 'el-icon-loading', // 引入的loading图标
+        background: 'hsla(0,0%,100%,.9)' // 背景颜色
+    });
+    setTimeout(()=>{
+    }, Math.ceil(Math.random()*5)*1000)
+    loading.close();
     if (getToken()) {
         //用户登录了还想去login组件
         if (to.path === '/login') {

@@ -98,7 +98,11 @@ export default {
               password: this.loginForm.password
             })
             if (result) {
-              await this.$message.success('登录成功！')
+              await this.$message({
+                duration: 1500,
+                message: '登录成功！',
+                type: 'success'
+              })
               await this.$router.push('/home')
               const toPath = this.$route.query.redirect || '/home'
               await this.$router.push(toPath)

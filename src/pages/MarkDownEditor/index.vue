@@ -131,8 +131,8 @@ export default {
       this.getTagNameList()
     },
     async saveArticle() {
-      if (!this.tagIdList) {
-        this.$message.warning('请选至少选择一个标签...')
+      if (this.tagIdList.length === 0) {
+        this.$notify.warning({title: '警告', message: '请选至少选择一个标签...'})
         return
       }
       const result = await this.$API.reqSaveArticle({
@@ -143,7 +143,7 @@ export default {
         tagIdList: this.tagIdList
       })
       if (result.data.code === 200) {
-        this.$message.success('发布成功~')
+        this.$notify.success('发布成功~')
         await this.$router.push({
           path: '/article',
           query: {
@@ -186,7 +186,7 @@ export default {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         cb(results);
-      }, 2000 * Math.random());
+      }, 500 * Math.random());
     },
     createStateFilter(queryString) {
       return (state) => {
