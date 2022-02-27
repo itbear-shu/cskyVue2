@@ -91,7 +91,8 @@ export default {
       let location = {
         name: 'search',
         params: {
-          keyWord: this.keyWord
+          keyWord: this.keyWord,
+          fromRouter: this.$route.path
         }
       }
       //如果带有query参数也传过去
@@ -99,6 +100,7 @@ export default {
         location.query = this.$route.query
       }
       this.$router.push(location)
+      this.keyWord = ''
     },
     //退出登录
     async logout() {

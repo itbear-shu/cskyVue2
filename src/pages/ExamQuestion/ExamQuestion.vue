@@ -42,14 +42,20 @@
               label="专业名称"
               width="280">
           </el-table-column>
-          <el-table-column label="操作"
-              width="250"
-          >
+          <el-table-column label="操作" width="250">
             <template slot-scope="scope">
-              <el-button
-                  type="warning"
-                  size="mini"
-                  @click="handleDownload(scope.$index, scope.row)">点击下载</el-button>
+              <el-popconfirm
+                  confirm-button-text='确认'
+                  cancel-button-text='取消'
+                  @confirm="handleDownload(scope.$index, scope.row)"
+                  icon-color="#999999"
+                  title="确认下载吗？">
+                <el-button
+                    slot="reference"
+                    type="warning"
+                    size="mini"
+                    >点击下载</el-button>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>

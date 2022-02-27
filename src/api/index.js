@@ -134,16 +134,30 @@ export const reqAddHistory = (data)=>requests({
     data
 })
 
-// 增加浏览量
+// 增加点赞
 export const addLikes = (data)=>requests({
     url: '/article/addLikes',
     method: 'post',
     data
 })
 
-// 增加浏览量
+// 取消点赞
+export const revokeLikes = (data)=>requests({
+    url: '/article/revokeLikes',
+    method: 'post',
+    data
+})
+
+// 增加收藏
 export const addFavorite = (data)=>requests({
     url: '/article/addFavorite',
+    method: 'post',
+    data
+})
+
+// 取消收藏
+export const revokeFavorite = (data)=>requests({
+    url: '/article/revokeFavorite',
     method: 'post',
     data
 })

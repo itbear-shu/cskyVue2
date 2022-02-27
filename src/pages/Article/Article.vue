@@ -12,10 +12,10 @@
 
     <div class="all">
       <el-row :gutter="20">
-        <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
+        <el-col :xs="1" :sm="2" :md="2" :lg="3" :xl="3">
           <div class="grid-content bg-purple"></div>
         </el-col>
-        <el-col :xs="16" :sm="15" :md="15" :lg="15" :xl="11">
+        <el-col :xs="14" :sm="15" :md="14" :lg="14" :xl="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span id="title">{{ title }}</span>
@@ -51,7 +51,16 @@
                 收藏
                 <span>({{ favoriteCount }})</span>
               </a>
-              <a href="javascript:void(0);" class="endEmg" style="text-decoration: none;" @click="addRepost">
+              <el-popover
+                  placement="bottom"
+                  title="标题"
+                  width="200"
+                  transition
+                  v-model="isRepost"
+                  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                <el-card shadow="hover"></el-card>
+              </el-popover>
+              <a href="javascript:void(0);" slot="reference" class="endEmg" style="text-decoration: none;" @click="addRepost">
                 <img src="@/assets/icon/share.png" alt="转发">
                 转发
                 <span>({{ repostCount }})</span>
@@ -63,10 +72,10 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :xs="0" :sm="0" :md="0" :lg="0" :xl="4">
+        <el-col :xs="0" :sm="0" :md="0" :lg="2" :xl="4">
           <div class="grid-content bg-purple-light"></div>
         </el-col>
-        <el-col :xs="7" :sm="6" :md="6" :lg="6" :xl="6">
+        <el-col :xs="8" :sm="6" :md="7" :lg="5" :xl="5">
           <el-card shadow="hover" style="margin-bottom: 25px;">
             <div class="hotTags">热门标签</div>
             <el-tag class="hotTag">计算机考研</el-tag>
@@ -78,28 +87,14 @@
             <el-tag class="hotTag">上海的大学</el-tag>
             <el-tag class="hotTag">学校地啊书法大赛址</el-tag>
           </el-card>
-          <el-card shadow="hover">
-            <div class="hotTags">更多文章</div>
-            <ul>
-              <li class="liLink">
-                <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-              </li>
-              <li class="liLink">
-                <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-              </li>
-              <li class="liLink">
-                <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
-              </li>
-            </ul>
-          </el-card>
         </el-col>
       </el-row>
 
       <el-row :gutter="20" class="elCol4">
-        <el-col :xs="1" :sm="2" :md="2" :lg="2" :xl="2">
+        <el-col :xs="1" :sm="2" :md="2" :lg="3" :xl="3">
           <div class="grid-content bg-purple"></div>
         </el-col>
-        <el-col :xs="16" :sm="15" :md="15" :lg="15" :xl="11">
+        <el-col :xs="14" :sm="15" :md="14" :lg="14" :xl="12">
           <el-card class="box-card">
             <comment-text
                 ref="my_comment"
@@ -281,17 +276,31 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="page.current"
-                :page-sizes="[10, 5, 3, 1]"
+                :page-sizes="[20, 15, 10, 5, 3, 1]"
                 :page-size="page.size"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
             </el-pagination>
           </el-card>
         </el-col>
-        <el-col :xs="0" :sm="0" :md="0" :lg="0" :xl="4">
+        <el-col :xs="0" :sm="0" :md="0" :lg="2" :xl="4">
           <div class="grid-content bg-purple-light"></div>
         </el-col>
-        <el-col :xs="7" :sm="6" :md="6" :lg="6" :xl="6">
+        <el-col :xs="8" :sm="6" :md="7" :lg="5" :xl="5">
+          <el-card shadow="hover">
+            <div class="hotTags">更多文章</div>
+            <ul>
+              <li class="liLink">
+                <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
+              </li>
+              <li class="liLink">
+                <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
+              </li>
+              <li class="liLink">
+                <router-link to="/home" style="text-decoration: none; color: #049cdb">复旦大学考研调剂信息回顾（2021年）</router-link>
+              </li>
+            </ul>
+          </el-card>
         </el-col>
       </el-row>
     </div>
@@ -319,7 +328,7 @@ export default {
       isRepost: false,
       favoriteCount: 0,
       isFavorite: false,
-      historyCount: 0,
+      historyCount: 1,
       commentCount: 0,
       commentList: [],
       tagList: [],
@@ -355,8 +364,13 @@ export default {
         await this.$router.push('/login')
         return
       }
-      this.commentParam.content = this.comment_text
-      const result = await this.$API.reqAddParentComment(this.commentParam)
+      const result = await this.$API.reqAddParentComment({
+            userId: this.$store.state.user.userInfo.userId,
+            articleId: this.$route.query.id,
+            parentId: 0,
+            toUserId: 0,
+            content: this.comment_text
+      })
       if (result.data.code === 200) {
         this.$refs.my_comment.success_submit("评论成功", 1500)
         await this.getComment()
@@ -425,6 +439,7 @@ export default {
         this.historyCount = result.data.data.historyCount
       } else {
         this.$message.error('系统异常~ ' + result.data.msg)
+        await this.$router.push({path: '/404'})
       }
     },
     async getAUCondition() {
@@ -481,13 +496,35 @@ export default {
         })
         if (result.data.code === 200) {
           this.isLiked = true
-          await this.getArticle()
+          this.likesCount = result.data.data.likeCount
+          this.$notify.success({
+            title: '成功',
+            message: '点赞成功！',
+          })
         } else {
-          this.$message.error('点赞失败~')
+          this.$notify.error({
+            title: '错误',
+            message: '点赞失败~ ' + result.data.msg
+          })
         }
       } else {
-        this.isLiked = false
-        this.$message.info('已取消')
+        const result = await this.$API.revokeLikes({
+          aid: this.$route.query.id,
+          uid: this.$store.state.user.userInfo.userId
+        })
+        if (result.data.code === 200) {
+          this.isLiked = false
+          this.likesCount = result.data.data.likeCount
+          this.$notify.warning({
+            title: '警告',
+            message: '已取消点赞~',
+          })
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '取消失败~ ' + result.data.msg
+          })
+        }
       }
     },
     async addFavorite() {
@@ -503,13 +540,23 @@ export default {
         })
         if (result.data.code === 200) {
           this.isFavorite = true
-          await this.getArticle()
+          this.favoriteCount = result.data.data.favoriteCount
+          this.$notify.success({title: '成功', message: '收藏成功！'})
         } else {
-          this.$message.error('收藏失败~')
+          this.$notify.error({title: '失败', message: '收藏失败~' + result.data.msg})
         }
       } else {
-        this.isFavorite = false
-        this.$message.info('已取消')
+        const result = await this.$API.revokeFavorite({
+          aid: this.$route.query.id,
+          uid: this.$store.state.user.userInfo.userId
+        })
+        if (result.data.code === 200) {
+          this.isFavorite = false
+          this.favoriteCount = result.data.data.favoriteCount
+          this.$notify.warning({title: '警告', message: '已取消收藏~'})
+        } else {
+          this.$notify.error({title: '失败', message: '取消收藏失败~' + result.data.msg})
+        }
       }
     },
     async addRepost() {
@@ -519,14 +566,13 @@ export default {
         return
       }
       this.isRepost = true
-      const result = await this.$API.addRepost({
+      /*const result = await this.$API.addRepost({
         aid: this.$route.query.id,
         uid: this.$store.state.user.userInfo.userId
       })
       if (result.data.code === 200) {
-        this.repostCount++
-        await this.getArticle()
-      }
+        this.repostCount = result.data.data.repostCount
+      }*/
     }
   },
   mounted() {

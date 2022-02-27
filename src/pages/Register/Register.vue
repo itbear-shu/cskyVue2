@@ -147,7 +147,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Register',
   data() {
@@ -233,19 +232,24 @@ export default {
     async sendEmailCode() {
       if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.register.email)) {
         this.isClickGetCode = true
-        this.$message.warning("验证码发送中...")
+        this.$notify.warning({
+          title: '提示',
+          message: '验证码发送中...',
+          duration: 6000
+        })
         try {
           const result = await this.$API.reqGetCode(this.register.email)
-          // 1610580113@qq.com
-          await this.$message.success('验证码成功发送，请注意查收！')
           if (result.data.code === 200) {
+            await this.$notify.success({
+              message: '验证码成功发送，请注意查收！',
+              title: '提示'
+            })
             this.eid = result.data.data.eid
             // 不能再被点击
             this.isClickGetCode = true
           } else {
             this.$message.error('验证码发送失败！')
           }
-          // this.subTime()
         } catch (e) {
           this.$message.error(e.message)
         }
@@ -312,7 +316,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .register-container {
   margin: 22px 0 0 0;
   border-radius: 10px;
