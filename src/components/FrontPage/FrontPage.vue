@@ -101,6 +101,11 @@ export default {
 <style scoped>
 .carousel {
 }
+img{
+  height: 100%;
+  width: 100%;
+}
+
 
 .tabs {
   margin: 0 0;
