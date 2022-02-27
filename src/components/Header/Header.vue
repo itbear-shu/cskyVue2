@@ -45,7 +45,10 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <el-row :gutter="20">
-        <el-col :xs="4" :sm="6" :md="10" :lg="9" :xl="2">
+        <el-col :xs="1" :sm="2" :md="2" :lg="0" :xl="1">
+          <div class="grid-content bg-purple"></div>
+        </el-col>
+        <el-col :xs="4" :sm="3" :md="9" :lg="9" :xl="2">
           <h1 class="logoArea">
             <router-link class="logo" to="/home">
               <img
@@ -54,7 +57,7 @@
             </router-link>
           </h1>
         </el-col>
-        <el-col :xs="8" :sm="12" :md="12" :lg="14" :xl="22">
+        <el-col :xs="6" :sm="12" :md="10" :lg="14" :xl="20">
           <div class="searchArea">
             <el-form :inline="true" size="medium">
               <el-form-item>

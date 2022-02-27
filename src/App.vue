@@ -33,10 +33,10 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
-  background: #ffffff;
+  background: transparent;
 }
 .bg-purple-light {
-  background: #ffffff;
+  background: transparent;
 }
 .grid-content {
   border-radius: 4px;
