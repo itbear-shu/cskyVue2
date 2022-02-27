@@ -1,6 +1,6 @@
 <template>
   <!-- 头部 -->
-  <header class="header" v-if="$route.meta.isShowHeader === true">
+  <header class="header" v-if="$route.meta.isShowHeader">
     <!-- 头部的第一行 -->
     <el-row :gutter="20">
       <el-col :span="20" :offset="2">
@@ -43,7 +43,7 @@
       </el-col>
     </el-row>
     <!--头部第二行 搜索区域-->
-    <div class="bottom">
+    <div class="bottom" v-if="$route.meta.isShowSearch">
       <el-row :gutter="20">
         <el-col :xs="1" :sm="2" :md="2" :lg="0" :xl="1">
           <div class="grid-content bg-purple"></div>
@@ -85,7 +85,7 @@ export default {
   methods: {
     goSearch() {
       if (this.keyWord.trim() === '') {
-        this.$message.warning('输入框不能为空哦~')
+        this.$message.warning('输入框不能为空~')
         return
       }
       let location = {
