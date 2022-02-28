@@ -178,7 +178,7 @@ router.beforeEach(async (to, from, next) => {
         background: 'hsla(0,0%,100%,.9)' // 背景颜色
     });
     setTimeout(()=>{
-    }, Math.ceil(Math.random()*5)*1000)
+    }, 5000)
     loading.close();
     if (getToken()) {
         //用户登录了还想去login组件

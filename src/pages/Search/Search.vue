@@ -15,7 +15,7 @@
           <div class="search-div">
             <el-input v-model="keyWord" class="search-input" clearable placeholder="请输入关键字" size="small"></el-input>
           </div>
-          <el-empty :image-size="200" v-if="total===0"></el-empty>
+          <el-skeleton :rows="6" v-if="total===0" animated />
           <el-card shadow="never" class="search2" v-for="item in result" :key="item.id">
             <router-link :to="{path: '/article', query: {id: item.id}}" style="text-decoration: none;"><h1 class="search-title">{{ item.title }}</h1></router-link>
             <div class="search-content">
@@ -139,6 +139,7 @@ export default {
   },
   watch: {
     keyWord() {
+      this.result = []
       this.search()
     }
   }

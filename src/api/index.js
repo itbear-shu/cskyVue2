@@ -108,11 +108,31 @@ export const reqAddParentComment = (data)=>requests({
     data
 })
 
+// 给评论点赞
+export const reqAddCommentLike = (data)=>requests({
+    url: '/comment/addLike',
+    method: 'post',
+    data
+})
+
+// 取消评论点赞
+export const reqRevokeCommentLike = (data)=>requests({
+    url: '/comment/revokeLike',
+    method: 'post',
+    data
+})
+
 // 发帖
 export const reqSaveArticle = (data)=>requests({
     url: '/article/add',
     method: 'post',
     data
+})
+
+// 通过tag_id获取文章
+export const reqGetArticleByTid = (tid)=>requests({
+    url: `/tag/article/${tid}`,
+    method: 'get'
 })
 
 // 获取schoolNameList
