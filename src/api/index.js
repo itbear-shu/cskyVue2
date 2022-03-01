@@ -135,6 +135,12 @@ export const reqGetArticleByTid = (tid)=>requests({
     method: 'get'
 })
 
+// 获取搜索记录
+export const reqGetSearchHistory = (uid)=>requests({
+    url: `/search/list/${uid}`,
+    method: 'get',
+})
+
 // 获取schoolNameList
 export const reqGetSchoolNameList = ()=>requests({
     url: '/school/schoolNameList',

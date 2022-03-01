@@ -14,8 +14,9 @@
         <el-card shadow="always" class="search1">
           <div class="search-div">
             <el-input v-model="keyWord" class="search-input" clearable placeholder="请输入关键字" size="small"></el-input>
+            <el-button @click="toSearch" size="small" type="primary" style="margin-left: 10px;">点击搜索</el-button>
           </div>
-          <el-skeleton :rows="6" v-if="total===0" animated />
+          <el-empty :image-size="200" v-if="total === 0"></el-empty>
           <el-card shadow="never" class="search2" v-for="item in result" :key="item.id">
             <router-link :to="{path: '/article', query: {id: item.id}}" style="text-decoration: none;"><h1 class="search-title">{{ item.title }}</h1></router-link>
             <div class="search-content">
@@ -61,20 +62,16 @@
           <h1>相关搜索</h1>
           <el-divider></el-divider>
           <el-tag
+              v-for="(item, index) in searchHistoryList"
+              :key="index"
               class="search-tag"
               type="warning"
               :hit="true"
               effect="dark">
-            aaaa
+            {{item}}
           </el-tag>
-<!--          <el-tag
-              :key="item.label"
-              :type="item.type"
-              effect="dark">
-            {{ item.label }}
-          </el-tag>-->
         </el-card>
-        <el-card shadow="always" class="search1">
+<!--        <el-card shadow="always" class="search1">
           <h1>全站热搜榜</h1>
           <el-divider></el-divider>
           <div>
@@ -84,7 +81,7 @@
               </li>
             </ul>
           </div>
-        </el-card>
+        </el-card>-->
       </el-col>
       <el-col :xs="2" :sm="3" :md="3" :lg="3" :xl="2">
         <div class="grid-content bg-purple-light"></div>
@@ -96,6 +93,7 @@
 
 <script>
 import MarkDown from "@/components/MarkDown/MarkDown"
+import Vue from "vue";
 export default {
   name: "Search",
   components: {
@@ -107,26 +105,30 @@ export default {
       size: 10,
       total: 0,
       keyWord: '',
-      result: []
+      result: [],
+      searchHistoryList: []
     }
   },
   mounted() {
     this.keyWord = this.$route.params.keyWord
+
+    this.toSearch()
   },
   methods: {
     async search() {
       const result = await this.$API.reqSearchArticle({
+        uid: this.$store.state.user.userInfo.userId || '',
         text: this.keyWord,
         current: this.current,
         size: this.size
       })
-      if (result.data.code === 200) {
+      if (result.data.code === 200 && result.data.data !== null) {
         this.current = result.data.data.current
         this.size = result.data.data.size
         this.total = result.data.data.total
         this.result = result.data.data.articleBriefParams
       } else {
-        this.$message.error(result.data.msg)
+        // this.$message.error(result.data.msg)
       }
     },
     currentChange(current) {
@@ -135,12 +137,32 @@ export default {
     },
     goBack() {
       this.$router.push(this.$route.params.fromRouter)
+    },
+    async getSearchHistory() {
+      if (this.$store.state.user.userInfo.userId) {
+        const result = await this.$API.reqGetSearchHistory(this.$store.state.user.userInfo.userId)
+        if (result.data.code === 200) {
+          console.log(result.data.data)
+          this.searchHistoryList = result.data.data
+        }
+      }
+    },
+    async toSearch() {
+      const loading = Vue.prototype.$loading({
+        lock: true, // 是否锁屏
+        text: '拼命加载中', // 加载动画的文字
+        spinner: 'el-icon-loading', // 引入的loading图标
+        background: 'rgba(0, 0, 0, 0.8)' // 背景颜色
+      })
+      this.result = []
+      await this.search()
+      await this.getSearchHistory()
+      loading.close()
     }
   },
   watch: {
     keyWord() {
-      this.result = []
-      this.search()
+
     }
   }
 }
