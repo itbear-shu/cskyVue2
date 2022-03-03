@@ -18,6 +18,8 @@
       </el-col>
       <el-col :xs="16" :sm="18" :md="19" :lg="18" :xl="20">
         <el-table
+            border
+            stripe
             v-loading="loading"
             :data="scorelineList"
             lazy
@@ -63,18 +65,27 @@
               prop="score21"
               label="2021年分数线"
               width="90">
+            <template slot-scope="scope">
+              <el-tag type="warning">{{scope.row.score21}}</el-tag>
+            </template>
           </el-table-column>
           <el-table-column
               sortable
               prop="score20"
               label="2020年分数线"
               width="90">
+            <template slot-scope="scope">
+              <el-tag type="danger">{{scope.row.score20}}</el-tag>
+            </template>
           </el-table-column>
           <el-table-column
               sortable
               prop="score19"
               label="2019年分数线"
               width="90">
+            <template slot-scope="scope">
+              <el-tag type="success">{{scope.row.score19}}</el-tag>
+            </template>
           </el-table-column>
           <el-table-column
               prop="politicsSubject"
@@ -95,6 +106,11 @@
               prop="computerSubject"
               label="专业课"
               width="180">
+            <template slot-scope="scope">
+              <el-card shadow="hover">
+                {{scope.row.computerSubject}}
+              </el-card>
+            </template>
           </el-table-column>
         </el-table>
       </el-col>

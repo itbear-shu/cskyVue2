@@ -116,7 +116,8 @@ export default {
         text: this.search,
         current: this.currentPage,
         size: 5,
-        sid: this.$route.query.sid
+        sid: this.$route.query.sid,
+        uid: this.$store.state.user.userInfo.userId
       })
       if (result.data.code === 200) {
         this.teacherList = result.data.data.teacherVoList

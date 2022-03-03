@@ -48,7 +48,8 @@
                   <el-col :xs="5" :sm="7" :md="4" :lg="4" :xl="4">
                     <el-button type="primary" size="small" @click="sendEmailCode"
                                style="margin-top: 43px; border-radius: 30px;" :disabled="isClickGetCode">
-                      发送验证码
+                      <span v-if="!isClickGetCode">发送验证码</span>
+                      <span v-if="isClickGetCode">{{ codeNum }} s后重新发送</span>
                     </el-button>
                   </el-col>
                   <el-col :xs="7" :sm="5" :md="2" :lg="2" :xl="2">
@@ -232,17 +233,26 @@ export default {
     async sendEmailCode() {
       if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.register.email)) {
         this.isClickGetCode = true
+        let interval = setInterval(()=>{
+          if (this.codeNum > 0) {
+            this.codeNum --
+          } else {
+            clearInterval(interval)
+            this.isClickGetCode = false
+          }
+        }, 1000)
         this.$notify.warning({
           title: '提示',
           message: '验证码发送中...',
-          duration: 6000
+          duration: 8000
         })
         try {
           const result = await this.$API.reqGetCode(this.register.email)
           if (result.data.code === 200) {
             await this.$notify.success({
               message: '验证码成功发送，请注意查收！',
-              title: '提示'
+              title: '提示',
+              duration: 5000
             })
             this.eid = result.data.data.eid
             // 不能再被点击

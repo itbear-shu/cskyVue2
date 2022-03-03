@@ -42,4 +42,12 @@ export default {
   border-radius: 4px;
   min-height: 36px;
 }
+
+.text-view {
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
 </style>

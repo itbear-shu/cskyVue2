@@ -71,21 +71,23 @@
                 收藏
                 <span>({{ favoriteCount }})</span>
               </a>
-              <el-popover
-                  placement="bottom"
-                  title="标题"
+<!--              <el-popover
+                  placement="top-start"
+                  title="转发"
                   width="200"
-                  transition
-                  v-model="isRepost"
-                  content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-                <el-card shadow="hover"></el-card>
-              </el-popover>
-              <a href="javascript:void(0);" slot="reference" class="endEmg" style="text-decoration: none;"
-                 @click="addRepost">
-                <img src="@/assets/icon/share.png" alt="转发">
-                转发
-                <span>({{ repostCount }})</span>
-              </a>
+                  trigger="click"
+                  content="">
+                <p class="url">{{ url }}</p>
+                <div style="text-align: right; margin: 0">
+                  <el-button @click="addRepost" class="cpButton">点击复制</el-button>
+                </div>
+                <a href="javascript:void(0);" slot="reference" class="endEmg" style="text-decoration: none;">
+                  <img src="@/assets/icon/share.png" slot="reference" alt="转发">
+                  转发
+                  <span>({{ repostCount }})</span>
+                </a>
+              </el-popover>-->
+
             </div>
             <div class="tags">
               相关标签：
@@ -101,15 +103,10 @@
         </el-col>
         <el-col :xs="8" :sm="6" :md="7" :lg="5" :xl="5">
           <el-card shadow="hover" style="margin-bottom: 25px;">
-            <div class="hotTags">热门标签</div>
-            <el-tag class="hotTag">计算机考研</el-tag>
-            <el-tag class="hotTag">学习</el-tag>
-            <el-tag class="hotTag">学校是个好地方</el-tag>
-            <el-tag class="hotTag">上海大学</el-tag>
-            <el-tag class="hotTag">上海的大学</el-tag>
-            <el-tag class="hotTag">上海的大学</el-tag>
-            <el-tag class="hotTag">上海的大学</el-tag>
-            <el-tag class="hotTag">学校地啊书法大赛址</el-tag>
+            <div class="hotTags">
+              <svg t="1646135379027"  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="27125" width="18" height="18"><path d="M769.568 377.696c-1.648 114.8-48.272 163.648-48.272 163.648C716.896 285.632 464.48 11.52 464.48 11.52c83.408 169.776-285.344 383.232-285.344 689.36 0 192.032 236.864 333.088 355.584 308.88 513.056-104.56 234.848-632.064 234.848-632.064zM512 932.816s-265.92-130.848-7.472-420.8c0 0 128.4 130.08 103.712 251.28 0 0 36.208 3.84 82.304-62.144 0-0.016 10.768 184.096-178.544 231.664z" p-id="27126" fill="#d81e06"></path></svg>
+              热门标签</div>
+            <el-tag class="hotTag" v-for="(item, index) in tagNameList" :key="item.id" v-if="index < 8">{{item.tagName}}</el-tag>
           </el-card>
         </el-col>
       </el-row>
@@ -292,7 +289,8 @@
 import MarkDown from '@/components/MarkDown/MarkDown'
 import CommentText from "@/components/CommentText/CommentText"
 import {getToken} from "@/utils/token"
-import Vue from "vue";
+import Vue from "vue"
+import Clipboard from 'clipboard'
 
 export default {
   name: "index",
@@ -307,7 +305,6 @@ export default {
       likesCount: 0,
       isLiked: false,
       repostCount: 0,
-      isRepost: false,
       favoriteCount: 0,
       isFavorite: false,
       historyCount: 1,
@@ -336,7 +333,9 @@ export default {
       pages: 0,
       total: 0,
       // 更多
-      moreArticle: []
+      moreArticle: [],
+      tagNameList: [],
+      url: '1'
     }
   },
   methods: {
@@ -575,12 +574,10 @@ export default {
       }
     },
     async addRepost() {
-      if (!getToken()) {
-        this.$message.warning('当前尚未登录，请先登录')
-        await this.$router.push('/login')
-        return
-      }
-      this.isRepost = true
+       /* const url = this.$refs.url;
+        url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        alert("已复制好，可贴粘。");*/
       /*const result = await this.$API.addRepost({
         aid: this.$route.query.id,
         uid: this.$store.state.user.userInfo.userId
@@ -600,6 +597,12 @@ export default {
       } else {
         this.$message.error(result.data.msg)
       }
+    },
+    async getTagNameList() {
+      const result = await this.$API.reqGetTagNameList()
+      if (result.data.code === 200) {
+        this.tagNameList = result.data.data
+      }
     }
   },
   mounted() {
@@ -616,7 +619,7 @@ export default {
       aid: this.$route.query.id,
       uid: this.$store.state.user.userInfo.userId
     })
-
+    this.getTagNameList()
     loading.close();
   },
   computed: {

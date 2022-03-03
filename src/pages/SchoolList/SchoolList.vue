@@ -96,6 +96,7 @@ export default {
         text: this.keyWord,
         current: this.pageParam.current,
         size: this.pageParam.size,
+        uid: this.$store.state.user.userInfo.userId
       })
       if (result.data.code === 200) {
         this.schoolList = result.data.data.schoolVoList

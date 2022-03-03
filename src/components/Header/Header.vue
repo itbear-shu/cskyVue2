@@ -63,7 +63,7 @@
               <el-form-item>
                 <el-input v-model="keyWord" prefix-icon="el-icon-search" placeholder="请输入搜索内容"/>
               </el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="goSearch" size="medium">搜索</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="goSearch" size="medium">文章搜索</el-button>
             </el-form>
           </div>
         </el-col>
